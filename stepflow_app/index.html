@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STEPFlow — Centro de Mando</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-left">
+      <div class="logo">STEP<span>Flow</span></div>
+      <div class="header-divider"></div>
+      <div>
+        <div class="header-title">Centro de Mando</div>
+        <div class="header-sub" id="header-periodo"></div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="header-update" id="header-update"></div>
+      <div class="badge-internal">INTERNO</div>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- 1. KPIs -->
+    <section>
+      <div class="section-title">Semana actual</div>
+      <div class="kpi-grid" id="kpi-grid"></div>
+    </section>
+
+    <!-- 2. Tasas -->
+    <section class="tasas-section" id="tasas-section"></section>
+
+    <!-- 3. Cerebro del sistema + Acciones -->
+    <section class="cerebro-grid">
+      <div>
+        <div class="section-title">Cerebro del sistema</div>
+        <div id="cerebro-panel"></div>
+      </div>
+      <div>
+        <div class="section-title">Acciones recomendadas</div>
+        <div class="card" id="acciones-panel"></div>
+      </div>
+    </section>
+
+    <!-- 4. Pipeline -->
+    <section>
+      <div class="section-title">Pipeline comercial</div>
+      <div class="pipeline-scroll">
+        <div class="pipeline-board" id="pipeline-board"></div>
+      </div>
+    </section>
+
+    <!-- 5. Agustina + Actividad -->
+    <section class="bottom-grid">
+      <div>
+        <div class="section-title">Agustina — Conversaciones activas</div>
+        <div class="card" id="agustina-panel"></div>
+      </div>
+      <div>
+        <div class="section-title">Actividad del sistema</div>
+        <div class="card" id="activity-list"></div>
+      </div>
+    </section>
+
+    <!-- 6. Skills -->
+    <section>
+      <div class="section-title">Skills y sistema</div>
+      <div class="skills-grid" id="skills-grid"></div>
+    </section>
+
+    <!-- 7. Insights -->
+    <section>
+      <div class="section-title">Insights de Jordan</div>
+      <div class="insights-grid" id="insights-grid"></div>
+    </section>
+
+    <!-- 8. Base de prospectos / Mini CRM -->
+    <section>
+      <div class="section-title-row">
+        <div class="section-title" style="margin-bottom:0">Base de prospectos</div>
+        <div class="crm-legend">
+          <span class="temp-dot caliente"></span>Caliente
+          <span class="temp-dot tibio"></span>Tibio
+          <span class="temp-dot frio"></span>Frío
+        </div>
+      </div>
+      <div class="crm-table-wrap">
+        <table class="crm-table" id="crm-table">
+          <thead>
+            <tr>
+              <th>Prospecto</th>
+              <th>Rubro</th>
+              <th>Ciudad</th>
+              <th>Origen</th>
+              <th>Interés principal</th>
+              <th>Temp.</th>
+              <th>Estado</th>
+              <th>Última interacción</th>
+              <th>Siguiente paso</th>
+            </tr>
+          </thead>
+          <tbody id="crm-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+
+  <!-- Jordan Chat -->
+  <button class="jordan-chat-trigger" id="jordan-chat-trigger">
+    <span class="jordan-trigger-dot"></span>
+    Hablar con Jordan
+  </button>
+
+  <div class="jordan-overlay" id="jordan-overlay"></div>
+
+  <div class="jordan-drawer" id="jordan-drawer">
+    <div class="jordan-drawer-header">
+      <div class="jordan-drawer-title">
+        <div class="jordan-badge">
+          <span class="jordan-dot"></span>
+          Jordan V1.0
+        </div>
+        <span class="jordan-drawer-status">ACTIVO</span>
+      </div>
+      <button class="jordan-drawer-close" id="jordan-drawer-close">✕</button>
+    </div>
+    <div class="jordan-chat-history" id="jordan-chat-history"></div>
+    <div class="jordan-suggestions" id="jordan-suggestions"></div>
+    <div class="jordan-chat-input-row">
+      <input
+        type="text"
+        class="jordan-chat-input"
+        id="jordan-chat-input"
+        placeholder="Preguntale a Jordan…"
+        autocomplete="off"
+      />
+      <button class="jordan-chat-send" id="jordan-chat-send">→</button>
+    </div>
+  </div>
+
+</body>
+</html>

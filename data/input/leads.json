@@ -1,0 +1,72 @@
+[
+  {
+    "id": "lead-001",
+    "nombre": "Carlos Méndez",
+    "empresa": "Inmobiliaria Del Sur",
+    "cargo": "Dueño",
+    "telefono": "+5491112345678",
+    "email": "carlos@inmdelsur.com",
+    "ciudad": "Buenos Aires",
+    "zona": "San Isidro",
+    "industria_declarada": "",
+    "notas": "Contacto de exposición inmobiliaria enero 2024",
+    "canal_origen": "lista_propia",
+    "fecha_ingreso": "2024-01-15"
+  },
+  {
+    "id": "lead-002",
+    "nombre": "Laura Gómez",
+    "empresa": "Clínica Bienestar",
+    "cargo": "Directora",
+    "telefono": "+5493412345678",
+    "email": "laura@clinicabienestar.com",
+    "ciudad": "Rosario",
+    "zona": "Centro",
+    "industria_declarada": "salud",
+    "notas": "",
+    "canal_origen": "inbound_formulario",
+    "fecha_ingreso": "2024-01-15"
+  },
+  {
+    "id": "lead-003",
+    "nombre": "Martín Torres",
+    "empresa": "TechSoluciones SRL",
+    "cargo": "CEO",
+    "telefono": "+5491187654321",
+    "email": "martin@techsoluciones.com",
+    "ciudad": "Buenos Aires",
+    "zona": "Palermo",
+    "industria_declarada": "",
+    "notas": "Empresa de software B2B para pymes",
+    "canal_origen": "prospecting",
+    "fecha_ingreso": "2024-01-15"
+  },
+  {
+    "id": "lead-004",
+    "nombre": "Sofía Ríos",
+    "empresa": "Academia Crecer",
+    "cargo": "Coordinadora",
+    "telefono": "+5491156781234",
+    "email": "sofia@academiacrecer.edu.ar",
+    "ciudad": "Córdoba",
+    "zona": "Nueva Córdoba",
+    "industria_declarada": "educacion",
+    "notas": "Academia de idiomas y cursos online",
+    "canal_origen": "lista_propia",
+    "fecha_ingreso": "2024-01-15"
+  },
+  {
+    "id": "lead-005",
+    "nombre": "Diego Fernández",
+    "empresa": "Resto El Rancho",
+    "cargo": "Gerente",
+    "telefono": "+5491165432109",
+    "email": "diego@elrancho.com.ar",
+    "ciudad": "Mendoza",
+    "zona": "Centro",
+    "industria_declarada": "",
+    "notas": "Restaurante con dos sucursales",
+    "canal_origen": "inbound_formulario",
+    "fecha_ingreso": "2024-01-15"
+  }
+]

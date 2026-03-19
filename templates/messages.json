@@ -1,0 +1,51 @@
+{
+  "inmobiliaria": {
+    "primer_contacto": {
+      "version": "v1",
+      "asunto": "Automatización de consultas para {{empresa}}",
+      "texto": "Hola {{nombre}},\n\nVi que {{empresa}} maneja propiedades en {{ciudad}}.\n\nTrabajamos con inmobiliarias automatizando la respuesta y seguimiento de consultas de portales como Zonaprop y Argenprop. Nuestros clientes bajaron su tiempo promedio de cierre de 45 a 18 días.\n\n¿Tiene sentido mostrarte cómo funciona en 15 minutos esta semana?\n\nSaludos,\nStepFlow"
+    }
+  },
+  "salud": {
+    "primer_contacto": {
+      "version": "v1",
+      "asunto": "Respuesta automática a consultas de pacientes — {{empresa}}",
+      "texto": "Hola {{nombre}},\n\nTrabajamos con clínicas y centros de salud como {{empresa}} automatizando la respuesta a consultas de turno por WhatsApp e Instagram.\n\nNuestros clientes redujeron el tiempo de respuesta de 48 horas a menos de 5 minutos, sin sobrecargar a la recepcionista.\n\n¿Te parece si te muestro cómo funciona en 15 minutos?\n\nSaludos,\nStepFlow"
+    }
+  },
+  "servicios_locales": {
+    "primer_contacto": {
+      "version": "v1",
+      "asunto": "Más reuniones B2B para {{empresa}} sin agrandar el equipo",
+      "texto": "Hola {{nombre}},\n\nVi que {{empresa}} trabaja con clientes empresariales en {{ciudad}}.\n\nAyudamos a negocios de servicios a automatizar la captación y seguimiento de prospectos B2B. Nuestros clientes generan un 40% más de reuniones calificadas con el mismo equipo.\n\n¿Tiene sentido mostrarte cómo en 15 minutos?\n\nSaludos,\nStepFlow"
+    }
+  },
+  "educacion": {
+    "primer_contacto": {
+      "version": "v1",
+      "asunto": "Más inscripciones para {{empresa}} sin agregar personal",
+      "texto": "Hola {{nombre}},\n\nTrabajamos con academias y centros educativos como {{empresa}} automatizando la respuesta a consultas de inscripción.\n\nNuestros clientes aumentaron su tasa de inscripción un 35% sin sumar personal administrativo.\n\n¿Te cuento cómo funciona en 15 minutos esta semana?\n\nSaludos,\nStepFlow"
+    }
+  },
+  "gastronomia": {
+    "primer_contacto": {
+      "version": "v1",
+      "asunto": "Más reservas recurrentes para {{empresa}}",
+      "texto": "Hola {{nombre}},\n\nVi que {{empresa}} tiene presencia en {{ciudad}}.\n\nTrabajamos con restaurantes y bares automatizando la captación y fidelización de clientes. Nuestros clientes aumentaron sus reservas recurrentes un 30% en los primeros 60 días.\n\n¿Tiene sentido mostrarte cómo funciona rápido?\n\nSaludos,\nStepFlow"
+    }
+  },
+  "automotriz": {
+    "primer_contacto": {
+      "version": "v1",
+      "asunto": "Gestión automática de leads para {{empresa}}",
+      "texto": "Hola {{nombre}},\n\nVi que {{empresa}} recibe consultas de test drive e interesados en {{ciudad}}.\n\nAyudamos a concesionarias y agencias automotrices a responder y calificar esos leads automáticamente. Nuestros clientes aumentaron sus conversiones a prueba de manejo un 28% en el primer mes.\n\n¿Te parece si te muestro cómo funciona en 15 minutos?\n\nSaludos,\nStepFlow"
+    }
+  },
+  "otro": {
+    "primer_contacto": {
+      "version": "v1",
+      "asunto": "Automatización comercial para {{empresa}}",
+      "texto": "Hola {{nombre}},\n\nTrabajamos con negocios como {{empresa}} automatizando la captación y seguimiento de clientes.\n\nNuestros clientes logran más conversiones con menos esfuerzo manual, sin cambiar su equipo ni sus canales actuales.\n\n¿Tiene sentido mostrarte cómo funciona en 15 minutos esta semana?\n\nSaludos,\nStepFlow"
+    }
+  }
+}

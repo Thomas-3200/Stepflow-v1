@@ -1,0 +1,79 @@
+{
+  "periodo": "Semana del 11 al 17 de marzo 2025",
+  "ultima_actualizacion": "Hoy, 09:42 hs",
+
+  "kpis": {
+    "prospectos_nuevos":   { "valor": 38, "vs_semana_anterior": "+12", "tendencia": "up" },
+    "contactados":         { "valor": 31, "vs_semana_anterior": "+8",  "tendencia": "up" },
+    "respondieron":        { "valor": 11, "vs_semana_anterior": "+2",  "tendencia": "up" },
+    "reuniones_agendadas": { "valor": 4,  "vs_semana_anterior": "+1",  "tendencia": "up" },
+    "clientes_cerrados":   { "valor": 1,  "vs_semana_anterior": "=",   "tendencia": "flat" }
+  },
+
+  "tasas": {
+    "respuesta":       { "valor": 35, "objetivo": 25, "label": "Tasa de respuesta" },
+    "a_reunion":       { "valor": 13, "objetivo": 8,  "label": "Consultas → Reunión" },
+    "cierre":          { "valor": 25, "objetivo": 20, "label": "Reuniones → Cierre" }
+  },
+
+  "pipeline": {
+    "Nuevo": [
+      { "nombre": "Marcos Villalba",  "empresa": "Constructora Norte",   "nicho": "inmobiliaria",      "tier": "A", "dias": 0 },
+      { "nombre": "Elena Paredes",    "empresa": "Centro Médico Paredes", "nicho": "salud",             "tier": "A", "dias": 1 },
+      { "nombre": "Ricardo Font",     "empresa": "Font Automotores",      "nicho": "automotriz",        "tier": "B", "dias": 1 }
+    ],
+    "Contactado": [
+      { "nombre": "Sofía Ríos",       "empresa": "Academia Crecer",       "nicho": "educacion",         "tier": "A", "dias": 2 },
+      { "nombre": "Julián Mora",      "empresa": "Restaurante El Origen", "nicho": "gastronomia",       "tier": "B", "dias": 3 },
+      { "nombre": "Carla Benítez",    "empresa": "Benítez Propiedades",   "nicho": "inmobiliaria",      "tier": "B", "dias": 3 }
+    ],
+    "Respondió": [
+      { "nombre": "Pablo Gutiérrez",  "empresa": "TechOps SRL",           "nicho": "servicios_locales", "tier": "A", "dias": 4 },
+      { "nombre": "Ana Lucía Torres", "empresa": "Clínica Torres",        "nicho": "salud",             "tier": "A", "dias": 5 }
+    ],
+    "Interesado": [
+      { "nombre": "Hernán Castillo",  "empresa": "Castillo Inmobiliaria", "nicho": "inmobiliaria",      "tier": "A", "dias": 6 }
+    ],
+    "Reunión": [
+      { "nombre": "Valeria Méndez",   "empresa": "Grupo Méndez",          "nicho": "servicios_locales", "tier": "A", "dias": 8 },
+      { "nombre": "Diego Salas",      "empresa": "Salas & Hijos",         "nicho": "gastronomia",       "tier": "A", "dias": 9 }
+    ],
+    "Cerrado": [
+      { "nombre": "Lucía Romero",     "empresa": "Romero Propiedades",    "nicho": "inmobiliaria",      "tier": "A", "dias": 14 }
+    ]
+  },
+
+  "actividad": [
+    { "tipo": "mensaje_enviado",    "texto": "Jordan envió primer contacto a Marcos Villalba — Constructora Norte",        "tiempo": "Hace 8 minutos",  "nivel": "normal" },
+    { "tipo": "respuesta_recibida", "texto": "Ana Lucía Torres respondió con interés — Clínica Torres",                    "tiempo": "Hace 22 minutos", "nivel": "positivo" },
+    { "tipo": "reunion_agendada",   "texto": "Reunión confirmada con Valeria Méndez — jueves 15:00 hs",                    "tiempo": "Hace 1 hora",     "nivel": "positivo" },
+    { "tipo": "alerta",             "texto": "Template inmobiliaria_v2 con tasa de respuesta 17% — por debajo del umbral", "tiempo": "Hace 2 horas",    "nivel": "alerta" },
+    { "tipo": "cliente_cerrado",    "texto": "Lucía Romero firmó contrato. Cliente #7 de StepFlow cerrado.",               "tiempo": "Hace 3 horas",    "nivel": "exito" },
+    { "tipo": "mensaje_enviado",    "texto": "Seguimiento automático enviado a Julián Mora — sin respuesta en 48 hs",      "tiempo": "Hace 5 horas",    "nivel": "normal" },
+    { "tipo": "alerta",             "texto": "Carla Benítez sin actividad en 3 días — revisar manualmente",                "tiempo": "Hace 6 horas",    "nivel": "alerta" }
+  ],
+
+  "prospecto_destacado": {
+    "nombre": "Hernán Castillo",
+    "empresa": "Castillo Inmobiliaria",
+    "cargo": "Dueño",
+    "nicho": "Inmobiliaria",
+    "ciudad": "Córdoba",
+    "tier": "A",
+    "score": 78,
+    "dias_en_pipeline": 6,
+    "canal_origen": "Prospecting",
+    "estado": "Interesado — pendiente propuesta",
+    "ultimo_mensaje": "Hernán: 'Suena interesante. ¿Tienen casos de éxito en Córdoba?'",
+    "siguiente_accion": "Enviar caso de éxito de inmobiliaria en Córdoba + proponer reunión",
+    "urgencia": "alta"
+  },
+
+  "automatizaciones": [
+    { "nombre": "Outreach Engine V1",     "estado": "activo",  "mensajes_hoy": 12, "tasa_respuesta": 35, "alertas": 0 },
+    { "nombre": "Seguimiento automático", "estado": "activo",  "mensajes_hoy": 7,  "tasa_respuesta": 22, "alertas": 1 },
+    { "nombre": "Clasificador de leads",  "estado": "activo",  "mensajes_hoy": 19, "tasa_respuesta": null, "alertas": 0 },
+    { "nombre": "Generador de mensajes",  "estado": "activo",  "mensajes_hoy": 19, "tasa_respuesta": null, "alertas": 0 },
+    { "nombre": "Demo Builder",           "estado": "pausado", "mensajes_hoy": 0,  "tasa_respuesta": null, "alertas": 0 }
+  ]
+}

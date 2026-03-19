@@ -1,0 +1,7 @@
+.env
+data/credentials/
+data/output/
+logs/
+__pycache__/
+*.pyc
+.DS_Store

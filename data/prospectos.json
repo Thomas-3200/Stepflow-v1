@@ -1,0 +1,470 @@
+{
+  "_meta": {
+    "version": "V1",
+    "descripcion": "Base central de prospectos de StepFlow. Fuente de verdad para esta versión local.",
+    "fuente_actual": "JSON local — data/prospectos.json",
+    "fuente_operativa_v2": "Google Sheets (lectura/escritura vía API). Mismos campos. Sin cambios en la arquitectura de consumo.",
+    "nota_migracion": "Para migrar a Google Sheets: reemplazar las funciones de lectura/escritura de JSON por llamadas a la Sheets API. Los campos del registro no cambian. Agustina, demo_app y stepflow_app leen el mismo esquema.",
+    "campos_clave": ["id", "identidad", "clasificacion", "negocio", "interes", "historial", "demo", "agustina", "control_comercial"]
+  },
+
+  "prospectos": [
+
+    {
+      "id": "pros_001",
+
+      "identidad": {
+        "nombre": "Hernán Castillo",
+        "empresa": "Castillo Inmobiliaria",
+        "cargo": "Dueño",
+        "ciudad": "Córdoba",
+        "canal_origen": "prospecting",
+        "fecha_ingreso": "2025-03-11"
+      },
+
+      "clasificacion": {
+        "nicho": "inmobiliaria",
+        "tier": "A",
+        "score": 78,
+        "temperatura": "caliente",
+        "estado_pipeline": "interesado"
+      },
+
+      "negocio": {
+        "descripcion": "Inmobiliaria con foco en propiedades residenciales en Córdoba capital",
+        "volumen_consultas_mes": 120,
+        "canales_entrada": ["Zonaprop", "WhatsApp", "Argenprop"],
+        "problema_principal": "No da abasto con el volumen de consultas — muchas quedan sin respuesta los fines de semana",
+        "objetivo": "Responder más rápido y no perder leads calificados",
+        "equipo_comercial": 2
+      },
+
+      "interes": {
+        "principal": "Automatizar respuesta y seguimiento de consultas",
+        "nivel": "alto",
+        "objeciones_detectadas": ["No tengo tiempo ahora", "Ya tenemos algo parecido"]
+      },
+
+      "historial": [
+        {
+          "fecha": "2025-03-11",
+          "tipo": "primer_contacto",
+          "canal": "whatsapp",
+          "agente": "jordan",
+          "mensaje_enviado": "Hola Hernán, vi que Castillo Inmobiliaria maneja propiedades en Córdoba. Tenemos algo que podría ayudarlos a responder más rápido a las consultas de Zonaprop. ¿Tiene 2 minutos?",
+          "respuesta_recibida": "Sí, contame.",
+          "resultado": "respondio_con_interes"
+        },
+        {
+          "fecha": "2025-03-12",
+          "tipo": "seguimiento",
+          "canal": "whatsapp",
+          "agente": "agustina",
+          "mensaje_enviado": "Hernán, ¿pudo ver lo que le mandé ayer?",
+          "respuesta_recibida": "Suena interesante. ¿Tienen casos de éxito en Córdoba?",
+          "resultado": "solicito_informacion"
+        }
+      ],
+
+      "demo": {
+        "generada": false,
+        "datos_usados": [],
+        "enviada": false,
+        "fecha_envio": null,
+        "reaccion": null
+      },
+
+      "agustina": {
+        "activa": true,
+        "fase": "calificacion",
+        "siguiente_accion": "Enviar caso de éxito de inmobiliaria en Córdoba + proponer reunión",
+        "notas": "Lead muy receptivo. Mencionó que pierden consultas los fines de semana. Necesita ver prueba social local antes de avanzar."
+      },
+
+      "control_comercial": {
+        "demo_url": null,
+        "demo_tipo": null,
+        "ultima_accion_por": "agustina",
+        "proxima_accion_fecha": "2025-03-13"
+      }
+    },
+
+    {
+      "id": "pros_002",
+
+      "identidad": {
+        "nombre": "Valeria Méndez",
+        "empresa": "Grupo Méndez",
+        "cargo": "Directora Comercial",
+        "ciudad": "Buenos Aires",
+        "canal_origen": "inbound_formulario",
+        "fecha_ingreso": "2025-03-10"
+      },
+
+      "clasificacion": {
+        "nicho": "servicios_locales",
+        "tier": "A",
+        "score": 82,
+        "temperatura": "caliente",
+        "estado_pipeline": "reunion"
+      },
+
+      "negocio": {
+        "descripcion": "Empresa de servicios B2B con foco en captación de clientes corporativos",
+        "volumen_consultas_mes": 60,
+        "canales_entrada": ["formulario web", "LinkedIn", "referidos"],
+        "problema_principal": "El equipo comercial no tiene tiempo de hacer seguimiento a todos los contactos que entran",
+        "objetivo": "Captar más clientes B2B sin agrandar el equipo",
+        "equipo_comercial": 3
+      },
+
+      "interes": {
+        "principal": "Automatizar captación y seguimiento B2B",
+        "nivel": "alto",
+        "objeciones_detectadas": []
+      },
+
+      "historial": [
+        {
+          "fecha": "2025-03-10",
+          "tipo": "inbound",
+          "canal": "formulario_web",
+          "agente": "jordan",
+          "mensaje_enviado": "Hola Valeria, gracias por contactarnos. Vi que Grupo Méndez busca mejorar la captación B2B. ¿Cuándo tiene 15 minutos para una llamada rápida?",
+          "respuesta_recibida": "Claro, el jueves a las 15 me viene bien.",
+          "resultado": "reunion_agendada"
+        }
+      ],
+
+      "demo": {
+        "generada": true,
+        "datos_usados": ["nicho", "volumen_consultas_mes", "canales_entrada", "problema_principal", "ciudad"],
+        "enviada": true,
+        "fecha_envio": "2025-03-11",
+        "reaccion": "positiva"
+      },
+
+      "agustina": {
+        "activa": true,
+        "fase": "cierre",
+        "siguiente_accion": "Confirmar reunión jueves 15hs y preparar propuesta personalizada",
+        "notas": "Vio la demo y la reacción fue positiva. Muy enfocada en el ROI y en no depender de más personal."
+      },
+
+      "control_comercial": {
+        "demo_url": "demo_app/demo_standalone.html?empresa=grupo_mendez",
+        "demo_tipo": "servicios_locales",
+        "ultima_accion_por": "agustina",
+        "proxima_accion_fecha": "2025-03-13"
+      }
+    },
+
+    {
+      "id": "pros_003",
+
+      "identidad": {
+        "nombre": "Ana Lucía Torres",
+        "empresa": "Clínica Torres",
+        "cargo": "Administradora",
+        "ciudad": "Rosario",
+        "canal_origen": "prospecting",
+        "fecha_ingreso": "2025-03-12"
+      },
+
+      "clasificacion": {
+        "nicho": "salud",
+        "tier": "A",
+        "score": 71,
+        "temperatura": "caliente",
+        "estado_pipeline": "respondio"
+      },
+
+      "negocio": {
+        "descripcion": "Clínica privada con múltiples especialidades en Rosario",
+        "volumen_consultas_mes": 200,
+        "canales_entrada": ["WhatsApp", "Instagram", "llamadas telefónicas"],
+        "problema_principal": "Los pacientes preguntan por turnos y tardan horas en recibir respuesta — se van a otra clínica",
+        "objetivo": "Responder consultas de turno en menos de 5 minutos sin ocupar a la recepcionista",
+        "equipo_comercial": 1
+      },
+
+      "interes": {
+        "principal": "Respuesta automática rápida a consultas de turno",
+        "nivel": "alto",
+        "objeciones_detectadas": []
+      },
+
+      "historial": [
+        {
+          "fecha": "2025-03-12",
+          "tipo": "primer_contacto",
+          "canal": "whatsapp",
+          "agente": "jordan",
+          "mensaje_enviado": "Hola Ana Lucía, vi que Clínica Torres tiene consultas por WhatsApp e Instagram. ¿Les pasa que tardan en responder y pierden algunos turnos?",
+          "respuesta_recibida": "Sí, exactamente. Es un problema que tenemos.",
+          "resultado": "respondio_con_interes"
+        }
+      ],
+
+      "demo": {
+        "generada": false,
+        "datos_usados": [],
+        "enviada": false,
+        "fecha_envio": null,
+        "reaccion": null
+      },
+
+      "agustina": {
+        "activa": true,
+        "fase": "calificacion",
+        "siguiente_accion": "Calificar volumen real y proponer demo personalizada para clínica",
+        "notas": "Respondió en menos de 5 minutos al primer mensaje. Alta urgencia de solución. Nicho con muy buena señal."
+      },
+
+      "control_comercial": {
+        "demo_url": null,
+        "demo_tipo": null,
+        "ultima_accion_por": "jordan",
+        "proxima_accion_fecha": "2025-03-13"
+      }
+    },
+
+    {
+      "id": "pros_004",
+
+      "identidad": {
+        "nombre": "Sofía Ríos",
+        "empresa": "Academia Crecer",
+        "cargo": "Directora",
+        "ciudad": "Córdoba",
+        "canal_origen": "lista_propia",
+        "fecha_ingreso": "2025-03-09"
+      },
+
+      "clasificacion": {
+        "nicho": "educacion",
+        "tier": "A",
+        "score": 55,
+        "temperatura": "tibio",
+        "estado_pipeline": "contactado"
+      },
+
+      "negocio": {
+        "descripcion": "Academia de idiomas y habilidades profesionales para adultos",
+        "volumen_consultas_mes": 80,
+        "canales_entrada": ["Instagram", "formulario web", "referidos"],
+        "problema_principal": "Muchas consultas de inscripción quedan sin respuesta rápida y el interesado se enfría",
+        "objetivo": "Aumentar tasa de inscripción sin contratar más personal administrativo",
+        "equipo_comercial": 1
+      },
+
+      "interes": {
+        "principal": "Automatizar respuesta a consultas de inscripción",
+        "nivel": "medio",
+        "objeciones_detectadas": ["Ahora estamos en período de exámenes, en 3 semanas hablo"]
+      },
+
+      "historial": [
+        {
+          "fecha": "2025-03-09",
+          "tipo": "primer_contacto",
+          "canal": "whatsapp",
+          "agente": "jordan",
+          "mensaje_enviado": "Hola Sofía, sé que en Academia Crecer reciben muchas consultas por Instagram. ¿Les resulta difícil responder a todas a tiempo?",
+          "respuesta_recibida": "Sí, pero ahora estamos en período de exámenes. En 3 semanas hablo mejor.",
+          "resultado": "pospuso"
+        }
+      ],
+
+      "demo": {
+        "generada": false,
+        "datos_usados": [],
+        "enviada": false,
+        "fecha_envio": null,
+        "reaccion": null
+      },
+
+      "agustina": {
+        "activa": false,
+        "fase": "espera",
+        "siguiente_accion": "Retomar contacto el 30 de marzo — prometió hablar después de exámenes",
+        "notas": "No es frío, es timing. Objeción legítima. Agendar recontacto puntual."
+      },
+
+      "control_comercial": {
+        "demo_url": null,
+        "demo_tipo": null,
+        "ultima_accion_por": "jordan",
+        "proxima_accion_fecha": "2025-03-30"
+      }
+    },
+
+    {
+      "id": "pros_005",
+
+      "identidad": {
+        "nombre": "Carla Benítez",
+        "empresa": "Benítez Propiedades",
+        "cargo": "Socia",
+        "ciudad": "Buenos Aires",
+        "canal_origen": "lista_propia",
+        "fecha_ingreso": "2025-03-08"
+      },
+
+      "clasificacion": {
+        "nicho": "inmobiliaria",
+        "tier": "B",
+        "score": 41,
+        "temperatura": "frio",
+        "estado_pipeline": "contactado"
+      },
+
+      "negocio": {
+        "descripcion": "Inmobiliaria boutique con foco en propiedades de lujo en CABA",
+        "volumen_consultas_mes": 40,
+        "canales_entrada": ["referidos", "portal propio", "WhatsApp"],
+        "problema_principal": "Seguimiento manual de consultas de portal consume demasiado tiempo del equipo",
+        "objetivo": "Automatizar el seguimiento sin perder el trato personalizado",
+        "equipo_comercial": 2
+      },
+
+      "interes": {
+        "principal": "Seguimiento automático de consultas de portal inmobiliario",
+        "nivel": "bajo",
+        "objeciones_detectadas": ["Ya tenemos un CRM", "No sé si encaja con nuestro perfil de cliente"]
+      },
+
+      "historial": [
+        {
+          "fecha": "2025-03-08",
+          "tipo": "primer_contacto",
+          "canal": "whatsapp",
+          "agente": "jordan",
+          "mensaje_enviado": "Hola Carla, vi Benítez Propiedades en el portal. ¿Tienen forma de hacer seguimiento automático a las consultas que llegan?",
+          "respuesta_recibida": null,
+          "resultado": "sin_respuesta"
+        },
+        {
+          "fecha": "2025-03-11",
+          "tipo": "seguimiento",
+          "canal": "whatsapp",
+          "agente": "jordan",
+          "mensaje_enviado": "Carla, le mando esto por si le sirve — [link a caso de éxito inmobiliaria].",
+          "respuesta_recibida": null,
+          "resultado": "sin_respuesta"
+        }
+      ],
+
+      "demo": {
+        "generada": false,
+        "datos_usados": [],
+        "enviada": false,
+        "fecha_envio": null,
+        "reaccion": null
+      },
+
+      "agustina": {
+        "activa": false,
+        "fase": "reintento",
+        "siguiente_accion": "Reintento manual urgente — 3 días sin actividad",
+        "notas": "Dos mensajes sin respuesta. Evaluar cambio de canal o pausa temporal."
+      },
+
+      "control_comercial": {
+        "demo_url": null,
+        "demo_tipo": null,
+        "ultima_accion_por": "jordan",
+        "proxima_accion_fecha": "2025-03-14"
+      }
+    },
+
+    {
+      "id": "pros_006",
+
+      "identidad": {
+        "nombre": "Lucía Romero",
+        "empresa": "Romero Propiedades",
+        "cargo": "Dueña",
+        "ciudad": "Buenos Aires",
+        "canal_origen": "inbound_formulario",
+        "fecha_ingreso": "2025-02-28"
+      },
+
+      "clasificacion": {
+        "nicho": "inmobiliaria",
+        "tier": "A",
+        "score": 91,
+        "temperatura": "caliente",
+        "estado_pipeline": "cerrado"
+      },
+
+      "negocio": {
+        "descripcion": "Inmobiliaria con operaciones en CABA y GBA, especializada en captación de compradores",
+        "volumen_consultas_mes": 180,
+        "canales_entrada": ["Zonaprop", "Argenprop", "Instagram", "WhatsApp"],
+        "problema_principal": "El volumen de consultas superaba la capacidad del equipo — perdían leads todos los días",
+        "objetivo": "Sistema completo de captación y seguimiento automático",
+        "equipo_comercial": 4
+      },
+
+      "interes": {
+        "principal": "Sistema completo de captación automática",
+        "nivel": "alto",
+        "objeciones_detectadas": []
+      },
+
+      "historial": [
+        {
+          "fecha": "2025-02-28",
+          "tipo": "inbound",
+          "canal": "formulario_web",
+          "agente": "jordan",
+          "mensaje_enviado": "Hola Lucía, vi tu consulta. ¿Cuándo hablamos?",
+          "respuesta_recibida": "Cuando puedas, urgente.",
+          "resultado": "reunion_agendada"
+        },
+        {
+          "fecha": "2025-03-03",
+          "tipo": "reunion",
+          "canal": "videollamada",
+          "agente": "agustina",
+          "mensaje_enviado": null,
+          "respuesta_recibida": null,
+          "resultado": "propuesta_enviada"
+        },
+        {
+          "fecha": "2025-03-11",
+          "tipo": "cierre",
+          "canal": "whatsapp",
+          "agente": "agustina",
+          "mensaje_enviado": "Lucía, ¿pudo ver la propuesta?",
+          "respuesta_recibida": "Sí, arrancamos. Mandame el contrato.",
+          "resultado": "cliente_cerrado"
+        }
+      ],
+
+      "demo": {
+        "generada": true,
+        "datos_usados": ["nicho", "volumen_consultas_mes", "canales_entrada", "problema_principal", "ciudad"],
+        "enviada": true,
+        "fecha_envio": "2025-03-01",
+        "reaccion": "muy_positiva"
+      },
+
+      "agustina": {
+        "activa": false,
+        "fase": "onboarding",
+        "siguiente_accion": "Llamada de bienvenida — cliente #7",
+        "notas": "Cliente cerrado en 11 días desde el primer contacto. Clave: demo personalizada + respuesta rápida a señales de urgencia."
+      },
+
+      "control_comercial": {
+        "demo_url": "demo_app/demo_standalone.html?empresa=romero_propiedades",
+        "demo_tipo": "inmobiliaria",
+        "ultima_accion_por": "agustina",
+        "proxima_accion_fecha": "2025-03-14"
+      }
+    }
+
+  ]
+}
