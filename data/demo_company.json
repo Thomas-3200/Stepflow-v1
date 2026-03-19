@@ -1,0 +1,167 @@
+{
+  "nombre_empresa": "Inmobiliaria Del Sur",
+  "rubro": "Inmobiliaria",
+  "ciudad": "Buenos Aires",
+  "color_principal": "#2563eb",
+
+  "metricas": {
+    "consultas_recibidas": 47,
+    "contactadas_automaticamente": 38,
+    "respondieron_con_interes": 14,
+    "reuniones_confirmadas": 6,
+    "operaciones_en_proceso": 3
+  },
+
+  "pipeline": {
+    "Consulta nueva": [
+      { "nombre": "Roberto Sosa", "empresa": "Particular", "tier": "A" },
+      { "nombre": "Valeria Ruiz", "empresa": "Particular", "tier": "B" }
+    ],
+    "Contactado": [
+      { "nombre": "Gustavo Pérez", "empresa": "Particular", "tier": "A" },
+      { "nombre": "Marina Cano", "empresa": "Inversora MC", "tier": "B" },
+      { "nombre": "Luis Herrera", "empresa": "Particular", "tier": "C" }
+    ],
+    "Respondió": [
+      { "nombre": "Patricia Vidal", "empresa": "Particular", "tier": "A" },
+      { "nombre": "Carlos Méndez", "empresa": "Desarrolladora CM", "tier": "A" }
+    ],
+    "Interesado": [
+      { "nombre": "Ana Romero", "empresa": "Particular", "tier": "A" },
+      { "nombre": "Fernando Gil", "empresa": "Particular", "tier": "B" }
+    ],
+    "Reunión agendada": [
+      { "nombre": "Silvia Torres", "empresa": "Inversora Torres", "tier": "A" }
+    ],
+    "Operación cerrada": [
+      { "nombre": "Jorge Blanco", "empresa": "Particular", "tier": "A" }
+    ]
+  },
+
+  "actividad": [
+    {
+      "tipo": "mensaje_enviado",
+      "texto": "StepFlow respondió la consulta de Roberto Sosa en 3 minutos",
+      "tiempo": "Hace 4 minutos"
+    },
+    {
+      "tipo": "respuesta_recibida",
+      "texto": "Patricia Vidal respondió: '¿Cuándo podemos ver la propiedad?'",
+      "tiempo": "Hace 18 minutos"
+    },
+    {
+      "tipo": "reunion_agendada",
+      "texto": "Reunión confirmada con Silvia Torres — martes 10:00 hs",
+      "tiempo": "Hace 1 hora"
+    },
+    {
+      "tipo": "seguimiento_pendiente",
+      "texto": "Seguimiento automático programado para Fernando Gil en 48 hs",
+      "tiempo": "Hace 2 horas"
+    },
+    {
+      "tipo": "cierre",
+      "texto": "Jorge Blanco firmó boleto. Operación cerrada.",
+      "tiempo": "Hace 3 horas"
+    },
+    {
+      "tipo": "mensaje_enviado",
+      "texto": "Segundo seguimiento enviado a Luis Herrera — sin respuesta previa",
+      "tiempo": "Hace 5 horas"
+    }
+  ],
+
+  "lead_destacado": {
+    "nombre": "Patricia Vidal",
+    "empresa": "Particular",
+    "cargo": "Compradora",
+    "fuente": "Zonaprop",
+    "ciudad": "San Isidro",
+    "tier": "A",
+    "score": 82,
+    "estado": "Respondió con interés",
+    "mensaje_generado": "Hola Patricia, gracias por tu consulta en Zonaprop sobre la propiedad en San Isidro.\n\nTe cuento que la propiedad sigue disponible. ¿Tenés alguna preferencia de horario para coordinar una visita esta semana?",
+    "siguiente_paso": "Confirmar visita — respondió con señal de interés alto"
+  },
+
+  "base_leads": [
+    {
+      "nombre": "Marta González",
+      "canal": "WhatsApp directo",
+      "interes": "Busca depto 2 ambientes en Palermo",
+      "ciudad": "Buenos Aires",
+      "temperatura": "caliente",
+      "estado": "Respondió con interés",
+      "siguiente_accion": "Proponer visita esta semana"
+    },
+    {
+      "nombre": "Lucas Pereyra",
+      "canal": "Zonaprop",
+      "interes": "Casa en zona norte, presupuesto medio-alto",
+      "ciudad": "San Isidro",
+      "temperatura": "caliente",
+      "estado": "Reunión agendada",
+      "siguiente_accion": "Confirmar visita — martes 11hs"
+    },
+    {
+      "nombre": "Javier Núñez",
+      "canal": "WhatsApp directo",
+      "interes": "PH con jardín en Belgrano — pidió precio",
+      "ciudad": "Buenos Aires",
+      "temperatura": "caliente",
+      "estado": "Interesado",
+      "siguiente_accion": "Enviar tasación y proponer reunión"
+    },
+    {
+      "nombre": "Sandra Vásquez",
+      "canal": "Argenprop",
+      "interes": "Inversora — evalúa 2 propiedades",
+      "ciudad": "Córdoba",
+      "temperatura": "tibio",
+      "estado": "Contactada",
+      "siguiente_accion": "Follow-up automático en 48 hs"
+    },
+    {
+      "nombre": "Diego Morales",
+      "canal": "Instagram",
+      "interes": "Local comercial en corredor gastronómico",
+      "ciudad": "Rosario",
+      "temperatura": "tibio",
+      "estado": "En seguimiento",
+      "siguiente_accion": "Segundo mensaje programado"
+    },
+    {
+      "nombre": "Romina Farías",
+      "canal": "Zonaprop",
+      "interes": "Alquiler temporario — sin respuesta al primer mensaje",
+      "ciudad": "Mendoza",
+      "temperatura": "frio",
+      "estado": "Sin respuesta",
+      "siguiente_accion": "Reintento automático mañana"
+    }
+  ],
+
+  "textos": {
+    "tagline": "Así operaría Inmobiliaria Del Sur con StepFlow activo",
+    "descripcion_sistema": "StepFlow gestiona automáticamente cada consulta que llega a tu inmobiliaria: responde en minutos, califica al interesado, hace el seguimiento y coordina la visita. Vos cerrás la operación. El sistema hace el resto.",
+    "pasos": [
+      {
+        "titulo": "Consulta entra",
+        "descripcion": "Llega una consulta de Zonaprop, Argenprop o WhatsApp. StepFlow la registra, la clasifica y responde en menos de 5 minutos."
+      },
+      {
+        "titulo": "Calificación automática",
+        "descripcion": "El sistema detecta si el interesado es comprador serio, inversor o solo explorando. Le asigna prioridad y define el siguiente paso."
+      },
+      {
+        "titulo": "Seguimiento sin olvidos",
+        "descripcion": "Si no responde, StepFlow hace el follow-up en el momento correcto. Ninguna consulta queda sin atender."
+      },
+      {
+        "titulo": "Vos cerrás la operación",
+        "descripcion": "Solo te involucrás cuando el interesado ya está calificado y listo para visitar o negociar. Sin tiempo perdido en consultas frías."
+      }
+    ],
+    "cta": "Activar StepFlow en Inmobiliaria Del Sur"
+  }
+}

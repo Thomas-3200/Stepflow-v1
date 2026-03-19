@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STEPFlow — Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ─── HEADER ─────────────────────────────────── -->
+  <header class="header">
+    <div class="header-left">
+      <div class="header-logo">STEP<span>Flow</span></div>
+      <div class="header-divider"></div>
+      <div class="header-company">
+        <div class="header-company-name" id="header-company-name">Cargando...</div>
+        <div class="header-company-meta" id="header-company-meta"></div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="badge-live">Sistema activo</div>
+      <div class="badge-demo">DEMO</div>
+    </div>
+  </header>
+
+  <!-- ─── MAIN ───────────────────────────────────── -->
+  <main class="main">
+
+    <!-- Tagline -->
+    <div class="tagline" id="tagline"></div>
+
+    <!-- Métricas -->
+    <section>
+      <div class="section-title">Resumen de esta semana</div>
+      <div class="metrics-grid" id="metrics-grid"></div>
+    </section>
+
+    <!-- Pipeline -->
+    <section>
+      <div class="section-title">Pipeline de conversión</div>
+      <div class="pipeline-scroll">
+        <div class="pipeline-board" id="pipeline-board"></div>
+      </div>
+    </section>
+
+    <!-- Actividad + Ficha -->
+    <section class="bottom-grid">
+
+      <!-- Actividad reciente -->
+      <div class="card">
+        <div class="section-title">Actividad reciente</div>
+        <div class="activity-list" id="activity-list"></div>
+      </div>
+
+      <!-- Ficha de lead -->
+      <div class="card">
+        <div class="section-title">Lead destacado</div>
+        <div class="lead-card-inner">
+
+          <div class="lead-header">
+            <div>
+              <div class="lead-name" id="lead-name"></div>
+              <div class="lead-empresa-sub" id="lead-empresa-sub"></div>
+            </div>
+          </div>
+
+          <div class="lead-meta" id="lead-meta"></div>
+
+          <div class="lead-score-bar">
+            <div class="lead-score-label">
+              <span>Score de prioridad</span>
+              <span id="score-value"></span>
+            </div>
+            <div class="score-track">
+              <div class="score-fill" id="score-fill" style="width:0%"></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="section-title" style="margin-bottom:6px">Mensaje generado por Jordan</div>
+            <div class="lead-mensaje" id="lead-mensaje"></div>
+          </div>
+
+          <div class="lead-siguiente" id="lead-siguiente"></div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Cómo funciona -->
+    <section class="how-section">
+      <div class="how-header">
+        <div class="how-title" id="how-title"></div>
+        <div class="how-desc" id="how-desc"></div>
+      </div>
+      <div class="how-steps" id="how-steps"></div>
+      <div class="how-cta">
+        <button class="cta-btn" id="cta-btn"></button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <div class="footer">
+      STEPFlow V1 · Demo personalizada · Los datos mostrados son simulados con fines ilustrativos
+    </div>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
