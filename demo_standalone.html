@@ -331,13 +331,105 @@ body { font-family: var(--font); background: var(--gray-100); color: var(--gray-
 }
 .demo-chat-value-line strong { color: var(--gray-700); }
 
+/* PRICING */
+.pricing-section { background: var(--gray-100); border-radius: var(--radius); padding: 40px 24px; }
+.pricing-header { text-align: center; margin-bottom: 32px; }
+.pricing-title { font-size: 24px; font-weight: 800; color: var(--dark); letter-spacing: -0.5px; margin-bottom: 8px; }
+.pricing-sub { font-size: 14px; color: var(--gray-500); }
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.pricing-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  border: 2px solid transparent;
+  box-shadow: var(--shadow-sm);
+  display: flex; flex-direction: column; gap: 20px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+  position: relative;
+}
+.pricing-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--brand); }
+.pricing-card.destacado { border-color: var(--brand); }
+.pricing-badge-top {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: var(--brand); color: var(--white);
+  font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 20px;
+  white-space: nowrap;
+}
+.pricing-plan-name { font-size: 13px; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 1px; }
+.pricing-price { display: flex; align-items: baseline; gap: 4px; }
+.pricing-price-usd { font-size: 38px; font-weight: 800; color: var(--dark); letter-spacing: -1.5px; line-height: 1; }
+.pricing-price-per { font-size: 13px; color: var(--gray-500); }
+.pricing-features { display: flex; flex-direction: column; gap: 10px; }
+.pricing-feature { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--gray-700); line-height: 1.4; }
+.pricing-feature::before { content: "✓"; color: var(--success); font-weight: 700; flex-shrink: 0; }
+.pricing-cta {
+  background: var(--brand); color: var(--white);
+  border: none; border-radius: 8px;
+  padding: 13px 20px; font-size: 14px; font-weight: 700;
+  cursor: pointer; width: 100%; font-family: var(--font);
+  transition: background 0.15s;
+}
+.pricing-card:not(.destacado) .pricing-cta { background: var(--gray-900); }
+.pricing-cta:hover { opacity: 0.9; }
+
+/* MODAL */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5); z-index: 1000;
+  align-items: center; justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--white); border-radius: 14px;
+  padding: 36px 32px; width: 100%; max-width: 460px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  position: relative;
+}
+.modal-close {
+  position: absolute; top: 16px; right: 16px;
+  background: var(--gray-100); border: none; border-radius: 50%;
+  width: 32px; height: 32px; font-size: 16px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gray-500); font-family: var(--font);
+}
+.modal-close:hover { background: var(--gray-300); }
+.modal-plan-badge {
+  display: inline-block;
+  background: var(--brand-light); color: var(--brand-dark);
+  font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px;
+  margin-bottom: 12px;
+}
+.modal-title { font-size: 20px; font-weight: 800; color: var(--dark); margin-bottom: 6px; }
+.modal-sub { font-size: 13px; color: var(--gray-500); margin-bottom: 24px; }
+.modal-form { display: flex; flex-direction: column; gap: 14px; }
+.modal-field { display: flex; flex-direction: column; gap: 5px; }
+.modal-label { font-size: 12px; font-weight: 600; color: var(--gray-700); }
+.modal-input {
+  border: 1.5px solid var(--gray-300); border-radius: 8px;
+  padding: 10px 13px; font-size: 14px; font-family: var(--font);
+  color: var(--gray-900); outline: none;
+  transition: border-color 0.15s;
+}
+.modal-input:focus { border-color: var(--brand); }
+.modal-submit {
+  background: var(--brand); color: var(--white);
+  border: none; border-radius: 8px;
+  padding: 14px; font-size: 15px; font-weight: 700;
+  cursor: pointer; font-family: var(--font);
+  margin-top: 4px; transition: background 0.15s;
+}
+.modal-submit:hover { background: var(--brand-dark); }
+.modal-note { font-size: 11px; color: var(--gray-500); text-align: center; margin-top: 8px; }
+
 /* FOOTER */
 .footer { text-align: center; color: var(--gray-500); font-size: 11px; padding: 4px 0 28px; }
 
 /* RESPONSIVE */
 @media (max-width: 1024px) { .metrics-grid { grid-template-columns: repeat(3, 1fr); } .leads-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 900px)  { .how-steps { grid-template-columns: repeat(2, 1fr); } .bottom-grid { grid-template-columns: 1fr; } }
-@media (max-width: 600px)  { .header { padding: 0 16px; } .main { padding: 16px 12px; } .metrics-grid { grid-template-columns: repeat(2, 1fr); } .leads-grid { grid-template-columns: 1fr; } .how-steps { grid-template-columns: 1fr; } .header-right { display: none; } .tagline-banner { flex-direction: column; align-items: flex-start; } }
+@media (max-width: 900px)  { .how-steps { grid-template-columns: repeat(2, 1fr); } .bottom-grid { grid-template-columns: 1fr; } .pricing-grid { grid-template-columns: 1fr; } }
+@media (max-width: 600px)  { .header { padding: 0 16px; } .main { padding: 16px 12px; } .metrics-grid { grid-template-columns: repeat(2, 1fr); } .leads-grid { grid-template-columns: 1fr; } .how-steps { grid-template-columns: 1fr; } .header-right { display: none; } .tagline-banner { flex-direction: column; align-items: flex-start; } .modal-box { padding: 28px 20px; } }
 </style>
 </head>
 <body>
@@ -456,11 +548,106 @@ body { font-family: var(--font); background: var(--gray-100); color: var(--gray-
     <div class="how-cta"><button class="cta-btn" id="cta-btn"></button></div>
   </section>
 
+  <!-- Planes y precios -->
+  <section class="pricing-section">
+    <div class="pricing-header">
+      <div class="pricing-title">Empezá hoy con StepFlow</div>
+      <div class="pricing-sub">Sin contratos largos. Cancelás cuando quieras. Resultados desde el primer mes.</div>
+    </div>
+    <div class="pricing-grid">
+
+      <!-- Starter -->
+      <div class="pricing-card" onclick="abrirModal('Starter','$97 USD/mes','https://mpago.la/1YMRLbP')">
+        <div class="pricing-plan-name">Starter</div>
+        <div class="pricing-price">
+          <div class="pricing-price-usd">$97</div>
+          <div class="pricing-price-per">USD / mes</div>
+        </div>
+        <div class="pricing-features">
+          <div class="pricing-feature">Outreach automático de emails</div>
+          <div class="pricing-feature">Hasta 200 leads/mes</div>
+          <div class="pricing-feature">1 nicho de mercado</div>
+          <div class="pricing-feature">Dashboard de seguimiento</div>
+          <div class="pricing-feature">Soporte por WhatsApp</div>
+        </div>
+        <button class="pricing-cta">Quiero el plan Starter →</button>
+      </div>
+
+      <!-- Pro -->
+      <div class="pricing-card destacado" onclick="abrirModal('Pro','$197 USD/mes',null)">
+        <div class="pricing-badge-top">⭐ Más elegido</div>
+        <div class="pricing-plan-name">Pro</div>
+        <div class="pricing-price">
+          <div class="pricing-price-usd">$197</div>
+          <div class="pricing-price-per">USD / mes</div>
+        </div>
+        <div class="pricing-features">
+          <div class="pricing-feature">Todo lo del plan Starter</div>
+          <div class="pricing-feature">Hasta 600 leads/mes</div>
+          <div class="pricing-feature">Hasta 3 nichos de mercado</div>
+          <div class="pricing-feature">Seguimiento por WhatsApp automatizado</div>
+          <div class="pricing-feature">Reportes semanales</div>
+          <div class="pricing-feature">Setup incluido</div>
+        </div>
+        <button class="pricing-cta">Quiero el plan Pro →</button>
+      </div>
+
+      <!-- Agencia -->
+      <div class="pricing-card" onclick="abrirModal('Agencia','$397 USD/mes',null)">
+        <div class="pricing-plan-name">Agencia</div>
+        <div class="pricing-price">
+          <div class="pricing-price-usd">$397</div>
+          <div class="pricing-price-per">USD / mes</div>
+        </div>
+        <div class="pricing-features">
+          <div class="pricing-feature">Todo lo del plan Pro</div>
+          <div class="pricing-feature">Leads ilimitados</div>
+          <div class="pricing-feature">Nichos ilimitados</div>
+          <div class="pricing-feature">Onboarding personalizado</div>
+          <div class="pricing-feature">Panel multi-cliente</div>
+          <div class="pricing-feature">Prioridad de soporte 24/7</div>
+        </div>
+        <button class="pricing-cta">Quiero el plan Agencia →</button>
+      </div>
+
+    </div>
+  </section>
+
   <div class="footer">
     StepFlow · Simulación personalizada para <span id="footer-empresa"></span> · Los datos son ilustrativos basados en el rubro
   </div>
 
 </main>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="cerrarModalOverlay(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="cerrarModal()">✕</button>
+    <div class="modal-plan-badge" id="modal-plan-badge">Plan Starter</div>
+    <div class="modal-title">¡Casi listo para empezar!</div>
+    <div class="modal-sub" id="modal-sub">Completá tus datos y te contactamos en menos de 24 hs.</div>
+    <form class="modal-form" onsubmit="enviarFormulario(event)">
+      <div class="modal-field">
+        <label class="modal-label">Tu nombre *</label>
+        <input class="modal-input" type="text" id="modal-nombre" placeholder="Ej: Martín García" required />
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Email *</label>
+        <input class="modal-input" type="email" id="modal-email" placeholder="tu@email.com" required />
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">WhatsApp *</label>
+        <input class="modal-input" type="tel" id="modal-telefono" placeholder="Ej: +54 9 11 1234-5678" required />
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Nombre de tu negocio</label>
+        <input class="modal-input" type="text" id="modal-negocio" placeholder="Ej: Inmobiliaria Del Sur" />
+      </div>
+      <button class="modal-submit" type="submit" id="modal-submit-btn">Continuar al pago →</button>
+      <div class="modal-note">🔒 Tu información es privada y no se comparte con terceros.</div>
+    </form>
+  </div>
+</div>
 
 <script>
 const DATA = {
@@ -704,6 +891,58 @@ function init() {
 }
 
 document.addEventListener("DOMContentLoaded", init);
+
+// ── MODAL PLANES ───────────────────────────────────────────────────────────────
+let modalPlanActual = null;
+let modalLinkMP = null;
+const WA_NUMBER = '5491155815642';
+
+function abrirModal(plan, precio, linkMP) {
+  modalPlanActual = plan;
+  modalLinkMP = linkMP;
+  document.getElementById('modal-plan-badge').textContent = `Plan ${plan} · ${precio}`;
+  const esMP = !!linkMP;
+  document.getElementById('modal-submit-btn').textContent = esMP ? 'Ir al pago →' : 'Hablar con el equipo →';
+  document.getElementById('modal-sub').textContent = esMP
+    ? 'Completá tus datos y te redirigimos al pago seguro por MercadoPago.'
+    : 'Completá tus datos y te contactamos en menos de 24 hs para coordinar el alta.';
+  document.getElementById('modal-overlay').classList.add('open');
+  document.getElementById('modal-nombre').focus();
+}
+
+function cerrarModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+function cerrarModalOverlay(e) {
+  if (e.target === document.getElementById('modal-overlay')) cerrarModal();
+}
+
+function enviarFormulario(e) {
+  e.preventDefault();
+  const nombre   = document.getElementById('modal-nombre').value.trim();
+  const email    = document.getElementById('modal-email').value.trim();
+  const telefono = document.getElementById('modal-telefono').value.trim();
+  const negocio  = document.getElementById('modal-negocio').value.trim();
+
+  if (modalLinkMP) {
+    // Starter → MercadoPago
+    window.open(modalLinkMP, '_blank');
+    cerrarModal();
+  } else {
+    // Pro / Agencia → WhatsApp
+    const msg = encodeURIComponent(
+      `Hola! Me interesa el Plan ${modalPlanActual} de StepFlow.\n\n` +
+      `Nombre: ${nombre}\n` +
+      `Email: ${email}\n` +
+      `Teléfono: ${telefono}\n` +
+      (negocio ? `Negocio: ${negocio}\n` : '') +
+      `\n¿Podemos coordinar el alta?`
+    );
+    window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`, '_blank');
+    cerrarModal();
+  }
+}
 </script>
 </body>
 </html>
