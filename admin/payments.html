@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StepFlow · Pagos</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="sf-admin">
+
+  <div id="sf-sidebar-placeholder"></div>
+
+  <div class="sf-main">
+    <div class="sf-topbar">
+      <span class="sf-topbar-title">Pagos</span>
+      <span class="sf-topbar-meta" id="clock"></span>
+    </div>
+
+    <div class="sf-content">
+
+      <!-- KPIs -->
+      <div class="sf-kpi-grid" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
+        <div class="sf-kpi-card success">
+          <div class="sf-kpi-label">Total recaudado</div>
+          <div class="sf-kpi-value" id="kpi-recaudado">—</div>
+          <div class="sf-kpi-sub">pagos aprobados</div>
+        </div>
+        <div class="sf-kpi-card success">
+          <div class="sf-kpi-label">Aprobados</div>
+          <div class="sf-kpi-value" id="kpi-aprobados">—</div>
+        </div>
+        <div class="sf-kpi-card warning">
+          <div class="sf-kpi-label">Pendientes</div>
+          <div class="sf-kpi-value" id="kpi-pendientes">—</div>
+        </div>
+        <div class="sf-kpi-card danger">
+          <div class="sf-kpi-label">Rechazados</div>
+          <div class="sf-kpi-value" id="kpi-rechazados">—</div>
+        </div>
+      </div>
+
+      <!-- Filtros -->
+      <div class="sf-filters">
+        <input
+          class="sf-filter-input"
+          id="searchInput"
+          placeholder="Buscar cliente, empresa, ID..."
+          oninput="applyFilters()"
+          style="min-width:240px"
+        />
+        <select class="sf-filter-input" id="estadoFilter" onchange="applyFilters()">
+          <option value="">Todos los estados</option>
+          <option value="aprobado">Aprobado</option>
+          <option value="pendiente">Pendiente</option>
+          <option value="rechazado">Rechazado</option>
+        </select>
+        <select class="sf-filter-input" id="planFilter" onchange="applyFilters()">
+          <option value="">Todos los planes</option>
+          <option value="Starter">Starter</option>
+          <option value="Pro">Pro</option>
+          <option value="Scale">Scale</option>
+        </select>
+        <span style="margin-left:auto;font-size:12px;color:var(--muted)" id="payCount"></span>
+      </div>
+
+      <!-- Tabla -->
+      <div class="sf-card">
+        <div class="sf-card-body sf-table-wrap">
+          <table class="sf-table" id="paymentsTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Plan</th>
+                <th>Monto</th>
+                <th>Estado</th>
+                <th>Proveedor</th>
+                <th>Ref. externa</th>
+                <th>Fecha</th>
+                <th>Notas</th>
+              </tr>
+            </thead>
+            <tbody id="paymentsBody">
+              <tr><td colspan="9" style="text-align:center;color:var(--muted);padding:32px">Cargando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="auth.js"></script>
+<script src="app.js"></script>
+<script>
+  requireAuth();
+  injectSidebar("payments.html");
+  startClock("clock");
+
+  function applyFilters() {
+    const q      = document.getElementById("searchInput").value.toLowerCase();
+    const estado = document.getElementById("estadoFilter").value;
+    const plan   = document.getElementById("planFilter").value;
+
+    const rows = document.querySelectorAll("#paymentsTable tbody tr");
+    let visible = 0;
+
+    rows.forEach(row => {
+      const text     = row.textContent.toLowerCase();
+      const rowEstado = row.dataset.estado || "";
+      const rowPlan   = row.dataset.plan   || "";
+
+      const show = (!q || text.includes(q))
+                && (!estado || rowEstado === estado)
+                && (!plan   || rowPlan   === plan);
+
+      row.style.display = show ? "" : "none";
+      if (show) visible++;
+    });
+
+    document.getElementById("payCount").textContent = `${visible} pagos`;
+  }
+
+  async function loadPayments() {
+    const payments = await loadJSON("data/payments.json");
+    if (!payments) return;
+
+    // KPIs
+    const aprobados  = payments.filter(p => p.estado === "aprobado");
+    const pendientes = payments.filter(p => p.estado === "pendiente");
+    const rechazados = payments.filter(p => p.estado === "rechazado");
+    const total      = aprobados.reduce((s, p) => s + (p.monto || 0), 0);
+
+    document.getElementById("kpi-recaudado").textContent  = fmtMoney(total);
+    document.getElementById("kpi-aprobados").textContent  = aprobados.length;
+    document.getElementById("kpi-pendientes").textContent = pendientes.length;
+    document.getElementById("kpi-rechazados").textContent = rechazados.length;
+
+    // Tabla
+    const sorted = [...payments].sort((a,b) => b.fecha.localeCompare(a.fecha));
+
+    document.getElementById("paymentsBody").innerHTML = sorted.map(p => `
+      <tr data-estado="${p.estado}" data-plan="${p.plan}">
+        <td style="color:var(--muted);font-size:12px">${p.id}</td>
+        <td>
+          <strong>${p.lead_nombre}</strong>
+          <br><span style="font-size:11px;color:var(--muted)">${p.empresa}</span>
+        </td>
+        <td>${badgePlan(p.plan)}</td>
+        <td style="font-weight:700;color:var(--success)">${fmtMoney(p.monto, p.moneda)}</td>
+        <td>${badgeEstadoPago(p.estado)}</td>
+        <td style="color:var(--muted)">${p.proveedor}</td>
+        <td style="font-size:12px;color:var(--muted)">${p.external_payment_id || "—"}</td>
+        <td style="color:var(--muted)">${fmtDateTime(p.fecha)}</td>
+        <td style="font-size:12px;color:var(--muted)">${p.notas || "—"}</td>
+      </tr>
+    `).join("");
+
+    applyFilters();
+  }
+
+  startPolling(loadPayments, 30000);
+</script>
+</body>
+</html>

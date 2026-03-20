@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StepFlow · Clientes</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="sf-admin">
+
+  <div id="sf-sidebar-placeholder"></div>
+
+  <div class="sf-main">
+    <div class="sf-topbar">
+      <span class="sf-topbar-title">Clientes</span>
+      <span class="sf-topbar-meta" id="clock"></span>
+    </div>
+
+    <div class="sf-content">
+
+      <!-- KPIs -->
+      <div class="sf-kpi-grid" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
+        <div class="sf-kpi-card accent">
+          <div class="sf-kpi-label">Total clientes</div>
+          <div class="sf-kpi-value" id="kpi-total">—</div>
+        </div>
+        <div class="sf-kpi-card success">
+          <div class="sf-kpi-label">Onboarding completo</div>
+          <div class="sf-kpi-value" id="kpi-completo">—</div>
+        </div>
+        <div class="sf-kpi-card warning">
+          <div class="sf-kpi-label">En progreso</div>
+          <div class="sf-kpi-value" id="kpi-progreso">—</div>
+        </div>
+        <div class="sf-kpi-card">
+          <div class="sf-kpi-label">Plan Pro / Scale</div>
+          <div class="sf-kpi-value" id="kpi-pro">—</div>
+        </div>
+      </div>
+
+      <!-- Filtros -->
+      <div class="sf-filters">
+        <input
+          class="sf-filter-input"
+          id="searchInput"
+          placeholder="Buscar nombre, empresa, email..."
+          oninput="applyFilters()"
+          style="min-width:240px"
+        />
+        <select class="sf-filter-input" id="planFilter" onchange="applyFilters()">
+          <option value="">Todos los planes</option>
+          <option value="Starter">Starter</option>
+          <option value="Pro">Pro</option>
+          <option value="Scale">Scale</option>
+        </select>
+        <select class="sf-filter-input" id="onboardingFilter" onchange="applyFilters()">
+          <option value="">Todos los estados</option>
+          <option value="completo">Completo</option>
+          <option value="en_progreso">En progreso</option>
+          <option value="pendiente">Pendiente</option>
+        </select>
+        <span style="margin-left:auto;font-size:12px;color:var(--muted)" id="custCount"></span>
+      </div>
+
+      <!-- Tabla principal -->
+      <div class="sf-card" style="margin-bottom:0">
+        <div class="sf-card-body sf-table-wrap">
+          <table class="sf-table" id="customersTable">
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Empresa</th>
+                <th>Plan</th>
+                <th>Nicho</th>
+                <th>Onboarding</th>
+                <th>Método pago</th>
+                <th>Alta</th>
+                <th>Contacto</th>
+                <th>Notas</th>
+              </tr>
+            </thead>
+            <tbody id="customersBody">
+              <tr><td colspan="9" style="text-align:center;color:var(--muted);padding:32px">Cargando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Detalle de onboarding por cliente -->
+      <div style="margin-top:28px">
+        <div class="sf-card-header" style="padding:0 0 12px">
+          <span class="sf-card-title">Estado de onboarding</span>
+        </div>
+        <div id="onboardingCards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:4px">
+          <!-- se inyectan dinámicamente -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="auth.js"></script>
+<script src="app.js"></script>
+<script>
+  requireAuth();
+  injectSidebar("customers.html");
+  startClock("clock");
+
+  // Pasos estándar de onboarding
+  const ONBOARDING_STEPS = [
+    "Pago confirmado",
+    "Acceso a plataforma enviado",
+    "Primera reunión agendada",
+    "Configuración de cuenta",
+    "Integración activa",
+    "Primer lead gestionado",
+  ];
+
+  function stepsDone(estado) {
+    if (estado === "completo")    return 6;
+    if (estado === "en_progreso") return 3;
+    return 1;
+  }
+
+  function renderOnboardingCard(c) {
+    const done = stepsDone(c.estado_onboarding);
+    const stepsHTML = ONBOARDING_STEPS.map((s, i) => `
+      <div class="ob-step ${i < done ? 'done' : 'pending'}">
+        <div class="ob-dot"></div>
+        ${s}
+      </div>
+    `).join("");
+
+    return `
+      <div class="sf-card">
+        <div class="sf-card-header">
+          <span class="sf-card-title">${c.nombre}</span>
+          ${badgeOnboarding(c.estado_onboarding)}
+        </div>
+        <div class="sf-card-body" style="padding:16px 20px">
+          <div style="font-size:12px;color:var(--muted);margin-bottom:12px">${c.empresa} · ${badgePlan(c.plan)}</div>
+          <div class="ob-steps">${stepsHTML}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  function applyFilters() {
+    const q           = document.getElementById("searchInput").value.toLowerCase();
+    const plan        = document.getElementById("planFilter").value;
+    const onboarding  = document.getElementById("onboardingFilter").value;
+
+    const rows = document.querySelectorAll("#customersTable tbody tr");
+    let visible = 0;
+
+    rows.forEach(row => {
+      const text    = row.textContent.toLowerCase();
+      const rowPlan = row.dataset.plan || "";
+      const rowOb   = row.dataset.onboarding || "";
+
+      const show = (!q           || text.includes(q))
+                && (!plan        || rowPlan === plan)
+                && (!onboarding  || rowOb   === onboarding);
+
+      row.style.display = show ? "" : "none";
+      if (show) visible++;
+    });
+
+    document.getElementById("custCount").textContent = `${visible} clientes`;
+  }
+
+  async function loadCustomers() {
+    const customers = await loadJSON("data/customers.json");
+    if (!customers) return;
+
+    // KPIs
+    const completos = customers.filter(c => c.estado_onboarding === "completo");
+    const progreso  = customers.filter(c => c.estado_onboarding === "en_progreso");
+    const pro       = customers.filter(c => c.plan === "Pro" || c.plan === "Scale");
+
+    document.getElementById("kpi-total").textContent    = customers.length;
+    document.getElementById("kpi-completo").textContent = completos.length;
+    document.getElementById("kpi-progreso").textContent = progreso.length;
+    document.getElementById("kpi-pro").textContent      = pro.length;
+
+    // Tabla
+    document.getElementById("customersBody").innerHTML = customers.map(c => `
+      <tr data-plan="${c.plan}" data-onboarding="${c.estado_onboarding}">
+        <td><strong>${c.nombre}</strong></td>
+        <td>${c.empresa}</td>
+        <td>${badgePlan(c.plan)}</td>
+        <td><span class="badge badge-muted">${c.nicho || "—"}</span></td>
+        <td>${badgeOnboarding(c.estado_onboarding)}</td>
+        <td style="color:var(--muted)">${c.metodo_pago || "—"}</td>
+        <td style="color:var(--muted)">${fmtDate(c.fecha_alta)}</td>
+        <td>
+          ${c.email ? `<a href="mailto:${c.email}" style="color:var(--accent2);font-size:12px">${c.email}</a>` : "—"}
+          ${c.whatsapp ? `<br><span style="font-size:11px;color:var(--muted)">${c.whatsapp}</span>` : ""}
+        </td>
+        <td style="font-size:12px;color:var(--muted);max-width:180px">${c.notas || "—"}</td>
+      </tr>
+    `).join("");
+
+    // Onboarding cards
+    document.getElementById("onboardingCards").innerHTML = customers.map(renderOnboardingCard).join("");
+
+    applyFilters();
+  }
+
+  startPolling(loadCustomers, 30000);
+</script>
+</body>
+</html>

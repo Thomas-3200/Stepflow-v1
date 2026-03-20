@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StepFlow · Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="sf-admin">
+
+  <div id="sf-sidebar-placeholder"></div>
+
+  <div class="sf-main">
+    <div class="sf-topbar">
+      <span class="sf-topbar-title">Dashboard</span>
+      <span class="sf-topbar-meta" id="clock"></span>
+    </div>
+
+    <div class="sf-content">
+
+      <!-- KPIs -->
+      <div class="sf-kpi-grid" id="kpiGrid">
+        <div class="sf-kpi-card accent">
+          <div class="sf-kpi-label">Leads totales</div>
+          <div class="sf-kpi-value" id="kpi-leads">—</div>
+          <div class="sf-kpi-sub">en base</div>
+        </div>
+        <div class="sf-kpi-card success">
+          <div class="sf-kpi-label">Clientes activos</div>
+          <div class="sf-kpi-value" id="kpi-customers">—</div>
+          <div class="sf-kpi-sub">con plan activo</div>
+        </div>
+        <div class="sf-kpi-card success">
+          <div class="sf-kpi-label">Pagos aprobados</div>
+          <div class="sf-kpi-value" id="kpi-aprobados">—</div>
+          <div class="sf-kpi-sub" id="kpi-aprobados-monto">—</div>
+        </div>
+        <div class="sf-kpi-card warning">
+          <div class="sf-kpi-label">Pagos pendientes</div>
+          <div class="sf-kpi-value" id="kpi-pendientes">—</div>
+          <div class="sf-kpi-sub">por confirmar</div>
+        </div>
+        <div class="sf-kpi-card danger">
+          <div class="sf-kpi-label">Pagos rechazados</div>
+          <div class="sf-kpi-value" id="kpi-rechazados">—</div>
+          <div class="sf-kpi-sub">requieren acción</div>
+        </div>
+        <div class="sf-kpi-card accent">
+          <div class="sf-kpi-label">Tasa conversión</div>
+          <div class="sf-kpi-value" id="kpi-conversion">—</div>
+          <div class="sf-kpi-sub">leads → clientes</div>
+        </div>
+      </div>
+
+      <!-- Actividad reciente -->
+      <div class="sf-card">
+        <div class="sf-card-header">
+          <span class="sf-card-title">Actividad reciente</span>
+          <span style="font-size:11px;color:var(--muted)">Actualiza cada 30s</span>
+        </div>
+        <div class="sf-card-body">
+          <div class="sf-activity" id="activityFeed">
+            <div class="sf-empty">
+              <div class="sf-empty-icon">◌</div>
+              <div class="sf-empty-text">Cargando actividad...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Últimos pagos -->
+      <div class="sf-card">
+        <div class="sf-card-header">
+          <span class="sf-card-title">Últimos pagos</span>
+          <a href="payments.html" style="font-size:12px;color:var(--accent2)">Ver todos →</a>
+        </div>
+        <div class="sf-card-body sf-table-wrap">
+          <table class="sf-table" id="recentPaymentsTable">
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Plan</th>
+                <th>Monto</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody id="recentPaymentsBody">
+              <tr><td colspan="5" style="text-align:center;color:var(--muted);padding:24px">Cargando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /sf-content -->
+  </div><!-- /sf-main -->
+</div><!-- /sf-admin -->
+
+<script src="auth.js"></script>
+<script src="app.js"></script>
+<script>
+  requireAuth();
+  injectSidebar("dashboard.html");
+  startClock("clock");
+
+  async function loadDashboard() {
+    const [payments, customers, leads] = await Promise.all([
+      loadJSON("data/payments.json"),
+      loadJSON("data/customers.json"),
+      loadJSON("../data/input/leads.json"),
+    ]);
+
+    // KPIs — pagos
+    if (payments) {
+      const aprobados  = payments.filter(p => p.estado === "aprobado");
+      const pendientes = payments.filter(p => p.estado === "pendiente");
+      const rechazados = payments.filter(p => p.estado === "rechazado");
+      const totalMonto = aprobados.reduce((s, p) => s + (p.monto || 0), 0);
+
+      document.getElementById("kpi-aprobados").textContent = aprobados.length;
+      document.getElementById("kpi-aprobados-monto").textContent = fmtMoney(totalMonto);
+      document.getElementById("kpi-pendientes").textContent = pendientes.length;
+      document.getElementById("kpi-rechazados").textContent = rechazados.length;
+
+      // Últimos 5 pagos
+      const recent = [...payments].sort((a,b) => b.fecha.localeCompare(a.fecha)).slice(0,5);
+      document.getElementById("recentPaymentsBody").innerHTML = recent.map(p => `
+        <tr>
+          <td>${p.lead_nombre}<br><span style="font-size:11px;color:var(--muted)">${p.empresa}</span></td>
+          <td>${badgePlan(p.plan)}</td>
+          <td style="font-weight:600">${fmtMoney(p.monto, p.moneda)}</td>
+          <td>${badgeEstadoPago(p.estado)}</td>
+          <td style="color:var(--muted)">${fmtDateTime(p.fecha)}</td>
+        </tr>
+      `).join("");
+    }
+
+    // KPIs — clientes
+    if (customers) {
+      document.getElementById("kpi-customers").textContent = customers.length;
+    }
+
+    // KPIs — leads
+    if (leads) {
+      document.getElementById("kpi-leads").textContent = leads.length;
+    }
+
+    // Tasa conversión
+    const leadsCount = leads ? leads.length : 0;
+    const custCount  = customers ? customers.length : 0;
+    const tasa = leadsCount > 0 ? Math.round((custCount / leadsCount) * 100) : 0;
+    document.getElementById("kpi-conversion").textContent = tasa + "%";
+
+    // Actividad feed (generada desde pagos)
+    if (payments) {
+      const sorted = [...payments].sort((a,b) => b.fecha.localeCompare(a.fecha)).slice(0,8);
+      const colors = { aprobado: "var(--success)", pendiente: "var(--warning)", rechazado: "var(--danger)" };
+      document.getElementById("activityFeed").innerHTML = sorted.map(p => `
+        <div class="sf-activity-item">
+          <div class="sf-activity-dot" style="background:${colors[p.estado] || 'var(--muted)'}"></div>
+          <div class="sf-activity-body">
+            <div class="sf-activity-text">
+              Pago <strong>${p.estado}</strong> — ${p.lead_nombre} · ${p.plan} · ${fmtMoney(p.monto, p.moneda)}
+            </div>
+            <div class="sf-activity-time">${fmtDateTime(p.fecha)} · ${p.proveedor}</div>
+          </div>
+        </div>
+      `).join("");
+    }
+  }
+
+  startPolling(loadDashboard, 30000);
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StepFlow · Acceso</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .sf-login-hint {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="sf-login-page">
+    <div class="sf-login-box">
+
+      <div class="sf-login-logo">
+        <div class="sf-login-logo-name">StepFlow</div>
+        <div class="sf-login-logo-tag">Panel Interno</div>
+      </div>
+
+      <form class="sf-login-form" id="loginForm" autocomplete="off">
+        <label>Contraseña</label>
+        <input type="password" id="passwordInput" placeholder="••••••••" autofocus />
+        <p class="sf-login-error" id="loginError">Contraseña incorrecta.</p>
+        <button type="submit" class="sf-login-submit">Ingresar</button>
+      </form>
+
+      <p class="sf-login-hint">Acceso restringido · Solo uso interno</p>
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+  <script>
+    // Si ya está autenticado, redirigir directo
+    if (isAuthenticated()) {
+      window.location.href = "dashboard.html";
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const pass = document.getElementById("passwordInput").value;
+      const ok = await login(pass);
+      if (ok) {
+        window.location.href = "dashboard.html";
+      } else {
+        const err = document.getElementById("loginError");
+        err.style.display = "block";
+        document.getElementById("passwordInput").value = "";
+        document.getElementById("passwordInput").focus();
+      }
+    });
+  </script>
+</body>
+</html>

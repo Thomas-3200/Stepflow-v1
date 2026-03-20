@@ -331,13 +331,53 @@ body { font-family: var(--font); background: var(--gray-100); color: var(--gray-
 }
 .demo-chat-value-line strong { color: var(--gray-700); }
 
+/* PRICING */
+.pricing-section { border-radius: var(--radius); padding: 40px 24px; background: var(--gray-100); }
+.pricing-header { text-align: center; margin-bottom: 32px; }
+.pricing-title { font-size: 24px; font-weight: 800; color: var(--dark); letter-spacing: -0.5px; margin-bottom: 8px; }
+.pricing-sub { font-size: 14px; color: var(--gray-500); }
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.pricing-card { background: var(--white); border-radius: var(--radius); padding: 28px 24px; border: 2px solid transparent; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 20px; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s; position: relative; }
+.pricing-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--brand); }
+.pricing-card.destacado { border-color: var(--brand); }
+.pricing-badge-top { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--brand); color: var(--white); font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 20px; white-space: nowrap; }
+.pricing-plan-name { font-size: 13px; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 1px; }
+.pricing-price { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.pricing-price-usd { font-size: 36px; font-weight: 800; color: var(--dark); letter-spacing: -1.5px; line-height: 1; }
+.pricing-price-per { font-size: 13px; color: var(--gray-500); }
+.pricing-price-ars { font-size: 12px; color: var(--gray-500); width: 100%; margin-top: 2px; }
+.pricing-features { display: flex; flex-direction: column; gap: 10px; }
+.pricing-feature { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--gray-700); line-height: 1.4; }
+.pricing-feature::before { content: "✓"; color: var(--success); font-weight: 700; flex-shrink: 0; }
+.pricing-cta { background: var(--gray-900); color: var(--white); border: none; border-radius: 8px; padding: 13px 20px; font-size: 14px; font-weight: 700; cursor: pointer; width: 100%; font-family: var(--font); transition: opacity 0.15s; }
+.pricing-card.destacado .pricing-cta { background: var(--brand); }
+.pricing-cta:hover { opacity: 0.88; }
+
+/* MODAL */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+.modal-overlay.open { display: flex; }
+.modal-box { background: var(--white); border-radius: 14px; padding: 36px 32px; width: 100%; max-width: 460px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); position: relative; }
+.modal-close { position: absolute; top: 16px; right: 16px; background: var(--gray-100); border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--gray-500); font-family: var(--font); }
+.modal-close:hover { background: var(--gray-300); }
+.modal-plan-badge { display: inline-block; background: var(--brand-light); color: var(--brand-dark); font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; margin-bottom: 12px; }
+.modal-title { font-size: 20px; font-weight: 800; color: var(--dark); margin-bottom: 6px; }
+.modal-sub { font-size: 13px; color: var(--gray-500); margin-bottom: 24px; line-height: 1.5; }
+.modal-form { display: flex; flex-direction: column; gap: 14px; }
+.modal-field { display: flex; flex-direction: column; gap: 5px; }
+.modal-label { font-size: 12px; font-weight: 600; color: var(--gray-700); }
+.modal-input { border: 1.5px solid var(--gray-300); border-radius: 8px; padding: 10px 13px; font-size: 14px; font-family: var(--font); color: var(--gray-900); outline: none; transition: border-color 0.15s; }
+.modal-input:focus { border-color: var(--brand); }
+.modal-submit { background: var(--brand); color: var(--white); border: none; border-radius: 8px; padding: 14px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: var(--font); margin-top: 4px; transition: background 0.15s; }
+.modal-submit:hover { background: var(--brand-dark); }
+.modal-note { font-size: 11px; color: var(--gray-500); text-align: center; margin-top: 8px; }
+
 /* FOOTER */
 .footer { text-align: center; color: var(--gray-500); font-size: 11px; padding: 4px 0 28px; }
 
 /* RESPONSIVE */
 @media (max-width: 1024px) { .metrics-grid { grid-template-columns: repeat(3, 1fr); } .leads-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 900px)  { .how-steps { grid-template-columns: repeat(2, 1fr); } .bottom-grid { grid-template-columns: 1fr; } }
-@media (max-width: 600px)  { .header { padding: 0 16px; } .main { padding: 16px 12px; } .metrics-grid { grid-template-columns: repeat(2, 1fr); } .leads-grid { grid-template-columns: 1fr; } .how-steps { grid-template-columns: 1fr; } .header-right { display: none; } .tagline-banner { flex-direction: column; align-items: flex-start; } }
+@media (max-width: 900px)  { .how-steps { grid-template-columns: repeat(2, 1fr); } .bottom-grid { grid-template-columns: 1fr; } .pricing-grid { grid-template-columns: 1fr; } }
+@media (max-width: 600px)  { .header { padding: 0 16px; } .main { padding: 16px 12px; } .metrics-grid { grid-template-columns: repeat(2, 1fr); } .leads-grid { grid-template-columns: 1fr; } .how-steps { grid-template-columns: 1fr; } .header-right { display: none; } .tagline-banner { flex-direction: column; align-items: flex-start; } .modal-box { padding: 28px 20px; } }
 </style>
 </head>
 <body>
@@ -372,6 +412,37 @@ body { font-family: var(--font); background: var(--gray-100); color: var(--gray-
   <section>
     <div class="section-title">Tu negocio esta semana con StepFlow</div>
     <div class="metrics-grid" id="metrics-grid"></div>
+  </section>
+
+  <!-- Chat demo -->
+  <section>
+    <div class="section-title">Así respondería StepFlow a tus consultas</div>
+    <div class="demo-chat-wrap">
+      <div class="demo-chat-header">
+        <span class="demo-chat-header-dot"></span>
+        <div>
+          <div class="demo-chat-header-name" id="demo-chat-nombre"></div>
+          <div class="demo-chat-header-sub">Respondiendo en tiempo real</div>
+        </div>
+        <div class="demo-chat-speed">⚡ &lt; 5 min</div>
+      </div>
+      <div class="demo-chat-history" id="demo-chat-history"></div>
+      <div class="demo-chat-suggestions" id="demo-chat-suggestions"></div>
+      <div class="demo-chat-input-row">
+        <input
+          type="text"
+          class="demo-chat-input"
+          id="demo-chat-input"
+          placeholder="Escribí tu consulta…"
+          autocomplete="off"
+        />
+        <button class="demo-chat-send-btn" id="demo-chat-send">→</button>
+      </div>
+    </div>
+    <div class="demo-chat-value-line">
+      <strong>⚡ StepFlow responde cada consulta en menos de 5 minutos.</strong>
+      Ningún interesado queda sin atención.
+    </div>
   </section>
 
   <!-- Pipeline -->
@@ -412,37 +483,6 @@ body { font-family: var(--font); background: var(--gray-100); color: var(--gray-
         </div>
         <div class="lead-siguiente" id="lead-siguiente"></div>
       </div>
-    </div>
-  </section>
-
-  <!-- Chat demo -->
-  <section>
-    <div class="section-title">Así respondería StepFlow a tus consultas</div>
-    <div class="demo-chat-wrap">
-      <div class="demo-chat-header">
-        <span class="demo-chat-header-dot"></span>
-        <div>
-          <div class="demo-chat-header-name" id="demo-chat-nombre"></div>
-          <div class="demo-chat-header-sub">Respondiendo en tiempo real</div>
-        </div>
-        <div class="demo-chat-speed">⚡ &lt; 5 min</div>
-      </div>
-      <div class="demo-chat-history" id="demo-chat-history"></div>
-      <div class="demo-chat-suggestions" id="demo-chat-suggestions"></div>
-      <div class="demo-chat-input-row">
-        <input
-          type="text"
-          class="demo-chat-input"
-          id="demo-chat-input"
-          placeholder="Escribí tu consulta…"
-          autocomplete="off"
-        />
-        <button class="demo-chat-send-btn" id="demo-chat-send">→</button>
-      </div>
-    </div>
-    <div class="demo-chat-value-line">
-      <strong>⚡ StepFlow responde cada consulta en menos de 5 minutos.</strong>
-      Ningún interesado queda sin atención.
     </div>
   </section>
 
@@ -605,9 +645,22 @@ function initDemoChat(d) {
 const ACT_ICONS  = { mensaje_enviado:"📤", respuesta_recibida:"💬", reunion_agendada:"🗓", seguimiento_pendiente:"🔔", cierre:"✅" };
 const STEP_ICONS = ["📥","⚡","🔁","🏠"];
 
+// ── URL PARAMS → personalización dinámica ─────────────────────────────────────
+function applyUrlParams(d) {
+  const p = new URLSearchParams(window.location.search);
+  if (p.get('empresa')) d.nombre_empresa = decodeURIComponent(p.get('empresa'));
+  if (p.get('barrio'))  d.ciudad         = decodeURIComponent(p.get('barrio'));
+  if (p.get('rubro'))   d.rubro          = decodeURIComponent(p.get('rubro'));
+  // Actualizar textos dinámicos que usan el nombre
+  d.textos.tagline = `Así operaría ${d.nombre_empresa} con StepFlow activo`;
+  d.textos.cta     = `Activar StepFlow en ${d.nombre_empresa}`;
+  d.textos.descripcion_sistema = `StepFlow gestiona cada consulta que llega a ${d.nombre_empresa}: responde en minutos, califica al interesado, coordina la visita y hace el seguimiento. Vos cerrás la operación. El sistema hace el resto.`;
+}
+
 // ── INIT ──────────────────────────────────────────────────────────────────────
 function init() {
   const d = DATA;
+  applyUrlParams(d);
   document.documentElement.style.setProperty("--brand", d.color_principal);
   document.documentElement.style.setProperty("--brand-light", d.color_principal + "18");
 

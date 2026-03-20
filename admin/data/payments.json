@@ -1,0 +1,67 @@
+[
+  {
+    "id": "pay_001",
+    "lead_nombre": "Carlos Méndez",
+    "empresa": "Inmobiliaria Méndez & Asociados",
+    "plan": "Starter",
+    "monto": 297,
+    "moneda": "USD",
+    "estado": "aprobado",
+    "proveedor": "MercadoPago",
+    "external_payment_id": "MP-84729301",
+    "fecha": "2026-03-15T10:32:00",
+    "notas": ""
+  },
+  {
+    "id": "pay_002",
+    "lead_nombre": "Laura Gómez",
+    "empresa": "Clínica Gómez Centro Médico",
+    "plan": "Pro",
+    "monto": 597,
+    "moneda": "USD",
+    "estado": "aprobado",
+    "proveedor": "Stripe",
+    "external_payment_id": "STR-ch_3OqF2K",
+    "fecha": "2026-03-14T15:18:00",
+    "notas": ""
+  },
+  {
+    "id": "pay_003",
+    "lead_nombre": "Diego Torres",
+    "empresa": "Torres Automotriz",
+    "plan": "Starter",
+    "monto": 297,
+    "moneda": "USD",
+    "estado": "pendiente",
+    "proveedor": "MercadoPago",
+    "external_payment_id": "MP-84730112",
+    "fecha": "2026-03-17T09:05:00",
+    "notas": "Esperando confirmación bancaria"
+  },
+  {
+    "id": "pay_004",
+    "lead_nombre": "Marcela Rivas",
+    "empresa": "Academia Rivas",
+    "plan": "Pro",
+    "monto": 597,
+    "moneda": "USD",
+    "estado": "rechazado",
+    "proveedor": "Stripe",
+    "external_payment_id": "STR-ch_3OqG1R",
+    "fecha": "2026-03-16T11:44:00",
+    "notas": "Fondos insuficientes — contactar para reintento"
+  },
+  {
+    "id": "pay_005",
+    "lead_nombre": "Sebastián Ruiz",
+    "empresa": "Gastronomía Ruiz",
+    "plan": "Starter",
+    "monto": 297,
+    "moneda": "USD",
+    "estado": "aprobado",
+    "proveedor": "MercadoPago",
+    "external_payment_id": "MP-84731005",
+    "fecha": "2026-03-12T14:22:00",
+    "notas": ""
+  }
+]

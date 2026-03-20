@@ -1,0 +1,41 @@
+[
+  {
+    "id": "cust_001",
+    "nombre": "Carlos Méndez",
+    "empresa": "Inmobiliaria Méndez & Asociados",
+    "email": "carlos@mendezinmobiliaria.com",
+    "whatsapp": "+54 9 11 4523-7891",
+    "plan": "Starter",
+    "fecha_alta": "2026-03-15",
+    "estado_onboarding": "completo",
+    "metodo_pago": "MercadoPago",
+    "nicho": "inmobiliaria",
+    "notas": "Muy satisfecho con la demo. Quiere expandir a Pro en 2 meses."
+  },
+  {
+    "id": "cust_002",
+    "nombre": "Laura Gómez",
+    "empresa": "Clínica Gómez Centro Médico",
+    "email": "lgomez@clinicagomez.com",
+    "whatsapp": "+54 9 351 6712-0043",
+    "plan": "Pro",
+    "fecha_alta": "2026-03-14",
+    "estado_onboarding": "en_progreso",
+    "metodo_pago": "Stripe",
+    "nicho": "salud",
+    "notas": "Pendiente de configurar integración WhatsApp."
+  },
+  {
+    "id": "cust_003",
+    "nombre": "Sebastián Ruiz",
+    "empresa": "Gastronomía Ruiz",
+    "email": "sruiz@gastronomiaruiz.com.ar",
+    "whatsapp": "+54 9 261 4001-5523",
+    "plan": "Starter",
+    "fecha_alta": "2026-03-12",
+    "estado_onboarding": "completo",
+    "metodo_pago": "MercadoPago",
+    "nicho": "gastronomia",
+    "notas": ""
+  }
+]

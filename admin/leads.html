@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StepFlow · Leads</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="sf-admin">
+
+  <div id="sf-sidebar-placeholder"></div>
+
+  <div class="sf-main">
+    <div class="sf-topbar">
+      <span class="sf-topbar-title">Leads</span>
+      <span class="sf-topbar-meta" id="clock"></span>
+    </div>
+
+    <div class="sf-content">
+
+      <!-- KPIs rápidos -->
+      <div class="sf-kpi-grid" id="leadsKpis" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
+        <div class="sf-kpi-card">
+          <div class="sf-kpi-label">Total</div>
+          <div class="sf-kpi-value" id="kpi-total">—</div>
+        </div>
+        <div class="sf-kpi-card accent">
+          <div class="sf-kpi-label">Con email</div>
+          <div class="sf-kpi-value" id="kpi-con-email">—</div>
+        </div>
+        <div class="sf-kpi-card warning">
+          <div class="sf-kpi-label">Sin email</div>
+          <div class="sf-kpi-value" id="kpi-sin-email">—</div>
+        </div>
+        <div class="sf-kpi-card success">
+          <div class="sf-kpi-label">Google Places</div>
+          <div class="sf-kpi-value" id="kpi-places">—</div>
+        </div>
+      </div>
+
+      <!-- Filtros -->
+      <div class="sf-filters">
+        <input
+          class="sf-filter-input"
+          id="searchInput"
+          placeholder="Buscar empresa, email, ciudad..."
+          oninput="filterTable('searchInput','leadsTable')"
+          style="min-width:260px"
+        />
+        <select class="sf-filter-input" id="fuenteFilter" onchange="applyFilters()">
+          <option value="">Todas las fuentes</option>
+          <option value="google_places">Google Places</option>
+          <option value="manual">Manual</option>
+        </select>
+        <select class="sf-filter-input" id="emailFilter" onchange="applyFilters()">
+          <option value="">Todos</option>
+          <option value="con">Con email</option>
+          <option value="sin">Sin email</option>
+        </select>
+        <span style="margin-left:auto;font-size:12px;color:var(--muted)" id="leadCount"></span>
+      </div>
+
+      <!-- Tabla -->
+      <div class="sf-card">
+        <div class="sf-card-body sf-table-wrap">
+          <table class="sf-table" id="leadsTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Empresa</th>
+                <th>Email</th>
+                <th>Ciudad</th>
+                <th>Nicho</th>
+                <th>Web</th>
+                <th>Fuente</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody id="leadsBody">
+              <tr><td colspan="8" style="text-align:center;color:var(--muted);padding:32px">Cargando leads...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="auth.js"></script>
+<script src="app.js"></script>
+<script>
+  requireAuth();
+  injectSidebar("leads.html");
+  startClock("clock");
+
+  let allLeads = [];
+
+  function renderLeads(leads) {
+    const tbody = document.getElementById("leadsBody");
+    if (!leads || leads.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="8"><div class="sf-empty"><div class="sf-empty-icon">◌</div><div class="sf-empty-text">No hay leads</div></div></td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = leads.map((l, i) => {
+      const email   = l.email || "";
+      const web     = l.web   || "";
+      const fuente  = l.fuente || "manual";
+      return `
+        <tr
+          data-fuente="${fuente}"
+          data-email="${email ? 'con' : 'sin'}"
+        >
+          <td style="color:var(--muted)">${i + 1}</td>
+          <td>
+            <strong>${l.empresa || "—"}</strong>
+            ${l.nombre ? `<br><span style="font-size:11px;color:var(--muted)">${l.nombre}</span>` : ""}
+          </td>
+          <td>${email ? `<a href="mailto:${email}" style="color:var(--accent2)">${email}</a>` : `<span style="color:var(--muted)">—</span>`}</td>
+          <td>${l.ciudad || "—"}</td>
+          <td><span class="badge badge-muted">${l.industria_declarada || "—"}</span></td>
+          <td>${web ? `<a href="${web}" target="_blank" style="color:var(--accent2);font-size:12px">↗ ver</a>` : "—"}</td>
+          <td><span class="badge badge-accent">${fuente}</span></td>
+          <td style="color:var(--muted)">${l.fecha_captura || "—"}</td>
+        </tr>
+      `;
+    }).join("");
+
+    document.getElementById("leadCount").textContent = `${leads.length} leads`;
+  }
+
+  function applyFilters() {
+    const q        = document.getElementById("searchInput").value.toLowerCase();
+    const fuente   = document.getElementById("fuenteFilter").value;
+    const emailF   = document.getElementById("emailFilter").value;
+
+    const rows = document.querySelectorAll("#leadsTable tbody tr");
+    let visible = 0;
+
+    rows.forEach(row => {
+      const text = row.textContent.toLowerCase();
+      const rowFuente = row.dataset.fuente || "";
+      const rowEmail  = row.dataset.email  || "";
+
+      const matchQ      = !q      || text.includes(q);
+      const matchFuente = !fuente || rowFuente === fuente;
+      const matchEmail  = !emailF || rowEmail  === emailF;
+
+      const show = matchQ && matchFuente && matchEmail;
+      row.style.display = show ? "" : "none";
+      if (show) visible++;
+    });
+
+    document.getElementById("leadCount").textContent = `${visible} leads`;
+  }
+
+  // Sobreescribir filterTable para coordinar con applyFilters
+  document.getElementById("searchInput").addEventListener("input", applyFilters);
+
+  async function loadLeads() {
+    const leads = await loadJSON("../data/input/leads.json");
+    if (!leads) {
+      document.getElementById("leadsBody").innerHTML =
+        `<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:32px">No se pudo cargar leads.json</td></tr>`;
+      return;
+    }
+
+    allLeads = leads;
+
+    const conEmail = leads.filter(l => l.email).length;
+    document.getElementById("kpi-total").textContent     = leads.length;
+    document.getElementById("kpi-con-email").textContent = conEmail;
+    document.getElementById("kpi-sin-email").textContent = leads.length - conEmail;
+    document.getElementById("kpi-places").textContent    = leads.filter(l => l.fuente === "google_places").length;
+
+    renderLeads(leads);
+    applyFilters();
+  }
+
+  startPolling(loadLeads, 30000);
+</script>
+</body>
+</html>
