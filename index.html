@@ -1,8 +1,291 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="refresh" content="0; url=demo_app/index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STEPFlow — Inmobiliaria Del Sur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body></body>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-left">
+      <div class="header-logo">STEP<span>Flow</span></div>
+      <div class="header-divider"></div>
+      <div class="header-company">
+        <div class="header-company-name">Inmobiliaria Del Sur</div>
+        <div class="header-company-meta">Inmobiliaria · Buenos Aires</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="sys-live"><div class="sys-dot"></div>Sistema activo</div>
+      <div class="badge-demo">DEMO</div>
+    </div>
+  </header>
+
+  <!-- APP LAYOUT -->
+  <div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="demo-sidebar">
+      <div class="sidebar-label">Módulos</div>
+
+      <nav class="sidebar-nav">
+        <button class="sidebar-item active" data-panel="conversaciones" onclick="switchPanel('conversaciones', this)">
+          <span class="sidebar-item-icon">◎</span>
+          <span class="sidebar-item-label">Conversaciones</span>
+          <span class="sidebar-notif" id="notifConv">3</span>
+        </button>
+
+        <button class="sidebar-item" data-panel="marketing" onclick="switchPanel('marketing', this)">
+          <span class="sidebar-item-icon">▦</span>
+          <span class="sidebar-item-label">Marketing</span>
+        </button>
+
+        <div class="sidebar-item locked" title="Disponible en Plan Plus">
+          <span class="sidebar-item-icon">🔒</span>
+          <span class="sidebar-item-label">Creador de contenido</span>
+          <span class="sidebar-plan-badge">Plan Plus</span>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-footer-sys">
+          <div class="sys-dot small"></div>
+          <span>Actualizado hace 2 min</span>
+        </div>
+        <div class="sidebar-footer-client">
+          <div class="client-avatar">ID</div>
+          <div>
+            <div class="client-name">Inm. Del Sur</div>
+            <div class="client-plan">Plan Pro</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN PANELS -->
+    <div class="panels-container">
+
+      <!-- ── PANEL: CONVERSACIONES ────────────────────────────────── -->
+      <div id="panel-conversaciones" class="panel active">
+        <div class="panel-inner">
+
+          <div class="tagline" id="tagline">Así operaría Inmobiliaria Del Sur con StepFlow activo</div>
+
+          <!-- Métricas -->
+          <section>
+            <div class="section-title">Resumen de esta semana</div>
+            <div class="metrics-grid" id="metrics-grid"></div>
+          </section>
+
+          <!-- Central grid -->
+          <section class="demo-central-grid">
+            <div class="demo-chat-col">
+              <div class="section-title" style="margin-bottom:14px">StepFlow respondiendo por vos</div>
+              <div class="demo-chat-card">
+                <div class="demo-chat-header">
+                  <div class="demo-chat-avatar">SF</div>
+                  <div>
+                    <div class="demo-chat-name">Asistente de Inmobiliaria Del Sur</div>
+                    <div class="demo-chat-status">Respondiendo en tiempo real</div>
+                  </div>
+                  <div class="demo-live-dot"></div>
+                </div>
+                <div class="demo-chat-messages" id="chatMessages"></div>
+                <div class="demo-chat-input-area">
+                  <div class="demo-chat-hint">Probá cómo responde el sistema</div>
+                  <div class="demo-chat-row">
+                    <input type="text" class="demo-chat-input" id="demoInput"
+                      placeholder="Ej: ¿Tienen propiedades en Palermo?"
+                      onkeydown="if(event.key==='Enter') sendDemoMsg()" />
+                    <button class="demo-send-btn" onclick="sendDemoMsg()">→</button>
+                  </div>
+                  <div class="demo-quick-chips" id="demoChips"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="demo-data-col">
+              <div class="section-title" style="margin-bottom:12px">Leads activos</div>
+              <div class="demo-leads-list" id="leadsList"></div>
+              <div class="section-title" style="margin:20px 0 12px">Pipeline</div>
+              <div class="demo-pipeline-mini" id="pipelineMini"></div>
+            </div>
+          </section>
+
+          <!-- Seguimiento + Reactivación -->
+          <section class="seguimiento-reactivacion-grid">
+            <div class="card">
+              <div class="section-title" style="margin-bottom:14px">Seguimiento automático</div>
+              <div id="seguimientoList"></div>
+            </div>
+            <div class="card">
+              <div class="section-title" style="margin-bottom:14px">Reactivación de leads dormidos</div>
+              <div id="reactivacionList"></div>
+            </div>
+          </section>
+
+          <!-- Actividad -->
+          <section>
+            <div class="section-title" style="margin-bottom:14px">Actividad reciente</div>
+            <div class="card"><div class="activity-list" id="activity-list"></div></div>
+          </section>
+
+          <!-- Cómo funciona -->
+          <section class="how-section">
+            <div class="how-header">
+              <div class="how-title">Cómo trabajaría StepFlow en Inmobiliaria Del Sur</div>
+              <div class="how-desc">StepFlow gestiona automáticamente cada consulta: responde en minutos, califica al interesado, hace el seguimiento y coordina la visita. Vos cerrás la operación.</div>
+            </div>
+            <div class="how-steps" id="how-steps"></div>
+            <div class="how-cta">
+              <button class="cta-btn" onclick="window.location.href='checkout.html'">Activar StepFlow en Inmobiliaria Del Sur</button>
+            </div>
+          </section>
+
+          <div class="footer">STEPFlow V1 · Demo personalizada · Los datos mostrados son simulados con fines ilustrativos</div>
+        </div>
+      </div>
+
+      <!-- ── PANEL: MARKETING ─────────────────────────────────────── -->
+      <div id="panel-marketing" class="panel">
+        <div class="panel-inner">
+
+          <!-- Header del módulo -->
+          <div class="mkt-page-header">
+            <div>
+              <div class="mkt-page-title">Marketing & Publicaciones</div>
+              <div class="mkt-page-sub">Inmobiliaria Del Sur · Marzo 2026</div>
+            </div>
+            <div class="mkt-header-actions">
+              <div class="mkt-updated"><div class="sys-dot small"></div>Actualizado hace 2 min</div>
+              <button class="mkt-btn-primary">+ Nueva publicación</button>
+            </div>
+          </div>
+
+          <!-- KPI Cards -->
+          <div class="mkt-kpi-grid">
+            <div class="mkt-kpi-card anim-fade-up" style="--delay:.05s">
+              <div class="mkt-kpi-icon">📅</div>
+              <div class="mkt-kpi-value" data-target="38" data-suffix="">0</div>
+              <div class="mkt-kpi-label">Publicaciones del mes</div>
+              <div class="mkt-kpi-sub trend-up">+12% vs mes anterior</div>
+            </div>
+            <div class="mkt-kpi-card anim-fade-up" style="--delay:.1s">
+              <div class="mkt-kpi-icon">❤️</div>
+              <div class="mkt-kpi-value" data-target="4200" data-suffix="">0</div>
+              <div class="mkt-kpi-label">Interacciones totales</div>
+              <div class="mkt-kpi-sub trend-up">+28% vs mes anterior</div>
+            </div>
+            <div class="mkt-kpi-card anim-fade-up" style="--delay:.15s">
+              <div class="mkt-kpi-icon">◎</div>
+              <div class="mkt-kpi-value" data-target="12" data-suffix="">0</div>
+              <div class="mkt-kpi-label">Leads desde redes</div>
+              <div class="mkt-kpi-sub trend-up">+4 esta semana</div>
+            </div>
+            <div class="mkt-kpi-card anim-fade-up" style="--delay:.2s">
+              <div class="mkt-kpi-icon">⏳</div>
+              <div class="mkt-kpi-value" data-target="6" data-suffix="">0</div>
+              <div class="mkt-kpi-label">Publicaciones pendientes</div>
+              <div class="mkt-kpi-sub trend-neutral">Próximos 7 días</div>
+            </div>
+          </div>
+
+          <!-- Chart + Pendientes -->
+          <div class="mkt-mid-grid">
+
+            <!-- Gráfico -->
+            <div class="card anim-fade-up" style="--delay:.25s">
+              <div class="mkt-chart-header">
+                <div class="section-title">Engagement por red social</div>
+                <div class="mkt-chart-legend">
+                  <span class="leg-dot ig"></span>Instagram
+                  <span class="leg-dot fb" style="margin-left:12px"></span>Facebook
+                </div>
+              </div>
+              <div class="mkt-chart" id="mktChart"></div>
+              <div class="mkt-chart-labels" id="mktChartLabels"></div>
+            </div>
+
+            <!-- Pendientes -->
+            <div class="card anim-fade-up" style="--delay:.3s">
+              <div class="section-title" style="margin-bottom:16px">Estado de publicaciones</div>
+              <div class="mkt-status-summary">
+                <div class="mkt-status-item">
+                  <div class="mkt-status-circle published"></div>
+                  <div class="mkt-status-info">
+                    <div class="mkt-status-num">32</div>
+                    <div class="mkt-status-lbl">Publicadas</div>
+                  </div>
+                </div>
+                <div class="mkt-status-item">
+                  <div class="mkt-status-circle pending"></div>
+                  <div class="mkt-status-info">
+                    <div class="mkt-status-num">4</div>
+                    <div class="mkt-status-lbl">Pendientes</div>
+                  </div>
+                </div>
+                <div class="mkt-status-item">
+                  <div class="mkt-status-circle rescheduled"></div>
+                  <div class="mkt-status-info">
+                    <div class="mkt-status-num">2</div>
+                    <div class="mkt-status-lbl">Reprogramadas</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="section-title" style="margin:20px 0 12px">Próximas publicaciones</div>
+              <div class="mkt-upcoming" id="mktUpcoming"></div>
+            </div>
+          </div>
+
+          <!-- CRM Tabla -->
+          <div class="card anim-fade-up" style="--delay:.35s">
+            <div class="mkt-table-header">
+              <div class="section-title">CRM de contenido</div>
+              <div class="mkt-table-filters">
+                <button class="mkt-filter active" onclick="filterCRM('all', this)">Todos</button>
+                <button class="mkt-filter" onclick="filterCRM('publicado', this)">Publicados</button>
+                <button class="mkt-filter" onclick="filterCRM('pendiente', this)">Pendientes</button>
+                <button class="mkt-filter" onclick="filterCRM('reprogramado', this)">Reprogramados</button>
+              </div>
+            </div>
+            <div class="mkt-table-wrap">
+              <table class="mkt-table" id="crmTable">
+                <thead>
+                  <tr>
+                    <th>Contenido</th>
+                    <th>Red social</th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                    <th>Interacciones</th>
+                  </tr>
+                </thead>
+                <tbody id="crmBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Calendario semanal -->
+          <div class="card anim-fade-up" style="--delay:.4s">
+            <div class="mkt-table-header">
+              <div class="section-title">Calendario semanal</div>
+              <div class="mkt-week-label">Semana del 18 al 24 de Marzo</div>
+            </div>
+            <div class="mkt-calendar" id="mktCalendar"></div>
+          </div>
+
+          <div class="footer" style="margin-top:8px">STEPFlow V1 · Demo personalizada · Los datos mostrados son simulados con fines ilustrativos</div>
+        </div>
+      </div>
+
+    </div><!-- /panels-container -->
+  </div><!-- /app-layout -->
+
+  <script src="script.js"></script>
+</body>
 </html>

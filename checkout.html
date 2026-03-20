@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STEPFlow — Elegí tu plan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --brand:   #2563eb;
+      --dark:    #0f172a;
+      --gray-900:#1e293b;
+      --gray-700:#334155;
+      --gray-500:#64748b;
+      --gray-300:#cbd5e1;
+      --gray-100:#f1f5f9;
+      --white:   #ffffff;
+      --success: #16a34a;
+      --font:    'Inter', system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+
+    body {
+      font-family: var(--font);
+      background: var(--gray-100);
+      color: var(--gray-900);
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    .header {
+      background: var(--dark);
+      padding: 0 32px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-logo { font-size:15px; font-weight:800; color:#fff; letter-spacing:-.2px; }
+    .header-logo span { color:var(--brand); }
+    .header-back { font-size:12px; color:rgba(255,255,255,.5); cursor:pointer; transition:color .15s; text-decoration:none; }
+    .header-back:hover { color:#fff; }
+
+    /* MAIN */
+    .main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 52px 24px 80px;
+    }
+
+    .page-eyebrow {
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--brand);
+      margin-bottom: 14px;
+    }
+
+    .page-title {
+      text-align: center;
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--dark);
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .page-sub {
+      text-align: center;
+      font-size: 15px;
+      color: var(--gray-500);
+      margin-bottom: 48px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* PLANES */
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .plan-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 28px 24px;
+      border: 2px solid transparent;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06), 0 6px 20px rgba(0,0,0,.06);
+      transition: transform .2s, box-shadow .2s;
+      position: relative;
+    }
+
+    .plan-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(0,0,0,.08), 0 16px 40px rgba(0,0,0,.1);
+    }
+
+    .plan-card.popular {
+      border-color: var(--brand);
+      transform: scale(1.03);
+    }
+
+    .plan-card.popular:hover {
+      transform: scale(1.03) translateY(-4px);
+    }
+
+    .plan-badge-popular {
+      position: absolute;
+      top: -13px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--brand);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 20px;
+      white-space: nowrap;
+      letter-spacing: .3px;
+    }
+
+    .plan-name {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gray-500);
+      margin-bottom: 6px;
+    }
+
+    .plan-price {
+      font-size: 40px;
+      font-weight: 800;
+      color: var(--dark);
+      line-height: 1;
+      display: flex;
+      align-items: flex-start;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+
+    .plan-price-currency {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gray-500);
+      margin-top: 6px;
+    }
+
+    .plan-price-period {
+      font-size: 13px;
+      color: var(--gray-500);
+      font-weight: 400;
+      align-self: flex-end;
+      padding-bottom: 4px;
+    }
+
+    .plan-desc {
+      font-size: 13px;
+      color: var(--gray-500);
+      line-height: 1.5;
+      margin-bottom: 22px;
+      min-height: 40px;
+    }
+
+    .plan-divider {
+      height: 1px;
+      background: var(--gray-100);
+      margin-bottom: 20px;
+    }
+
+    .plan-modules {
+      margin-bottom: 20px;
+    }
+
+    .plan-modules-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--gray-500);
+      margin-bottom: 10px;
+    }
+
+    .plan-module {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 10px;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .plan-module.included {
+      background: rgba(22,163,74,.07);
+      color: var(--gray-900);
+    }
+
+    .plan-module.locked {
+      background: var(--gray-100);
+      color: var(--gray-300);
+    }
+
+    .plan-module-icon { font-size: 15px; flex-shrink:0; }
+
+    .plan-module-check {
+      margin-left: auto;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .plan-module.included .plan-module-check { color: var(--success); }
+    .plan-module.locked   .plan-module-check { color: var(--gray-300); }
+
+    .plan-features {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .plan-feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 12.5px;
+      color: var(--gray-700);
+      line-height: 1.4;
+    }
+
+    .plan-feature-check {
+      color: var(--success);
+      font-size: 13px;
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .plan-cta {
+      width: 100%;
+      padding: 13px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      font-family: var(--font);
+      transition: opacity .15s, transform .1s;
+    }
+
+    .plan-cta:hover { opacity:.88; transform:translateY(-1px); }
+    .plan-cta:active { transform:translateY(0); }
+
+    .plan-cta.outline {
+      background: transparent;
+      border: 2px solid var(--brand);
+      color: var(--brand);
+    }
+
+    .plan-cta.solid {
+      background: var(--brand);
+      color: #fff;
+    }
+
+    .plan-cta.dark {
+      background: var(--dark);
+      color: #fff;
+    }
+
+    /* GARANTÍA */
+    .guarantee {
+      text-align: center;
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .guarantee-icon { font-size: 28px; }
+    .guarantee-title { font-size: 14px; font-weight: 700; color: var(--gray-900); }
+    .guarantee-sub { font-size: 12px; color: var(--gray-500); max-width: 380px; text-align:center; line-height:1.5; }
+
+    /* FAQ */
+    .faq {
+      max-width: 640px;
+      margin: 56px auto 0;
+    }
+
+    .faq-title {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 28px;
+    }
+
+    .faq-item {
+      background: var(--white);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.05);
+    }
+
+    .faq-q { font-size: 13.5px; font-weight: 600; color: var(--gray-900); margin-bottom: 6px; }
+    .faq-a { font-size: 13px; color: var(--gray-500); line-height: 1.6; }
+
+    /* MODAL CONFIRMACIÓN */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 36px 32px;
+      max-width: 440px;
+      width: 90%;
+      text-align: center;
+      transform: translateY(16px);
+      transition: transform .25s;
+      box-shadow: 0 20px 60px rgba(0,0,0,.2);
+    }
+
+    .modal-overlay.open .modal { transform: translateY(0); }
+
+    .modal-icon { font-size: 42px; margin-bottom: 14px; }
+    .modal-title { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .modal-sub { font-size: 13px; color: var(--gray-500); line-height: 1.6; margin-bottom: 24px; }
+    .modal-plan-box {
+      background: var(--gray-100);
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-bottom: 22px;
+      text-align: left;
+    }
+    .modal-plan-name { font-size: 14px; font-weight: 700; color: var(--dark); }
+    .modal-plan-price { font-size: 22px; font-weight: 800; color: var(--brand); margin-top: 2px; }
+
+    .modal-wa-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px;
+      background: #25d366;
+      color: #fff;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      font-family: var(--font);
+      text-decoration: none;
+      transition: opacity .15s;
+      margin-bottom: 10px;
+    }
+
+    .modal-wa-btn:hover { opacity:.9; }
+
+    .modal-close {
+      font-size: 12px;
+      color: var(--gray-500);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: var(--font);
+      transition: color .15s;
+    }
+
+    .modal-close:hover { color: var(--gray-900); }
+
+    @media (max-width:768px) {
+      .plans-grid { grid-template-columns: 1fr; }
+      .plan-card.popular { transform:scale(1); }
+      .page-title { font-size:26px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-logo">STEP<span>Flow</span></div>
+    <a href="index.html" class="header-back">← Volver a la demo</a>
+  </header>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <div class="page-eyebrow">Planes y precios</div>
+    <h1 class="page-title">Elegí el plan para tu negocio</h1>
+    <p class="page-sub">Todos los planes incluyen configuración inicial, soporte y 14 días de prueba sin compromiso.</p>
+
+    <!-- PLANES -->
+    <div class="plans-grid">
+
+      <!-- STARTER -->
+      <div class="plan-card">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price">
+          <span class="plan-price-currency">USD</span>
+          297
+          <span class="plan-price-period">/mes</span>
+        </div>
+        <div class="plan-desc">Para negocios que quieren automatizar la atención y el seguimiento de leads.</div>
+        <div class="plan-divider"></div>
+
+        <div class="plan-modules">
+          <div class="plan-modules-title">Módulos incluidos</div>
+          <div class="plan-module included">
+            <span class="plan-module-icon">◎</span>
+            Conversaciones
+            <span class="plan-module-check">✓</span>
+          </div>
+          <div class="plan-module locked">
+            <span class="plan-module-icon">▦</span>
+            Marketing
+            <span class="plan-module-check">—</span>
+          </div>
+          <div class="plan-module locked">
+            <span class="plan-module-icon">🔒</span>
+            Creador de contenido
+            <span class="plan-module-check">—</span>
+          </div>
+        </div>
+
+        <div class="plan-features">
+          <div class="plan-feature"><span class="plan-feature-check">✓</span> Respuesta automática en WhatsApp e Instagram</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span> Seguimiento y reactivación de leads</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span> CRM en Google Sheets</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span> Hasta 20 mensajes diarios</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span> Anti-ban engine incluido</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span> Soporte por WhatsApp</div>
+        </div>
+
+        <button class="plan-cta outline" onclick="openModal('Starter','USD 297/mes')">Empezar con Starter</button>
+      </div>
+
+      <!-- PRO -->
+      <div class="plan-card popular">
+        <div class="plan-badge-popular">⭐ Más elegido</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">
+          <span class="plan-price-currency">USD</span>
+          597
+          <span class="plan-price-period">/mes</span>
+        </div>
+        <div class="plan-desc">Para negocios que también quieren gestionar y medir su presencia en redes sociales.</div>
+        <div class="plan-divider"></div>
+
+        <div class="plan-modules">
+          <div class="plan-modules-title">Módulos incluidos</div>
+          <div class="plan-module included">
+            <span class="plan-module-icon">◎</span>
+            Conversaciones
+            <span class="plan-module-check">✓</span>
+          </div>
+          <div class="plan-module included">
+            <span class="plan-module-icon">▦</span>
+            Marketing
+            <span class="plan-module-check">✓</span>
+          </div>
+          <div class="plan-module locked">
+            <span class="plan-module-icon">🔒</span>
+            Creador de contenido
+            <span class="plan-module-check">—</span>
+          </div>
+        </div>
+
+        <div class="plan-features">
+          <div class="plan-feature"><span class="plan-feature-check">✓</span> Todo lo del plan Starter</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span> Panel de marketing con métricas</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span> CRM de publicaciones y calendario</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span> Hasta 50 mensajes diarios</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span> Reportes semanales automáticos</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span> Soporte prioritario</div>
+        </div>
+
+        <button class="plan-cta solid" onclick="openModal('Pro','USD 597/mes')">Empezar con Pro</button>
+      </div>
+
+      <!-- AGENCIA -->
+      <div class="plan-card">
+        <div class="plan-name">Agencia</div>
+        <div class="plan-price">
+          <span class="plan-price-currency">USD</span>
+          997
+          <span class="plan-price-period">/mes</span>
+        </div>
+        <div class="plan-desc">Para agencias y negocios que quieren delegar la producción de contenido también.</div>
+        <div class="plan-divider"></div>
+
+        <div class="plan-modules">
+          <div class="plan-modules-title">Módulos incluidos</div>
+          <div class="plan-module included">
+            <span class="plan-module-icon">◎</span>
+            Conversaciones
+            <span class="plan-module-check">✓</span>
+          </div>
+          <div class="plan-module included">
+            <span class="plan-module-icon">▦</span>
+            Marketing
+            <span class="plan-module-check">✓</span>
+          </div>
+          <div class="plan-module included">
+            <span class="plan-module-icon">✦</span>
+            Creador de contenido
+            <span class="plan-module-check">✓</span>
+          </div>
+        </div>
+
+        <div class="plan-features">
+          <div class="plan-feature"><span class="plan-feature-check">✓</span> Todo lo del plan Pro</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span> Generación de captions con IA</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span> Clasificación automática de contenido</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span> Mensajes diarios ilimitados</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span> Onboarding personalizado</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span> Account manager dedicado</div>
+        </div>
+
+        <button class="plan-cta dark" onclick="openModal('Agencia','USD 997/mes')">Empezar con Agencia</button>
+      </div>
+
+    </div>
+
+    <!-- GARANTÍA -->
+    <div class="guarantee">
+      <div class="guarantee-icon">🛡️</div>
+      <div class="guarantee-title">14 días de prueba sin compromiso</div>
+      <div class="guarantee-sub">Si en los primeros 14 días no ves resultados, te devolvemos el dinero sin preguntas. Sin letra chica.</div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq">
+      <div class="faq-title">Preguntas frecuentes</div>
+
+      <div class="faq-item">
+        <div class="faq-q">¿Necesito conocimientos técnicos para usar StepFlow?</div>
+        <div class="faq-a">No. Nosotros nos encargamos de toda la configuración inicial. Vos solo usás la plataforma.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">¿Cuánto tarda en estar operativo?</div>
+        <div class="faq-a">En la mayoría de los casos, el sistema está funcionando en menos de 48 horas después del pago.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">¿Puedo cambiar de plan después?</div>
+        <div class="faq-a">Sí, podés subir o bajar de plan en cualquier momento. El cambio se aplica desde el próximo ciclo de facturación.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">¿Funciona para cualquier rubro?</div>
+        <div class="faq-a">StepFlow está adaptado para inmobiliarias, clínicas, academias, restaurantes, tiendas y cualquier negocio que reciba consultas por WhatsApp o Instagram.</div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+    <div class="modal">
+      <div class="modal-icon">🚀</div>
+      <div class="modal-title">¡Excelente elección!</div>
+      <div class="modal-sub">Un asesor de StepFlow te va a contactar por WhatsApp para completar el alta y configurar tu sistema.</div>
+      <div class="modal-plan-box">
+        <div class="modal-plan-name" id="modalPlanName">—</div>
+        <div class="modal-plan-price" id="modalPlanPrice">—</div>
+      </div>
+      <a class="modal-wa-btn" id="modalWaBtn" href="#" target="_blank">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Quiero activar StepFlow
+      </a>
+      <button class="modal-close" onclick="closeModal()">Cancelar, volver a los planes</button>
+    </div>
+  </div>
+
+  <script>
+    const WA_NUMBER = "5491155815642";
+
+    function openModal(plan, precio) {
+      document.getElementById("modalPlanName").textContent = "Plan " + plan;
+      document.getElementById("modalPlanPrice").textContent = precio + " · 14 días gratis";
+      const msg = encodeURIComponent(`Hola! Quiero activar StepFlow con el plan ${plan} (${precio}). Vi la demo y me interesa. ¿Cómo arrancamos?`);
+      document.getElementById("modalWaBtn").href = `https://wa.me/${WA_NUMBER}?text=${msg}`;
+      document.getElementById("modalOverlay").classList.add("open");
+    }
+
+    function closeModal() {
+      document.getElementById("modalOverlay").classList.remove("open");
+    }
+
+    function closeModalOutside(e) {
+      if (e.target === document.getElementById("modalOverlay")) closeModal();
+    }
+  </script>
+
+</body>
+</html>
