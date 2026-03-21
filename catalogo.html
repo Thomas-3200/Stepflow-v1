@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StepFlow — Catálogo de Servicios 2026</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0a;
+    --violet: #7c3aed;
+    --violet-light: #9f67ff;
+    --white: #ffffff;
+    --gray: #a1a1aa;
+    --card: #141414;
+    --border: #222222;
+  }
+  body {
+    background: #1a1a1a;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    color: var(--white);
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 2rem auto;
+    background: var(--bg);
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #0d0d0d 0%, #130d1f 100%);
+    padding: 2.5rem 2.8rem 2rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; top: -80px; right: -80px;
+    width: 250px; height: 250px;
+    background: radial-gradient(circle, rgba(124,58,237,0.25) 0%, transparent 70%);
+  }
+  .logo-block {}
+  .logo {
+    font-size: 2rem; font-weight: 800; letter-spacing: -1px;
+    margin-bottom: 0.3rem;
+  }
+  .logo span { color: var(--violet); }
+  .tagline { color: var(--gray); font-size: 0.82rem; letter-spacing: 0.3px; }
+  .logo-icon {
+    width: 56px; height: 56px; border-radius: 14px;
+    background: linear-gradient(135deg, var(--violet), #5b21b6);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; font-weight: 900; color: white;
+    letter-spacing: -1px;
+  }
+  .header-right { text-align: right; }
+  .doc-label { font-size: 0.7rem; color: var(--gray); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .doc-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.2rem; }
+  .doc-date { font-size: 0.75rem; color: var(--gray); }
+
+  /* PROPUESTA DE VALOR */
+  .value-prop {
+    background: linear-gradient(90deg, rgba(124,58,237,0.12) 0%, transparent 100%);
+    border-left: 3px solid var(--violet);
+    margin: 1.8rem 2.8rem;
+    padding: 1rem 1.4rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .value-prop p {
+    font-size: 0.92rem; line-height: 1.6; color: var(--white);
+  }
+  .value-prop strong { color: var(--violet-light); }
+
+  /* SECTION TITLES */
+  .section-title {
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--violet);
+    padding: 0 2.8rem; margin-bottom: 1rem; margin-top: 1.8rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+  .section-title::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* PLANES */
+  .planes-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1rem; padding: 0 2.8rem;
+  }
+  .plan {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.4rem; position: relative;
+  }
+  .plan.featured { border-color: var(--violet); }
+  .plan-badge {
+    position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+    background: var(--violet); color: white;
+    padding: 0.2rem 0.8rem; border-radius: 100px;
+    font-size: 0.6rem; font-weight: 700; letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  .plan-name {
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--gray); margin-bottom: 0.5rem;
+  }
+  .plan-price {
+    font-size: 1.7rem; font-weight: 800; letter-spacing: -1px;
+    line-height: 1; margin-bottom: 0.2rem;
+  }
+  .plan-price small { font-size: 0.7rem; font-weight: 400; color: var(--gray); }
+  .plan-desc { font-size: 0.72rem; color: var(--gray); margin-bottom: 0.9rem; line-height: 1.4; padding-bottom: 0.9rem; border-bottom: 1px solid var(--border); }
+  .features { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+  .features li { font-size: 0.72rem; display: flex; align-items: flex-start; gap: 0.4rem; line-height: 1.4; }
+  .features li::before { content: '✓'; color: var(--violet); font-weight: 700; flex-shrink: 0; font-size: 0.7rem; }
+  .features li.no { color: #52525b; }
+  .features li.no::before { content: '✗'; color: #3f3f46; }
+
+  /* CASOS DE USO */
+  .casos-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 0.7rem; padding: 0 2.8rem;
+  }
+  .caso {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 0.9rem 0.7rem; text-align: center;
+  }
+  .caso-icon { font-size: 1.4rem; margin-bottom: 0.4rem; }
+  .caso h4 { font-size: 0.72rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .caso p { font-size: 0.62rem; color: var(--gray); line-height: 1.4; }
+
+  /* COMPARATIVA */
+  .table-wrap { padding: 0 2.8rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
+  th {
+    background: var(--card); padding: 0.6rem 0.8rem;
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.5px;
+    color: var(--gray); text-align: left;
+    border-bottom: 2px solid var(--border);
+  }
+  th.violet { color: var(--violet-light); }
+  td { padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+  td.check { color: var(--violet); font-weight: 700; }
+  td.cross { color: #3f3f46; }
+  td.bold { font-weight: 600; }
+
+  /* PROCESO */
+  .proceso {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 0; padding: 0 2.8rem;
+  }
+  .proceso-step {
+    padding: 1rem; text-align: center;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .proceso-step:last-child { border-right: none; }
+  .paso-num {
+    display: inline-flex; width: 28px; height: 28px;
+    border-radius: 50%; background: var(--violet);
+    align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 800; margin-bottom: 0.6rem;
+  }
+  .proceso-step h4 { font-size: 0.78rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .proceso-step p { font-size: 0.68rem; color: var(--gray); line-height: 1.5; }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 1.8rem;
+    background: #050505; border-top: 1px solid var(--border);
+    padding: 1.2rem 2.8rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-left { font-size: 0.72rem; color: var(--gray); line-height: 1.7; }
+  .footer-left strong { color: var(--white); }
+  .footer-cta {
+    background: var(--violet); color: white;
+    padding: 0.6rem 1.2rem; border-radius: 8px;
+    font-size: 0.75rem; font-weight: 700; text-decoration: none;
+    white-space: nowrap;
+  }
+
+  /* PRINT */
+  @media print {
+    body { background: white; }
+    .page { margin: 0; box-shadow: none; width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-block">
+      <div class="logo">Step<span>Flow</span></div>
+      <div class="tagline">Automatización Comercial con IA · Buenos Aires, Argentina</div>
+    </div>
+    <div style="display:flex; align-items:center; gap:1.5rem;">
+      <div class="header-right">
+        <div class="doc-label">Catálogo de servicios</div>
+        <div class="doc-title">Planes y Precios 2026</div>
+        <div class="doc-date">Válido hasta el 30 de junio de 2026</div>
+      </div>
+      <div class="logo-icon">SF</div>
+    </div>
+  </div>
+
+  <!-- PROPUESTA DE VALOR -->
+  <div class="value-prop">
+    <p><strong>StepFlow automatiza tu proceso comercial con IA.</strong> Capturamos leads desde Instagram y WhatsApp, los clasificamos por intención de compra y los trabajamos automáticamente — las 24hs, sin que tu equipo intervenga — para que te enfoques en cerrar, no en perseguir.</p>
+  </div>
+
+  <!-- PLANES -->
+  <div class="section-title">Planes y precios</div>
+  <div class="planes-grid">
+    <div class="plan">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price">$299 <small>USD/mes</small></div>
+      <div class="plan-desc">Para negocios que quieren automatizar su primer canal de ventas.</div>
+      <ul class="features">
+        <li>1 canal (Instagram o WhatsApp)</li>
+        <li>Hasta 500 conversaciones/mes</li>
+        <li>Clasificación de leads con IA</li>
+        <li>Respuestas automáticas 24/7</li>
+        <li>Integración CRM básica</li>
+        <li>Soporte por email</li>
+        <li>Implementación en 48hs</li>
+        <li class="no">Agente de cierre</li>
+        <li class="no">Dashboard de métricas</li>
+      </ul>
+    </div>
+    <div class="plan featured">
+      <div class="plan-badge">★ MÁS ELEGIDO</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-price">$599 <small>USD/mes</small></div>
+      <div class="plan-desc">Para negocios que quieren escalar ventas sin aumentar el equipo.</div>
+      <ul class="features">
+        <li>Instagram + WhatsApp</li>
+        <li>Hasta 2000 conversaciones/mes</li>
+        <li>Todo lo del Starter</li>
+        <li>3 agentes IA (outreach, seguimiento, cierre)</li>
+        <li>Integración con Calendly</li>
+        <li>Dashboard de métricas</li>
+        <li>Soporte prioritario</li>
+        <li>Implementación en 48hs</li>
+      </ul>
+    </div>
+    <div class="plan">
+      <div class="plan-name">Enterprise</div>
+      <div class="plan-price" style="font-size:1.3rem; padding-top:0.3rem">A consultar</div>
+      <div class="plan-desc">Para empresas con múltiples puntos de venta o flujos complejos.</div>
+      <ul class="features">
+        <li>Canales ilimitados</li>
+        <li>Conversaciones ilimitadas</li>
+        <li>Todo lo del Pro</li>
+        <li>Agentes personalizados por industria</li>
+        <li>Integración con tu CRM actual</li>
+        <li>Onboarding dedicado</li>
+        <li>SLA garantizado</li>
+        <li>Reportes a medida</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PROCESO -->
+  <div class="section-title">Cómo funciona</div>
+  <div class="proceso">
+    <div class="proceso-step">
+      <div class="paso-num">1</div>
+      <h4>Captura</h4>
+      <p>Cada mensaje que llega por Instagram o WhatsApp entra al sistema. Sin pérdidas, sin demoras.</p>
+    </div>
+    <div class="proceso-step">
+      <div class="paso-num">2</div>
+      <h4>Clasifica con IA</h4>
+      <p>Detecta la intención: interesado, quiere precio, quiere reunión. Sabe qué hacer con cada uno.</p>
+    </div>
+    <div class="proceso-step">
+      <div class="paso-num">3</div>
+      <h4>Responde y Cierra</h4>
+      <p>Responde en segundos. Cuando el lead está listo, te avisa para que cierres vos.</p>
+    </div>
+  </div>
+
+  <!-- CASOS DE USO -->
+  <div class="section-title">Industrias</div>
+  <div class="casos-grid">
+    <div class="caso">
+      <div class="caso-icon">🚗</div>
+      <h4>Concesionarias</h4>
+      <p>Modelos, financiación y test drives respondidos al instante.</p>
+    </div>
+    <div class="caso">
+      <div class="caso-icon">🏠</div>
+      <h4>Inmobiliarias</h4>
+      <p>Clasificá compradores reales. Coordiná visitas solo.</p>
+    </div>
+    <div class="caso">
+      <div class="caso-icon">🏥</div>
+      <h4>Clínicas</h4>
+      <p>Turnos y precios sin saturar la recepción.</p>
+    </div>
+    <div class="caso">
+      <div class="caso-icon">📣</div>
+      <h4>Agencias</h4>
+      <p>Calificá leads de clientes y cerrá propuestas más rápido.</p>
+    </div>
+    <div class="caso">
+      <div class="caso-icon">🛒</div>
+      <h4>E-commerce</h4>
+      <p>Atención, seguimiento y recupero de carritos 24/7.</p>
+    </div>
+  </div>
+
+  <!-- COMPARATIVA -->
+  <div class="section-title">Comparativa de planes</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Característica</th>
+          <th>Starter</th>
+          <th class="violet">Pro</th>
+          <th>Enterprise</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="bold">Canales</td><td>1</td><td>2 (IG + WA)</td><td>Ilimitados</td></tr>
+        <tr><td class="bold">Conversaciones/mes</td><td>500</td><td>2.000</td><td>Ilimitadas</td></tr>
+        <tr><td class="bold">Clasificación con IA</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td class="bold">Respuestas automáticas</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td class="bold">Agente de outreach</td><td class="cross">✗</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td class="bold">Agente de cierre</td><td class="cross">✗</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td class="bold">Dashboard de métricas</td><td class="cross">✗</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td class="bold">Integración CRM propio</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td class="bold">SLA garantizado</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td class="bold">Implementación</td><td>48hs</td><td>48hs</td><td>Dedicada</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-left">
+      <strong>StepFlow</strong> — Automatización Comercial con IA<br>
+      Buenos Aires, Argentina · <strong>+54 9 11 5581-5642</strong><br>
+      Demo: calendly.com/stepflow/demo
+    </div>
+    <a href="https://calendly.com/stepflow/demo" class="footer-cta">
+      📅 Agendar demo gratis →
+    </a>
+  </div>
+
+</div>
+</body>
+</html>
