@@ -1,709 +1,613 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>STEPFlow — Simulación para Inmobiliaria Del Sur</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StepFlow — Automatización Comercial con IA</title>
 <style>
-:root {
-  --brand: #2563eb;
-  --brand-light: #eff6ff;
-  --brand-dark: #1d4ed8;
-  --dark: #0f172a;
-  --gray-900: #1e293b;
-  --gray-700: #334155;
-  --gray-500: #64748b;
-  --gray-300: #cbd5e1;
-  --gray-100: #f1f5f9;
-  --white: #ffffff;
-  --success: #16a34a;
-  --success-light: #f0fdf4;
-  --warning: #d97706;
-  --radius: 10px;
-  --shadow: 0 1px 4px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-  --font: 'Inter', system-ui, -apple-system, sans-serif;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font); background: var(--gray-100); color: var(--gray-900); font-size: 14px; line-height: 1.5; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0a;
+    --violet: #7c3aed;
+    --violet-light: #9f67ff;
+    --violet-dark: #5b21b6;
+    --white: #ffffff;
+    --gray: #a1a1aa;
+    --gray-dark: #27272a;
+    --card: #111111;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
 
-/* HEADER */
-.header { background: var(--dark); color: var(--white); padding: 0 32px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-.header-left { display: flex; align-items: center; gap: 20px; }
-.header-logo { font-size: 16px; font-weight: 700; letter-spacing: -0.3px; }
-.header-logo span { color: var(--brand); }
-.header-divider { width: 1px; height: 24px; background: rgba(255,255,255,0.15); }
-.header-company-name { font-size: 14px; font-weight: 600; }
-.header-company-meta { font-size: 11px; color: rgba(255,255,255,0.5); }
-.header-right { display: flex; align-items: center; gap: 12px; }
-.badge-sim { background: rgba(250,204,21,0.15); color: #fde047; border: 1px solid rgba(250,204,21,0.3); padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-.badge-live { display: flex; align-items: center; gap: 6px; color: #4ade80; font-size: 11px; font-weight: 600; }
-.badge-live::before { content:''; width:7px; height:7px; background:#4ade80; border-radius:50%; animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 5%;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(124,58,237,0.15);
+  }
+  .logo { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.5px; }
+  .logo span { color: var(--violet); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: var(--gray); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--violet); color: var(--white);
+    padding: 0.6rem 1.4rem; border-radius: 8px;
+    text-decoration: none; font-size: 0.9rem; font-weight: 600;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .nav-cta:hover { background: var(--violet-light); transform: translateY(-1px); }
 
-/* MAIN */
-.main { max-width: 1280px; margin: 0 auto; padding: 28px 24px; display: flex; flex-direction: column; gap: 24px; }
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 8rem 5% 5rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(124,58,237,0.12); border: 1px solid rgba(124,58,237,0.3);
+    color: var(--violet-light); padding: 0.4rem 1rem; border-radius: 100px;
+    font-size: 0.82rem; font-weight: 500; margin-bottom: 2rem;
+    letter-spacing: 0.3px;
+  }
+  .hero-badge::before { content: '●'; font-size: 0.6rem; }
+  h1 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 800; line-height: 1.1;
+    letter-spacing: -2px; margin-bottom: 1.5rem;
+    max-width: 820px;
+  }
+  h1 .accent { color: var(--violet); }
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: var(--gray); max-width: 560px;
+    margin-bottom: 2.5rem; line-height: 1.7;
+  }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+  .btn-primary {
+    background: var(--violet); color: var(--white);
+    padding: 0.9rem 2rem; border-radius: 10px;
+    text-decoration: none; font-weight: 700; font-size: 1rem;
+    transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem;
+  }
+  .btn-primary:hover { background: var(--violet-light); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(124,58,237,0.4); }
+  .btn-secondary {
+    background: transparent; color: var(--white);
+    padding: 0.9rem 2rem; border-radius: 10px;
+    text-decoration: none; font-weight: 600; font-size: 1rem;
+    border: 1px solid rgba(255,255,255,0.15);
+    transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem;
+  }
+  .btn-secondary:hover { border-color: var(--violet); background: rgba(124,58,237,0.08); }
+  .hero-stats {
+    display: flex; gap: 3rem; margin-top: 4rem;
+    flex-wrap: wrap; justify-content: center;
+  }
+  .stat { text-align: center; }
+  .stat-num { font-size: 2rem; font-weight: 800; color: var(--violet); }
+  .stat-label { font-size: 0.8rem; color: var(--gray); margin-top: 0.2rem; }
 
-/* TAGLINE BANNER */
-.tagline-banner { background: var(--brand); color: var(--white); padding: 16px 28px; border-radius: var(--radius); display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.tagline-text { font-size: 15px; font-weight: 600; }
-.tagline-sub { font-size: 12px; opacity: 0.75; margin-top: 2px; }
-.tagline-badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); color: var(--white); font-size: 11px; font-weight: 700; padding: 6px 14px; border-radius: 20px; white-space: nowrap; }
+  /* SECTIONS */
+  section { padding: 6rem 5%; }
+  .section-label {
+    color: var(--violet); font-size: 0.8rem; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1rem;
+  }
+  h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800; letter-spacing: -1px;
+    margin-bottom: 1rem; line-height: 1.15;
+  }
+  .section-sub { color: var(--gray); font-size: 1.05rem; max-width: 520px; line-height: 1.7; }
+  .container { max-width: 1100px; margin: 0 auto; }
 
-/* SECTION TITLE */
-.section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--gray-500); margin-bottom: 12px; }
+  /* PROBLEMA */
+  .problema { background: var(--card); border-top: 1px solid var(--gray-dark); border-bottom: 1px solid var(--gray-dark); }
+  .problema-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-top: 3rem; }
+  .pain-list { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+  .pain-item { display: flex; gap: 1rem; align-items: flex-start; }
+  .pain-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+  }
+  .pain-item h4 { font-weight: 700; margin-bottom: 0.3rem; }
+  .pain-item p { color: var(--gray); font-size: 0.9rem; }
+  .problema-visual {
+    background: var(--bg); border: 1px solid var(--gray-dark);
+    border-radius: 16px; padding: 2rem; position: relative;
+  }
+  .chat-bubble {
+    background: var(--gray-dark); border-radius: 12px; padding: 0.8rem 1rem;
+    font-size: 0.85rem; margin-bottom: 0.8rem; color: var(--gray);
+    position: relative;
+  }
+  .chat-bubble.lost { opacity: 0.4; text-decoration: line-through; }
+  .chat-label { font-size: 0.7rem; color: rgba(239,68,68,0.8); margin-bottom: 0.3rem; }
 
-/* MÉTRICAS */
-.metrics-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
-.metric-card { background: var(--white); border-radius: var(--radius); padding: 20px 18px 16px; box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 8px; transition: transform 0.15s, box-shadow 0.15s; }
-.metric-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
-.metric-top { display: flex; align-items: flex-start; justify-content: space-between; }
-.metric-label { font-size: 11px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.3; }
-.metric-icon { font-size: 18px; }
-.metric-value { font-size: 34px; font-weight: 800; color: var(--dark); letter-spacing: -1.5px; line-height: 1; }
-.metric-card:nth-child(4) .metric-value { color: var(--brand); }
-.metric-card:nth-child(5) .metric-value { color: var(--success); }
-.metric-bar-wrap { height: 4px; background: var(--gray-100); border-radius: 4px; overflow: hidden; }
-.metric-bar { height: 100%; border-radius: 4px; background: var(--brand); }
-.metric-card:nth-child(4) .metric-bar { background: var(--brand); }
-.metric-card:nth-child(5) .metric-bar { background: var(--success); }
-.metric-sub { font-size: 11px; color: var(--gray-500); }
-.metric-trend { font-size: 11px; font-weight: 600; color: var(--success); }
+  /* SOLUCIÓN */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .step {
+    background: var(--card); border: 1px solid var(--gray-dark);
+    border-radius: 16px; padding: 2rem; position: relative;
+    transition: border-color 0.3s;
+  }
+  .step:hover { border-color: var(--violet); }
+  .step-num {
+    font-size: 3rem; font-weight: 900; color: rgba(124,58,237,0.15);
+    line-height: 1; margin-bottom: 1rem; letter-spacing: -2px;
+  }
+  .step-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+  .step h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.6rem; }
+  .step p { color: var(--gray); font-size: 0.9rem; line-height: 1.6; }
+  .step-connector {
+    position: absolute; right: -1.5rem; top: 50%;
+    transform: translateY(-50%);
+    color: var(--violet); font-size: 1.2rem; z-index: 1;
+  }
 
-/* PIPELINE */
-.pipeline-scroll { overflow-x: auto; padding-bottom: 8px; }
-.pipeline-board { display: flex; gap: 12px; min-width: max-content; }
-.pipeline-col { width: 185px; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.05); overflow: hidden; flex-shrink: 0; }
-.pipeline-col-header { padding: 11px 14px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid var(--gray-100); }
-.pipeline-col-name { font-size: 12px; font-weight: 700; color: var(--gray-700); }
-.pipeline-count { background: var(--gray-100); color: var(--gray-500); font-size: 11px; font-weight: 700; border-radius: 10px; padding: 2px 8px; }
-.pipeline-col.col-cerrado .pipeline-col-header { background: var(--success-light); border-bottom-color: #bbf7d0; }
-.pipeline-col.col-cerrado .pipeline-col-name { color: var(--success); }
-.pipeline-col.col-cerrado .pipeline-count { background: #dcfce7; color: var(--success); }
-.pipeline-cards { padding: 10px; display: flex; flex-direction: column; gap: 8px; min-height: 64px; }
-.pipeline-card { background: var(--gray-100); border-radius: 7px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; border-left: 3px solid transparent; }
-.pipeline-card[data-tier="A"] { border-left-color: var(--brand); background: var(--brand-light); }
-.pipeline-card[data-tier="B"] { border-left-color: var(--warning); }
-.pipeline-card[data-tier="C"] { border-left-color: var(--gray-300); }
-.pipeline-card-name { font-size: 12px; font-weight: 600; color: var(--gray-900); }
-.pipeline-card-empresa { font-size: 11px; color: var(--gray-500); }
-.tier-badge { font-size: 10px; font-weight: 700; border-radius: 4px; padding: 1px 5px; width: fit-content; }
-.tier-A { background: #dbeafe; color: var(--brand-dark); }
-.tier-B { background: #fef3c7; color: #92400e; }
-.tier-C { background: var(--gray-100); color: var(--gray-500); border: 1px solid var(--gray-300); }
+  /* BENEFICIOS */
+  .benefits { background: var(--card); border-top: 1px solid var(--gray-dark); border-bottom: 1px solid var(--gray-dark); }
+  .benefits-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .benefit-card {
+    background: var(--bg); border: 1px solid var(--gray-dark);
+    border-radius: 16px; padding: 2rem;
+    transition: all 0.3s;
+  }
+  .benefit-card:hover { border-color: var(--violet); transform: translateY(-3px); }
+  .benefit-icon {
+    width: 52px; height: 52px; border-radius: 12px;
+    background: rgba(124,58,237,0.12); border: 1px solid rgba(124,58,237,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 1.2rem;
+  }
+  .benefit-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .benefit-card p { color: var(--gray); font-size: 0.88rem; line-height: 1.6; }
 
-/* BOTTOM GRID */
-.bottom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.05); padding: 20px; }
+  /* CASOS DE USO */
+  .casos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 3rem; }
+  .caso {
+    background: var(--card); border: 1px solid var(--gray-dark);
+    border-radius: 14px; padding: 1.5rem; text-align: center;
+    transition: all 0.3s;
+  }
+  .caso:hover { border-color: var(--violet); background: rgba(124,58,237,0.06); }
+  .caso-icon { font-size: 2.2rem; margin-bottom: 0.8rem; }
+  .caso h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .caso p { font-size: 0.8rem; color: var(--gray); }
 
-/* ACTIVIDAD */
-.activity-list { display: flex; flex-direction: column; }
-.activity-item { display: flex; gap: 12px; align-items: flex-start; padding: 11px 0; border-bottom: 1px solid var(--gray-100); }
-.activity-item:last-child { border-bottom: none; }
-.activity-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
-.activity-icon.mensaje_enviado    { background: #dbeafe; }
-.activity-icon.respuesta_recibida { background: #dcfce7; }
-.activity-icon.reunion_agendada   { background: #fef3c7; }
-.activity-icon.seguimiento_pendiente { background: #fce7f3; }
-.activity-icon.cierre             { background: #dcfce7; }
-.activity-texto { font-size: 12px; color: var(--gray-700); font-weight: 500; line-height: 1.4; }
-.activity-tiempo { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
+  /* PRECIOS */
+  .precios { background: var(--card); border-top: 1px solid var(--gray-dark); border-bottom: 1px solid var(--gray-dark); }
+  .precios-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .plan {
+    background: var(--bg); border: 1px solid var(--gray-dark);
+    border-radius: 20px; padding: 2rem; position: relative;
+    transition: all 0.3s;
+  }
+  .plan:hover { transform: translateY(-4px); }
+  .plan.featured {
+    border-color: var(--violet);
+    background: linear-gradient(160deg, rgba(124,58,237,0.08) 0%, var(--bg) 60%);
+  }
+  .plan-badge {
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    background: var(--violet); color: white;
+    padding: 0.3rem 1rem; border-radius: 100px;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  .plan-name { font-size: 0.8rem; font-weight: 600; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.8rem; }
+  .plan-price { font-size: 2.8rem; font-weight: 800; letter-spacing: -2px; margin-bottom: 0.3rem; }
+  .plan-price span { font-size: 1rem; font-weight: 400; color: var(--gray); }
+  .plan-desc { color: var(--gray); font-size: 0.85rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--gray-dark); }
+  .plan-features { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 2rem; }
+  .plan-features li { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.88rem; }
+  .plan-features li::before { content: '✓'; color: var(--violet); font-weight: 700; flex-shrink: 0; }
+  .plan-features li.no::before { content: '✗'; color: #52525b; }
+  .plan-features li.no { color: #52525b; }
+  .btn-plan {
+    display: block; text-align: center;
+    padding: 0.85rem; border-radius: 10px;
+    text-decoration: none; font-weight: 700; font-size: 0.9rem;
+    transition: all 0.2s;
+  }
+  .btn-plan.outline {
+    border: 1px solid var(--gray-dark); color: var(--white);
+  }
+  .btn-plan.outline:hover { border-color: var(--violet); background: rgba(124,58,237,0.08); }
+  .btn-plan.solid {
+    background: var(--violet); color: white;
+  }
+  .btn-plan.solid:hover { background: var(--violet-light); box-shadow: 0 6px 20px rgba(124,58,237,0.4); }
 
-/* FICHA LEAD */
-.lead-card-inner { display: flex; flex-direction: column; gap: 14px; }
-.lead-name { font-size: 16px; font-weight: 700; color: var(--dark); }
-.lead-empresa-sub { font-size: 12px; color: var(--gray-500); margin-top: 1px; }
-.lead-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.lead-meta-item { background: var(--gray-100); border-radius: 7px; padding: 8px 10px; }
-.lead-meta-label { font-size: 10px; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.5px; }
-.lead-meta-value { font-size: 12px; font-weight: 600; color: var(--gray-900); margin-top: 2px; }
-.score-row { display: flex; justify-content: space-between; font-size: 11px; color: var(--gray-500); margin-bottom: 5px; }
-.score-row span:last-child { font-weight: 700; color: var(--brand); }
-.score-track { height: 6px; background: var(--gray-100); border-radius: 10px; overflow: hidden; }
-.score-fill { height: 100%; background: var(--brand); border-radius: 10px; transition: width 1.2s ease; }
-.lead-mensaje { background: var(--gray-100); border-radius: 7px; padding: 12px 14px; font-size: 12px; color: var(--gray-700); line-height: 1.65; border-left: 3px solid var(--brand); white-space: pre-line; }
-.lead-siguiente { background: var(--success-light); border: 1px solid #bbf7d0; border-radius: 7px; padding: 10px 12px; font-size: 12px; font-weight: 600; color: var(--success); }
+  /* FAQ */
+  .faq-list { max-width: 720px; margin: 3rem auto 0; }
+  .faq-item {
+    border-bottom: 1px solid var(--gray-dark); padding: 1.5rem 0;
+    cursor: pointer;
+  }
+  .faq-q {
+    display: flex; justify-content: space-between; align-items: center;
+    font-weight: 600; font-size: 1rem;
+  }
+  .faq-q span { color: var(--violet); font-size: 1.2rem; transition: transform 0.3s; }
+  .faq-a { color: var(--gray); font-size: 0.9rem; margin-top: 1rem; line-height: 1.7; display: none; }
+  .faq-item.open .faq-a { display: block; }
+  .faq-item.open .faq-q span { transform: rotate(45deg); }
 
-/* CÓMO FUNCIONA */
-.how-section { background: var(--dark); border-radius: var(--radius); padding: 40px 36px; color: var(--white); }
-.how-header { text-align: center; margin-bottom: 32px; }
-.how-title { font-size: 22px; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.5px; }
-.how-desc { font-size: 14px; color: rgba(255,255,255,0.55); max-width: 560px; margin: 0 auto; line-height: 1.7; }
-.how-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
-.how-step { text-align: center; padding: 22px 14px; background: rgba(255,255,255,0.05); border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.08); position: relative; }
-.how-step-arrow { position: absolute; right: -12px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.2); font-size: 18px; pointer-events: none; }
-.how-step:last-child .how-step-arrow { display: none; }
-.how-step-icon { font-size: 30px; margin-bottom: 12px; }
-.how-step-num { font-size: 10px; font-weight: 700; color: var(--brand); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-.how-step-title { font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 7px; }
-.how-step-desc { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.55; }
-.how-cta { text-align: center; }
-.cta-btn { background: var(--brand); color: var(--white); font-size: 15px; font-weight: 700; padding: 15px 36px; border-radius: 8px; border: none; cursor: pointer; letter-spacing: 0.1px; transition: background 0.15s, transform 0.15s; }
-.cta-btn:hover { background: var(--brand-dark); transform: translateY(-1px); }
+  /* CTA FINAL */
+  .cta-final {
+    text-align: center; padding: 7rem 5%;
+    background: linear-gradient(160deg, rgba(124,58,237,0.12) 0%, var(--bg) 60%);
+    border-top: 1px solid rgba(124,58,237,0.15);
+  }
+  .cta-final h2 { font-size: clamp(2rem, 4vw, 3.2rem); margin-bottom: 1rem; }
+  .cta-final p { color: var(--gray); font-size: 1.05rem; margin-bottom: 2.5rem; }
 
-/* BASE LEADS */
-.leads-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-.lead-mini-card {
-  background: var(--white);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid rgba(0,0,0,0.05);
-  border-left: 4px solid var(--gray-300);
-  padding: 16px 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-.lead-mini-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
-.lead-mini-card.caliente { border-left-color: #ef4444; }
-.lead-mini-card.tibio    { border-left-color: #f59e0b; }
-.lead-mini-card.frio     { border-left-color: #94a3b8; }
-.lmc-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
-.lmc-nombre { font-size: 14px; font-weight: 700; color: var(--dark); }
-.lmc-temp {
-  font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px;
-  white-space: nowrap; flex-shrink: 0; text-transform: uppercase; letter-spacing: 0.4px;
-}
-.lmc-temp.caliente { background: #fee2e2; color: #b91c1c; }
-.lmc-temp.tibio    { background: #fef3c7; color: #92400e; }
-.lmc-temp.frio     { background: #f1f5f9; color: #475569; }
-.lmc-canal-ciudad { font-size: 11px; color: var(--gray-500); display: flex; align-items: center; gap: 6px; }
-.lmc-canal-ciudad::before { content: ""; width: 3px; height: 3px; background: var(--gray-300); border-radius: 50%; display: inline-block; }
-.lmc-interes { font-size: 12px; color: var(--gray-700); font-style: italic; line-height: 1.5; }
-.lmc-divider { height: 1px; background: var(--gray-100); }
-.lmc-estado { font-size: 11px; font-weight: 600; color: var(--gray-500); }
-.lmc-accion {
-  font-size: 12px; font-weight: 600; color: var(--brand);
-  display: flex; align-items: flex-start; gap: 5px;
-}
-.lmc-accion::before { content: "→"; flex-shrink: 0; }
+  /* FOOTER */
+  footer {
+    background: #050505; border-top: 1px solid var(--gray-dark);
+    padding: 3rem 5%; text-align: center;
+  }
+  .footer-logo { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .footer-logo span { color: var(--violet); }
+  .footer-info { color: var(--gray); font-size: 0.85rem; line-height: 1.8; }
+  .footer-info a { color: var(--gray); text-decoration: none; }
+  .footer-info a:hover { color: var(--violet); }
 
-/* DEMO CHAT */
-.demo-chat-wrap {
-  background: var(--white);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  border: 1px solid rgba(0,0,0,0.06);
-  overflow: hidden;
-  max-width: 680px;
-  margin: 0 auto;
-}
-.demo-chat-header {
-  background: var(--dark);
-  color: var(--white);
-  padding: 14px 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.demo-chat-header-dot {
-  width: 8px; height: 8px;
-  background: #4ade80;
-  border-radius: 50%;
-  animation: pulse 2s infinite;
-}
-.demo-chat-header-name { font-size: 13px; font-weight: 700; }
-.demo-chat-header-sub  { font-size: 11px; opacity: 0.5; margin-top: 1px; }
-.demo-chat-speed {
-  margin-left: auto;
-  font-size: 10px;
-  font-weight: 700;
-  background: rgba(74,222,128,0.15);
-  color: #4ade80;
-  padding: 3px 9px;
-  border-radius: 20px;
-  border: 1px solid rgba(74,222,128,0.25);
-}
-.demo-chat-history {
-  padding: 20px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  min-height: 200px;
-  max-height: 340px;
-  overflow-y: auto;
-}
-.demo-msg { display: flex; flex-direction: column; max-width: 80%; gap: 4px; }
-.demo-msg.bot  { align-self: flex-start; }
-.demo-msg.user { align-self: flex-end; }
-.demo-msg-label {
-  font-size: 10px; font-weight: 700;
-  color: var(--gray-500);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding: 0 4px;
-}
-.demo-msg.user .demo-msg-label { align-self: flex-end; }
-.demo-msg-bubble {
-  padding: 11px 14px;
-  border-radius: 10px;
-  font-size: 13px;
-  line-height: 1.55;
-}
-.demo-msg.bot .demo-msg-bubble {
-  background: var(--gray-100);
-  color: var(--gray-900);
-  border-radius: 3px 10px 10px 10px;
-}
-.demo-msg.user .demo-msg-bubble {
-  background: var(--brand);
-  color: var(--white);
-  border-radius: 10px 3px 10px 10px;
-}
-.demo-msg-time { font-size: 10px; color: var(--gray-500); padding: 0 4px; }
-.demo-msg.user .demo-msg-time { align-self: flex-end; }
+  /* ANIMATIONS */
+  .fade-up {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
 
-.demo-chat-suggestions {
-  padding: 10px 16px;
-  border-top: 1px solid var(--gray-100);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-}
-.demo-suggestion-label {
-  width: 100%;
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--gray-500);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 2px;
-}
-.demo-chip {
-  background: var(--white);
-  border: 1px solid var(--gray-300);
-  color: var(--gray-700);
-  font-size: 12px;
-  padding: 6px 13px;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
-  font-family: var(--font);
-}
-.demo-chip:hover { background: var(--brand-light); border-color: var(--brand); color: var(--brand-dark); }
-
-.demo-chat-input-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
-  border-top: 1px solid var(--gray-100);
-}
-.demo-chat-input {
-  flex: 1;
-  background: var(--gray-100);
-  border: 1px solid var(--gray-300);
-  border-radius: 8px;
-  color: var(--gray-900);
-  font-size: 13px;
-  padding: 9px 13px;
-  font-family: var(--font);
-  outline: none;
-  transition: border-color 0.15s;
-}
-.demo-chat-input:focus { border-color: var(--brand); background: var(--white); }
-.demo-chat-input::placeholder { color: var(--gray-500); }
-.demo-chat-send-btn {
-  background: var(--brand);
-  color: var(--white);
-  border: none;
-  border-radius: 8px;
-  width: 38px; height: 38px;
-  font-size: 16px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.15s;
-  flex-shrink: 0;
-  font-family: var(--font);
-}
-.demo-chat-send-btn:hover { background: var(--brand-dark); }
-.demo-chat-value-line {
-  text-align: center;
-  font-size: 12px;
-  color: var(--gray-500);
-  margin-top: 12px;
-}
-.demo-chat-value-line strong { color: var(--gray-700); }
-
-/* FOOTER */
-.footer { text-align: center; color: var(--gray-500); font-size: 11px; padding: 4px 0 28px; }
-
-/* RESPONSIVE */
-@media (max-width: 1024px) { .metrics-grid { grid-template-columns: repeat(3, 1fr); } .leads-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 900px)  { .how-steps { grid-template-columns: repeat(2, 1fr); } .bottom-grid { grid-template-columns: 1fr; } }
-@media (max-width: 600px)  { .header { padding: 0 16px; } .main { padding: 16px 12px; } .metrics-grid { grid-template-columns: repeat(2, 1fr); } .leads-grid { grid-template-columns: 1fr; } .how-steps { grid-template-columns: 1fr; } .header-right { display: none; } .tagline-banner { flex-direction: column; align-items: flex-start; } }
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 4%; }
+    .nav-links { display: none; }
+    .problema-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; }
+    .step-connector { display: none; }
+    .benefits-grid { grid-template-columns: 1fr; }
+    .precios-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 2rem; }
+  }
 </style>
 </head>
 <body>
 
-<header class="header">
-  <div class="header-left">
-    <div class="header-logo">STEP<span>Flow</span></div>
-    <div class="header-divider"></div>
-    <div>
-      <div class="header-company-name" id="header-company-name"></div>
-      <div class="header-company-meta" id="header-company-meta"></div>
-    </div>
+<!-- NAV -->
+<nav>
+  <div class="logo">Step<span>Flow</span></div>
+  <ul class="nav-links">
+    <li><a href="#problema">El problema</a></li>
+    <li><a href="#solucion">Cómo funciona</a></li>
+    <li><a href="#precios">Precios</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <a href="https://calendly.com/stepflow-agenciaiasm/demo-stepflow-15min" target="_blank" class="nav-cta">Agendar demo →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">IA Comercial · Buenos Aires, Argentina</div>
+  <h1>Cerrá más ventas sin<br><span class="accent">contratar más vendedores</span></h1>
+  <p class="hero-sub">StepFlow automatiza tu proceso comercial con IA. Respondemos mensajes, calificamos la intención de compra y trabajamos a tus leads solos — las 24hs.</p>
+  <div class="hero-btns">
+    <a href="https://wa.me/5491155815642?text=Hola%2C%20quiero%20una%20demo%20de%20StepFlow" target="_blank" class="btn-primary">
+      📲 Quiero una demo
+    </a>
+    <a href="#solucion" class="btn-secondary">Ver cómo funciona →</a>
   </div>
-  <div class="header-right">
-    <div class="badge-live">StepFlow activo</div>
-    <div class="badge-sim">SIMULACIÓN</div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Respuestas automáticas</div></div>
+    <div class="stat"><div class="stat-num">3x</div><div class="stat-label">Más conversiones</div></div>
+    <div class="stat"><div class="stat-num">48hs</div><div class="stat-label">Implementación</div></div>
   </div>
-</header>
+</section>
 
-<main class="main">
-
-  <!-- Tagline -->
-  <div class="tagline-banner">
-    <div>
-      <div class="tagline-text" id="tagline-text"></div>
-      <div class="tagline-sub">Simulación basada en datos reales del rubro · Los números reflejan resultados típicos</div>
-    </div>
-    <div class="tagline-badge">Esta semana</div>
-  </div>
-
-  <!-- Métricas -->
-  <section>
-    <div class="section-title">Tu negocio esta semana con StepFlow</div>
-    <div class="metrics-grid" id="metrics-grid"></div>
-  </section>
-
-  <!-- Pipeline -->
-  <section>
-    <div class="section-title">Pipeline de consultas y operaciones</div>
-    <div class="pipeline-scroll">
-      <div class="pipeline-board" id="pipeline-board"></div>
-    </div>
-  </section>
-
-  <!-- Base de leads -->
-  <section>
-    <div class="section-title">Leads que StepFlow está gestionando en tu negocio</div>
-    <div class="leads-grid" id="leads-grid"></div>
-  </section>
-
-  <!-- Actividad + Lead -->
-  <section class="bottom-grid">
-    <div class="card">
-      <div class="section-title">Actividad del sistema — hoy</div>
-      <div class="activity-list" id="activity-list"></div>
-    </div>
-    <div class="card">
-      <div class="section-title">Consulta destacada</div>
-      <div class="lead-card-inner">
-        <div>
-          <div class="lead-name" id="lead-name"></div>
-          <div class="lead-empresa-sub" id="lead-empresa-sub"></div>
+<!-- PROBLEMA -->
+<section class="problema" id="problema">
+  <div class="container">
+    <div class="problema-grid">
+      <div class="fade-up">
+        <div class="section-label">El problema</div>
+        <h2>Tu equipo de ventas no puede estar en todos lados</h2>
+        <div class="pain-list">
+          <div class="pain-item">
+            <div class="pain-icon">⏰</div>
+            <div>
+              <h4>Perdés leads por demora</h4>
+              <p>El 78% de los leads compra al primero que responde. Si tardás más de 5 minutos, ya perdiste.</p>
+            </div>
+          </div>
+          <div class="pain-item">
+            <div class="pain-icon">🔁</div>
+            <div>
+              <h4>Tu equipo hace tareas repetitivas</h4>
+              <p>Responder las mismas preguntas todos los días no es vender — es perder tiempo que vale plata.</p>
+            </div>
+          </div>
+          <div class="pain-item">
+            <div class="pain-icon">📉</div>
+            <div>
+              <h4>No escalás sin contratar</h4>
+              <p>Cada vez que crece la demanda, tenés que sumar personas. El costo se dispara antes que la ganancia.</p>
+            </div>
+          </div>
         </div>
-        <div class="lead-meta" id="lead-meta"></div>
-        <div>
-          <div class="score-row"><span>Prioridad asignada por StepFlow</span><span id="score-value"></span></div>
-          <div class="score-track"><div class="score-fill" id="score-fill" style="width:0%"></div></div>
+      </div>
+      <div class="fade-up">
+        <div class="problema-visual">
+          <div style="font-size:0.75rem; color: var(--gray); margin-bottom: 1rem;">Conversaciones sin respuesta — hoy</div>
+          <div class="chat-label">Lead perdido · hace 3hs</div>
+          <div class="chat-bubble lost">Hola, quería consultar por precios</div>
+          <div class="chat-label">Lead perdido · hace 5hs</div>
+          <div class="chat-bubble lost">Buenas, tienen disponibilidad?</div>
+          <div class="chat-label">Lead perdido · hace 8hs</div>
+          <div class="chat-bubble lost">Me interesa el servicio, cuánto sale?</div>
+          <div style="text-align:center; margin-top: 1.5rem; font-size: 0.85rem; color: rgba(239,68,68,0.7);">
+            ⚠ 3 oportunidades perdidas hoy
+          </div>
         </div>
-        <div>
-          <div class="section-title" style="margin-bottom:6px">Mensaje enviado automáticamente</div>
-          <div class="lead-mensaje" id="lead-mensaje"></div>
-        </div>
-        <div class="lead-siguiente" id="lead-siguiente"></div>
       </div>
     </div>
-  </section>
-
-  <!-- Chat demo -->
-  <section>
-    <div class="section-title">Así respondería StepFlow a tus consultas</div>
-    <div class="demo-chat-wrap">
-      <div class="demo-chat-header">
-        <span class="demo-chat-header-dot"></span>
-        <div>
-          <div class="demo-chat-header-name" id="demo-chat-nombre"></div>
-          <div class="demo-chat-header-sub">Respondiendo en tiempo real</div>
-        </div>
-        <div class="demo-chat-speed">⚡ &lt; 5 min</div>
-      </div>
-      <div class="demo-chat-history" id="demo-chat-history"></div>
-      <div class="demo-chat-suggestions" id="demo-chat-suggestions"></div>
-      <div class="demo-chat-input-row">
-        <input
-          type="text"
-          class="demo-chat-input"
-          id="demo-chat-input"
-          placeholder="Escribí tu consulta…"
-          autocomplete="off"
-        />
-        <button class="demo-chat-send-btn" id="demo-chat-send">→</button>
-      </div>
-    </div>
-    <div class="demo-chat-value-line">
-      <strong>⚡ StepFlow responde cada consulta en menos de 5 minutos.</strong>
-      Ningún interesado queda sin atención.
-    </div>
-  </section>
-
-  <!-- Cómo funciona -->
-  <section class="how-section">
-    <div class="how-header">
-      <div class="how-title" id="how-title"></div>
-      <div class="how-desc" id="how-desc"></div>
-    </div>
-    <div class="how-steps" id="how-steps"></div>
-    <div class="how-cta"><button class="cta-btn" id="cta-btn"></button></div>
-  </section>
-
-  <div class="footer">
-    StepFlow · Simulación personalizada para <span id="footer-empresa"></span> · Los datos son ilustrativos basados en el rubro
   </div>
+</section>
 
-</main>
+<!-- SOLUCIÓN -->
+<section id="solucion">
+  <div class="container">
+    <div class="section-label fade-up">Cómo funciona</div>
+    <h2 class="fade-up">Tres pasos. Automático. Sin vos.</h2>
+    <p class="section-sub fade-up">StepFlow trabaja de fondo mientras vos te enfocás en cerrar los que ya están listos para comprar.</p>
+    <div class="steps">
+      <div class="step fade-up">
+        <div class="step-num">01</div>
+        <div class="step-icon">🎯</div>
+        <h3>Recibe</h3>
+        <p>Cada mensaje que llega por Instagram o WhatsApp entra al sistema automáticamente. Nada se pierde, nada queda sin respuesta.</p>
+        <div class="step-connector">→</div>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">02</div>
+        <div class="step-icon">🧠</div>
+        <h3>Clasifica</h3>
+        <p>La IA detecta la intención de cada mensaje: interesado, quiere precio, quiere reunión, objeción. Sabe exactamente qué hacer con cada uno.</p>
+        <div class="step-connector">→</div>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">03</div>
+        <div class="step-icon">⚡</div>
+        <h3>Responde y Cierra</h3>
+        <p>El sistema responde en segundos con el mensaje correcto. Si el lead está listo, te avisa a vos para cerrar personalmente.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFICIOS -->
+<section class="benefits" id="beneficios">
+  <div class="container">
+    <div class="section-label fade-up">Por qué StepFlow</div>
+    <h2 class="fade-up">Todo lo que tu equipo de ventas<br>no puede hacer solo</h2>
+    <div class="benefits-grid">
+      <div class="benefit-card fade-up">
+        <div class="benefit-icon">⚡</div>
+        <h3>Respuesta instantánea</h3>
+        <p>El primer mensaje llega en segundos, no en horas. Cada lead recibe atención inmediata sin importar el horario ni el volumen.</p>
+      </div>
+      <div class="benefit-card fade-up">
+        <div class="benefit-icon">📈</div>
+        <h3>Más cierres, menos esfuerzo</h3>
+        <p>Solo llegan a tus manos los leads calificados y listos para comprar. No pierdas tiempo con los que todavía no están preparados.</p>
+      </div>
+      <div class="benefit-card fade-up">
+        <div class="benefit-icon">🌙</div>
+        <h3>Funciona las 24hs los 7 días</h3>
+        <p>Los leads no tienen horario. StepFlow tampoco. Trabaja de noche, fines de semana y feriados sin costo adicional.</p>
+      </div>
+      <div class="benefit-card fade-up">
+        <div class="benefit-icon">📱</div>
+        <h3>Instagram + WhatsApp unificados</h3>
+        <p>Un solo sistema que maneja todos tus canales. Sin apps separadas, sin mensajes perdidos, sin fricción entre plataformas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASOS DE USO -->
+<section id="casos">
+  <div class="container">
+    <div class="section-label fade-up">Casos de uso</div>
+    <h2 class="fade-up">Funciona para cualquier negocio<br>que vende por mensajes</h2>
+    <div class="casos-grid">
+      <div class="caso fade-up">
+        <div class="caso-icon">🚗</div>
+        <h4>Concesionarias</h4>
+        <p>Consultas de modelos, financiación y test drives respondidas al instante.</p>
+      </div>
+      <div class="caso fade-up">
+        <div class="caso-icon">🏠</div>
+        <h4>Inmobiliarias</h4>
+        <p>Clasificá compradores reales de los curiosos. Coordiná visitas automáticamente.</p>
+      </div>
+      <div class="caso fade-up">
+        <div class="caso-icon">🏥</div>
+        <h4>Clínicas y Salud</h4>
+        <p>Turnos, consultas de precios y derivaciones sin saturar la recepción.</p>
+      </div>
+      <div class="caso fade-up">
+        <div class="caso-icon">📣</div>
+        <h4>Agencias</h4>
+        <p>Calificá leads de tus clientes y cerrá propuestas en menos tiempo.</p>
+      </div>
+      <div class="caso fade-up">
+        <div class="caso-icon">🛒</div>
+        <h4>E-commerce</h4>
+        <p>Atención post venta, seguimiento de pedidos y recupero de carritos abandonados.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRECIOS -->
+<section class="precios" id="precios">
+  <div class="container">
+    <div class="section-label fade-up" style="text-align:center">Precios</div>
+    <h2 class="fade-up" style="text-align:center">Planes claros, sin sorpresas</h2>
+    <p class="section-sub fade-up" style="text-align:center; margin: 0 auto 0">Empezá en 48 horas. Sin contratos anuales.</p>
+    <div class="precios-grid">
+      <div class="plan fade-up">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price">$299 <span>USD/mes</span></div>
+        <div class="plan-desc">Ideal para negocios que quieren automatizar su primer canal de ventas.</div>
+        <ul class="plan-features">
+          <li>1 canal (Instagram o WhatsApp)</li>
+          <li>Hasta 500 conversaciones/mes</li>
+          <li>Clasificación de leads con IA</li>
+          <li>Respuestas automáticas</li>
+          <li>Integración CRM básica</li>
+          <li>Soporte por email</li>
+          <li class="no">Agente de cierre</li>
+          <li class="no">Dashboard de métricas</li>
+        </ul>
+        <a href="https://wa.me/5491155815642?text=Quiero%20el%20plan%20Starter%20de%20StepFlow" target="_blank" class="btn-plan outline">Consultar →</a>
+      </div>
+      <div class="plan featured fade-up">
+        <div class="plan-badge">🔥 MÁS ELEGIDO</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">$599 <span>USD/mes</span></div>
+        <div class="plan-desc">Para negocios que quieren escalar sin aumentar el equipo de ventas.</div>
+        <ul class="plan-features">
+          <li>Instagram + WhatsApp</li>
+          <li>Hasta 2000 conversaciones/mes</li>
+          <li>Todo lo del Starter</li>
+          <li>Agente de seguimiento y cierre con IA</li>
+          <li>Integración con Calendly</li>
+          <li>Dashboard de métricas</li>
+          <li>Soporte prioritario</li>
+          <li>Implementación en 48hs</li>
+        </ul>
+        <a href="https://wa.me/5491155815642?text=Quiero%20el%20plan%20Pro%20de%20StepFlow" target="_blank" class="btn-plan solid">Empezar ahora →</a>
+      </div>
+      <div class="plan fade-up">
+        <div class="plan-name">Enterprise</div>
+        <div class="plan-price" style="font-size:2rem">A consultar</div>
+        <div class="plan-desc">Para empresas con operaciones complejas o múltiples puntos de venta.</div>
+        <ul class="plan-features">
+          <li>Canales ilimitados</li>
+          <li>Conversaciones ilimitadas</li>
+          <li>Todo lo del Pro</li>
+          <li>Agentes personalizados por industria</li>
+          <li>Integración con tu CRM actual</li>
+          <li>Onboarding dedicado</li>
+          <li>SLA garantizado</li>
+          <li>Reportes a medida</li>
+        </ul>
+        <a href="https://wa.me/5491155815642?text=Quiero%20info%20del%20plan%20Enterprise%20de%20StepFlow" target="_blank" class="btn-plan outline">Hablar con un asesor →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container" style="max-width:720px">
+    <div class="section-label fade-up" style="text-align:center">FAQ</div>
+    <h2 class="fade-up" style="text-align:center">Preguntas frecuentes</h2>
+    <div class="faq-list">
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">¿Cuánto tiempo lleva implementar StepFlow? <span>+</span></div>
+        <div class="faq-a">El proceso completo tarda 48 horas desde que confirmás el plan. Nosotros nos encargamos de toda la configuración — vos solo nos das acceso a tus canales y nos contás cómo querés que responda el sistema.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">¿Necesito tener conocimientos técnicos? <span>+</span></div>
+        <div class="faq-a">No. StepFlow se instala y configura completamente por nuestro equipo. Vos lo usás como si fuera un asistente más del negocio, sin tocar código ni configuraciones complejas.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">¿Las respuestas suenan robóticas? <span>+</span></div>
+        <div class="faq-a">No. Entrenamos el sistema con el tono y estilo de tu negocio. Los mensajes se adaptan al contexto de cada conversación y suenan naturales — la mayoría de los prospectos no saben que están hablando con IA.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">¿Qué pasa si el sistema no sabe responder algo? <span>+</span></div>
+        <div class="faq-a">El agente detecta cuándo una consulta está fuera de su alcance y te notifica para que intervengas manualmente. Nunca deja a un lead sin respuesta.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">¿Puedo cancelar cuando quiero? <span>+</span></div>
+        <div class="faq-a">Sí. No hay contratos anuales ni penalidades. Podés pausar o cancelar con 15 días de aviso. Si en el primer mes no estás conforme, te devolvemos el dinero.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final">
+  <div class="container">
+    <div class="section-label fade-up" style="display:block; text-align:center">Empezá hoy</div>
+    <h2 class="fade-up">Agendá tu demo gratis.<br>Sin compromiso.</h2>
+    <p class="fade-up">20 minutos. Te mostramos el sistema funcionando en vivo con un caso real de tu industria.</p>
+    <div class="fade-up">
+      <a href="https://calendly.com/stepflow-agenciaiasm/demo-stepflow-15min" target="_blank" class="btn-primary" style="display:inline-flex; font-size:1.05rem; padding: 1rem 2.5rem;">
+        📅 Agendar demo gratis
+      </a>
+    </div>
+    <p class="fade-up" style="margin-top:1.5rem; font-size:0.85rem; color: var(--gray);">
+      O escribinos directamente al
+      <a href="https://wa.me/5491155815642" target="_blank" style="color: var(--violet); text-decoration:none;">WhatsApp →</a>
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Step<span>Flow</span></div>
+  <div class="footer-info">
+    Automatización Comercial con IA<br>
+    Buenos Aires, Argentina<br><br>
+    <a href="https://wa.me/5491155815642">+54 9 11 5581-5642</a> ·
+    <a href="https://calendly.com/stepflow-agenciaiasm/demo-stepflow-15min" target="_blank">Agendar demo</a><br><br>
+    <span style="font-size:0.75rem">© 2026 StepFlow. Todos los derechos reservados.</span>
+  </div>
+</footer>
 
 <script>
-const DATA = {
-  "nombre_empresa": "Inmobiliaria Del Sur",
-  "rubro": "Inmobiliaria",
-  "ciudad": "Buenos Aires",
-  "color_principal": "#2563eb",
-  "metricas": {
-    "consultas_recibidas":        { "valor": 47, "label": "Consultas recibidas",         "sub": "De Zonaprop, Argenprop y WhatsApp", "icono": "📥", "barra": 94, "trend": "+12% vs semana anterior" },
-    "contactadas_automaticamente":{ "valor": 38, "label": "Respondidas en < 5 min",      "sub": "Por StepFlow, sin intervención",    "icono": "⚡", "barra": 81, "trend": "Tasa de respuesta: 81%" },
-    "respondieron_con_interes":   { "valor": 14, "label": "Interesados calificados",     "sub": "Respondieron con señal de compra",  "icono": "🎯", "barra": 37, "trend": "Tasa conversión: 37%" },
-    "reuniones_confirmadas":      { "valor": 6,  "label": "Visitas coordinadas",         "sub": "Propiedades agendadas esta semana", "icono": "🗓", "barra": 43, "trend": "43% de los interesados" },
-    "operaciones_en_proceso":     { "valor": 3,  "label": "Operaciones en proceso",      "sub": "En negociación o boleto",           "icono": "🏠", "barra": 50, "trend": "Ciclo promedio: 28 días" }
-  },
-  "pipeline": {
-    "Consulta nueva":    { "leads": [{ "nombre": "Roberto Sosa", "empresa": "Particular", "tier": "A" }, { "nombre": "Valeria Ruiz", "empresa": "Particular", "tier": "B" }] },
-    "Contactado":        { "leads": [{ "nombre": "Gustavo Pérez", "empresa": "Particular", "tier": "A" }, { "nombre": "Marina Cano", "empresa": "Inversora MC", "tier": "B" }, { "nombre": "Luis Herrera", "empresa": "Particular", "tier": "C" }] },
-    "Respondió":         { "leads": [{ "nombre": "Patricia Vidal", "empresa": "Particular", "tier": "A" }, { "nombre": "Carlos Méndez", "empresa": "Desarrolladora CM", "tier": "A" }] },
-    "Interesado":        { "leads": [{ "nombre": "Ana Romero", "empresa": "Particular", "tier": "A" }, { "nombre": "Fernando Gil", "empresa": "Particular", "tier": "B" }] },
-    "Visita agendada":   { "leads": [{ "nombre": "Silvia Torres", "empresa": "Inversora Torres", "tier": "A" }] },
-    "Operación cerrada": { "leads": [{ "nombre": "Jorge Blanco", "empresa": "Particular", "tier": "A" }], "cerrado": true }
-  },
-  "actividad": [
-    { "tipo": "mensaje_enviado",       "texto": "StepFlow respondió la consulta de Roberto Sosa (Zonaprop) en 3 minutos",      "tiempo": "Hace 4 minutos" },
-    { "tipo": "respuesta_recibida",    "texto": "Patricia Vidal: '¿Cuándo podemos ver la propiedad en San Isidro?'",           "tiempo": "Hace 18 minutos" },
-    { "tipo": "reunion_agendada",      "texto": "Visita confirmada con Silvia Torres — martes 10:00 hs, Av. Libertador 1240", "tiempo": "Hace 1 hora" },
-    { "tipo": "seguimiento_pendiente", "texto": "Seguimiento automático programado para Fernando Gil en 48 hs",               "tiempo": "Hace 2 horas" },
-    { "tipo": "cierre",                "texto": "Jorge Blanco firmó boleto. Operación cerrada en 24 días.",                   "tiempo": "Hace 3 horas" },
-    { "tipo": "mensaje_enviado",       "texto": "Segundo seguimiento enviado a Luis Herrera — sin respuesta al primer mensaje","tiempo": "Hace 5 horas" }
-  ],
-  "lead_destacado": {
-    "nombre": "Patricia Vidal",
-    "empresa": "Particular",
-    "cargo": "Compradora",
-    "fuente": "Zonaprop",
-    "ciudad": "San Isidro",
-    "tier": "A",
-    "score": 82,
-    "estado": "Respondió con interés",
-    "mensaje_generado": "Hola Patricia, gracias por tu consulta en Zonaprop sobre la propiedad en San Isidro.\n\nTe cuento que sigue disponible. ¿Tenés alguna preferencia de horario para coordinar una visita esta semana?",
-    "siguiente_paso": "Confirmar visita — señal de interés alto detectada"
-  },
-  "base_leads": [
-    { "nombre": "Marta González",  "canal": "WhatsApp directo", "interes": "Busca depto 2 ambientes en Palermo",              "ciudad": "Buenos Aires", "temperatura": "caliente", "estado": "Respondió con interés", "siguiente_accion": "Proponer visita esta semana" },
-    { "nombre": "Lucas Pereyra",   "canal": "Zonaprop",         "interes": "Casa en zona norte, presupuesto medio-alto",       "ciudad": "San Isidro",   "temperatura": "caliente", "estado": "Reunión agendada",      "siguiente_accion": "Confirmar visita — martes 11hs" },
-    { "nombre": "Javier Núñez",    "canal": "WhatsApp directo", "interes": "PH con jardín en Belgrano — pidió precio",         "ciudad": "Buenos Aires", "temperatura": "caliente", "estado": "Interesado",            "siguiente_accion": "Enviar tasación y proponer reunión" },
-    { "nombre": "Sandra Vásquez",  "canal": "Argenprop",        "interes": "Inversora — evalúa 2 propiedades",                 "ciudad": "Córdoba",      "temperatura": "tibio",    "estado": "Contactada",            "siguiente_accion": "Follow-up automático en 48 hs" },
-    { "nombre": "Diego Morales",   "canal": "Instagram",        "interes": "Local comercial en corredor gastronómico",          "ciudad": "Rosario",      "temperatura": "tibio",    "estado": "En seguimiento",        "siguiente_accion": "Segundo mensaje programado" },
-    { "nombre": "Romina Farías",   "canal": "Zonaprop",         "interes": "Alquiler temporario — sin respuesta al primero",   "ciudad": "Mendoza",      "temperatura": "frio",     "estado": "Sin respuesta",         "siguiente_accion": "Reintento automático mañana" }
-  ],
-  "textos": {
-    "tagline": "Así operaría Inmobiliaria Del Sur con StepFlow activo",
-    "descripcion_sistema": "StepFlow gestiona cada consulta que llega a tu inmobiliaria: responde en minutos, califica al interesado, coordina la visita y hace el seguimiento. Vos cerrás la operación. El sistema hace el resto.",
-    "pasos": [
-      { "titulo": "Consulta entra",          "descripcion": "Llega de Zonaprop, Argenprop o WhatsApp. StepFlow la registra, la clasifica y responde en menos de 5 minutos." },
-      { "titulo": "Calificación automática", "descripcion": "El sistema detecta si es comprador serio, inversor o explorador. Asigna prioridad y define el siguiente paso." },
-      { "titulo": "Seguimiento sin olvidos", "descripcion": "Si no responde, StepFlow hace el follow-up en el momento correcto. Ninguna consulta queda sin atender." },
-      { "titulo": "Vos cerrás",              "descripcion": "Te involucrás cuando el interesado ya está calificado y listo para visitar o negociar. Sin tiempo perdido." }
-    ],
-    "cta": "Activar StepFlow en Inmobiliaria Del Sur"
+  // FAQ toggle
+  function toggleFaq(el) {
+    el.classList.toggle('open');
   }
-};
 
-// ── DEMO CHAT ─────────────────────────────────────────────────────────────────
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
 
-const DEMO_CHAT_RESPUESTAS = {
-  depto:   "Tenemos varias opciones disponibles. ¿Buscás 1 o 2 ambientes? Podemos armar una selección filtrada por zona y precio y mandártela hoy mismo.",
-  credito: "Sí, trabajamos con propiedades aptas para crédito hipotecario. ¿Ya tenés precalificación del banco, o necesitás orientación para iniciar el proceso?",
-  alquiler:"El valor varía según la zona y el tipo de propiedad. ¿Me decís qué barrio o zona te interesa? Con eso te paso referencias precisas en minutos.",
-  visita:  "¡Perfecto! Podemos coordinar una visita esta semana. ¿Preferís mañana o tarde? Te confirmamos en menos de 10 minutos.",
-  default: "Gracias por tu consulta. Estamos para ayudarte a encontrar la propiedad ideal. ¿Me contás qué buscás — zona, tipo de propiedad o presupuesto?"
-};
-
-const DEMO_CHIPS = [
-  { texto: "Quiero ver un depto en Palermo", clave: "depto" },
-  { texto: "¿Trabajan con crédito hipotecario?", clave: "credito" },
-  { texto: "¿Cuánto sale el alquiler en Palermo?", clave: "alquiler" },
-  { texto: "Quiero coordinar una visita", clave: "visita" }
-];
-
-function demoChatRespond(input) {
-  const q = input.toLowerCase();
-  if (/depto|departamento|ambientes|palermo|belgrano|recoleta|villa/.test(q)) return DEMO_CHAT_RESPUESTAS.depto;
-  if (/cr[eé]dito|hipotecario|banco|financ/.test(q))   return DEMO_CHAT_RESPUESTAS.credito;
-  if (/alquiler|precio|cu[aá]nto|valor|rent/.test(q))  return DEMO_CHAT_RESPUESTAS.alquiler;
-  if (/visita|ver|coordinar|conocer|agendar/.test(q))  return DEMO_CHAT_RESPUESTAS.visita;
-  return DEMO_CHAT_RESPUESTAS.default;
-}
-
-function demoChatNowTime() {
-  const n = new Date();
-  return n.getHours().toString().padStart(2, '0') + ':' + n.getMinutes().toString().padStart(2, '0');
-}
-
-function addDemoMessage(rol, texto, labelBot) {
-  const history = document.getElementById('demo-chat-history');
-  const div = document.createElement('div');
-  div.className = `demo-msg ${rol}`;
-  const label = rol === 'bot' ? labelBot : 'Vos';
-  div.innerHTML = `
-    <div class="demo-msg-label">${label}</div>
-    <div class="demo-msg-bubble">${texto}</div>
-    <div class="demo-msg-time">${demoChatNowTime()}</div>`;
-  history.appendChild(div);
-  history.scrollTop = history.scrollHeight;
-}
-
-function sendDemoMessage(texto, clave, botLabel) {
-  if (!texto.trim()) return;
-  addDemoMessage('user', texto, '');
-  const respuesta = clave ? DEMO_CHAT_RESPUESTAS[clave] : demoChatRespond(texto);
-  setTimeout(() => addDemoMessage('bot', respuesta, botLabel), 700);
-}
-
-function initDemoChat(d) {
-  const botLabel = `StepFlow · ${d.nombre_empresa}`;
-
-  document.getElementById('demo-chat-nombre').textContent = `StepFlow para ${d.nombre_empresa}`;
-
-  // Mensaje inicial
-  addDemoMessage('bot', `Hola, gracias por contactar a ${d.nombre_empresa}. ¿En qué puedo ayudarte hoy?`, botLabel);
-
-  // Chips de sugerencias
-  const sugsEl = document.getElementById('demo-chat-suggestions');
-  sugsEl.innerHTML = `<div class="demo-suggestion-label">Probá una pregunta</div>` +
-    DEMO_CHIPS.map(c =>
-      `<button class="demo-chip" onclick="sendDemoMessage('${c.texto}','${c.clave}','${botLabel}')">${c.texto}</button>`
-    ).join('');
-
-  // Input
-  const input   = document.getElementById('demo-chat-input');
-  const sendBtn = document.getElementById('demo-chat-send');
-  const send = () => {
-    sendDemoMessage(input.value, null, botLabel);
-    input.value = '';
-  };
-  sendBtn.addEventListener('click', send);
-  input.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
-}
-
-// ── ÍCONOS ────────────────────────────────────────────────────────────────────
-const ACT_ICONS  = { mensaje_enviado:"📤", respuesta_recibida:"💬", reunion_agendada:"🗓", seguimiento_pendiente:"🔔", cierre:"✅" };
-const STEP_ICONS = ["📥","⚡","🔁","🏠"];
-
-// ── INIT ──────────────────────────────────────────────────────────────────────
-function init() {
-  const d = DATA;
-  document.documentElement.style.setProperty("--brand", d.color_principal);
-  document.documentElement.style.setProperty("--brand-light", d.color_principal + "18");
-
-  // Header
-  document.getElementById("header-company-name").textContent = d.nombre_empresa;
-  document.getElementById("header-company-meta").textContent = `${d.rubro} · ${d.ciudad}`;
-  document.getElementById("footer-empresa").textContent = d.nombre_empresa;
-
-  // Tagline
-  document.getElementById("tagline-text").textContent = d.textos.tagline;
-
-  // Métricas
-  document.getElementById("metrics-grid").innerHTML = Object.values(d.metricas).map(m => `
-    <div class="metric-card">
-      <div class="metric-top">
-        <div class="metric-label">${m.label}</div>
-        <div class="metric-icon">${m.icono}</div>
-      </div>
-      <div class="metric-value">${m.valor}</div>
-      <div class="metric-bar-wrap"><div class="metric-bar" style="width:${m.barra}%"></div></div>
-      <div class="metric-sub">${m.sub}</div>
-      <div class="metric-trend">↑ ${m.trend}</div>
-    </div>`).join("");
-
-  // Pipeline
-  document.getElementById("pipeline-board").innerHTML = Object.entries(d.pipeline).map(([col, data]) => `
-    <div class="pipeline-col${data.cerrado ? ' col-cerrado' : ''}">
-      <div class="pipeline-col-header">
-        <span class="pipeline-col-name">${col}</span>
-        <span class="pipeline-count">${data.leads.length}</span>
-      </div>
-      <div class="pipeline-cards">${data.leads.map(l => `
-        <div class="pipeline-card" data-tier="${l.tier}">
-          <span class="tier-badge tier-${l.tier}">Tier ${l.tier}</span>
-          <div class="pipeline-card-name">${l.nombre}</div>
-          <div class="pipeline-card-empresa">${l.empresa}</div>
-        </div>`).join("")}
-      </div>
-    </div>`).join("");
-
-  // Actividad
-  document.getElementById("activity-list").innerHTML = d.actividad.map(a => `
-    <div class="activity-item">
-      <div class="activity-icon ${a.tipo}">${ACT_ICONS[a.tipo]||"•"}</div>
-      <div>
-        <div class="activity-texto">${a.texto}</div>
-        <div class="activity-tiempo">${a.tiempo}</div>
-      </div>
-    </div>`).join("");
-
-  // Lead destacado
-  const l = d.lead_destacado;
-  document.getElementById("lead-name").textContent = l.nombre;
-  document.getElementById("lead-empresa-sub").textContent = `${l.cargo} · ${l.fuente}`;
-  document.getElementById("lead-meta").innerHTML = `
-    <div class="lead-meta-item"><div class="lead-meta-label">Fuente</div><div class="lead-meta-value">${l.fuente}</div></div>
-    <div class="lead-meta-item"><div class="lead-meta-label">Ciudad</div><div class="lead-meta-value">${l.ciudad}</div></div>
-    <div class="lead-meta-item"><div class="lead-meta-label">Prioridad</div><div class="lead-meta-value"><span class="tier-badge tier-${l.tier}">Tier ${l.tier}</span></div></div>
-    <div class="lead-meta-item"><div class="lead-meta-label">Estado</div><div class="lead-meta-value">${l.estado}</div></div>`;
-  document.getElementById("score-value").textContent = l.score + " / 100";
-  document.getElementById("score-fill").style.width = l.score + "%";
-  document.getElementById("lead-mensaje").textContent = l.mensaje_generado;
-  document.getElementById("lead-siguiente").textContent = "→ " + l.siguiente_paso;
-
-  // Cómo funciona
-  document.getElementById("how-title").textContent = `Cómo trabajaría StepFlow en ${d.nombre_empresa}`;
-  document.getElementById("how-desc").textContent = d.textos.descripcion_sistema;
-  document.getElementById("how-steps").innerHTML = d.textos.pasos.map((p, i) => `
-    <div class="how-step">
-      <div class="how-step-icon">${STEP_ICONS[i]}</div>
-      <div class="how-step-num">Paso ${i+1}</div>
-      <div class="how-step-title">${p.titulo}</div>
-      <div class="how-step-desc">${p.descripcion}</div>
-      <div class="how-step-arrow">›</div>
-    </div>`).join("");
-  document.getElementById("cta-btn").textContent = d.textos.cta;
-
-  // Chat demo
-  initDemoChat(d);
-
-  // Base de leads
-  document.getElementById("leads-grid").innerHTML = d.base_leads.map(l => `
-    <div class="lead-mini-card ${l.temperatura}">
-      <div class="lmc-top">
-        <div class="lmc-nombre">${l.nombre}</div>
-        <span class="lmc-temp ${l.temperatura}">${l.temperatura}</span>
-      </div>
-      <div class="lmc-canal-ciudad">${l.canal} · ${l.ciudad}</div>
-      <div class="lmc-interes">"${l.interes}"</div>
-      <div class="lmc-divider"></div>
-      <div class="lmc-estado">${l.estado}</div>
-      <div class="lmc-accion">${l.siguiente_accion}</div>
-    </div>`).join("");
-}
-
-document.addEventListener("DOMContentLoaded", init);
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
+
