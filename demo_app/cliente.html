@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STEPFlow — Tu Portal</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --brand:    #2563eb;
+      --brand-light: rgba(37,99,235,.08);
+      --dark:     #0f172a;
+      --gray-900: #1e293b;
+      --gray-700: #334155;
+      --gray-500: #64748b;
+      --gray-300: #cbd5e1;
+      --gray-100: #f1f5f9;
+      --white:    #ffffff;
+      --success:  #16a34a;
+      --warning:  #d97706;
+      --danger:   #dc2626;
+      --font:     'Inter', system-ui, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--gray-100); color: var(--gray-900); min-height: 100vh; }
+
+    /* HEADER */
+    .header {
+      background: var(--dark);
+      padding: 0 28px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo { font-size: 15px; font-weight: 800; color: #fff; letter-spacing: -.2px; }
+    .logo span { color: var(--brand); }
+    .header-right { display: flex; align-items: center; gap: 16px; }
+    .header-empresa { font-size: 12px; color: rgba(255,255,255,.5); }
+    .wa-btn {
+      display: flex; align-items: center; gap: 6px;
+      background: #25d366; color: #fff;
+      font-size: 12px; font-weight: 700;
+      padding: 6px 12px; border-radius: 8px;
+      text-decoration: none; transition: opacity .15s;
+    }
+    .wa-btn:hover { opacity: .85; }
+
+    /* LAYOUT */
+    .main { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+
+    /* WELCOME */
+    .welcome-bar {
+      background: linear-gradient(135deg, var(--dark) 0%, #1e3a8a 100%);
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      color: #fff;
+    }
+    .welcome-text h1 { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+    .welcome-text p { font-size: 13px; color: rgba(255,255,255,.6); }
+    .welcome-badge {
+      background: rgba(37,99,235,.3);
+      border: 1px solid rgba(37,99,235,.5);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #93c5fd;
+      white-space: nowrap;
+    }
+
+    /* KPI ROW */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .kpi {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    }
+    .kpi-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--gray-500); margin-bottom: 8px; }
+    .kpi-value { font-size: 32px; font-weight: 800; color: var(--dark); line-height: 1; }
+    .kpi-sub { font-size: 11px; color: var(--gray-500); margin-top: 4px; }
+    .kpi-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; }
+    .dot-green { background: var(--success); }
+    .dot-yellow { background: var(--warning); }
+    .dot-blue { background: var(--brand); }
+
+    /* GRID */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+    .grid-3 { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 20px; }
+
+    /* CARD */
+    .card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 22px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    }
+    .card-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--gray-500);
+      margin-bottom: 16px;
+    }
+
+    /* ROADMAP */
+    .roadmap { display: flex; flex-direction: column; gap: 0; }
+    .roadmap-item {
+      display: flex;
+      gap: 14px;
+      padding: 10px 0;
+      position: relative;
+    }
+    .roadmap-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 13px;
+      top: 36px;
+      bottom: -10px;
+      width: 2px;
+      background: var(--gray-100);
+    }
+    .roadmap-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+      flex-shrink: 0;
+      z-index: 1;
+    }
+    .roadmap-dot.done { background: var(--success); color: #fff; }
+    .roadmap-dot.active { background: var(--brand); color: #fff; }
+    .roadmap-dot.pending { background: var(--gray-100); color: var(--gray-500); }
+    .roadmap-content { padding-top: 4px; }
+    .roadmap-day { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--gray-500); }
+    .roadmap-task { font-size: 13px; font-weight: 600; color: var(--gray-900); }
+    .roadmap-desc { font-size: 12px; color: var(--gray-500); margin-top: 1px; }
+
+    /* LEADS TABLE */
+    .leads-table { width: 100%; border-collapse: collapse; }
+    .leads-table th {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      color: var(--gray-500);
+      text-align: left;
+      padding: 0 10px 10px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .leads-table td {
+      font-size: 12.5px;
+      color: var(--gray-700);
+      padding: 10px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .leads-table tr:last-child td { border-bottom: none; }
+    .estado-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .estado-nuevo    { background: rgba(37,99,235,.1);  color: var(--brand); }
+    .estado-caliente { background: rgba(234,88,12,.1);  color: #ea580c; }
+    .estado-interesado { background: rgba(22,163,74,.1); color: var(--success); }
+    .estado-contactado { background: rgba(100,116,139,.1); color: var(--gray-500); }
+    .estado-perdido  { background: rgba(220,38,38,.1);  color: var(--danger); }
+
+    /* ESTADO SISTEMA */
+    .status-list { display: flex; flex-direction: column; gap: 12px; }
+    .status-item { display: flex; align-items: center; justify-content: space-between; }
+    .status-name { font-size: 13px; color: var(--gray-700); }
+    .status-pill {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .pill-green  { background: rgba(22,163,74,.1);  color: var(--success); }
+    .pill-yellow { background: rgba(217,119,6,.1);  color: var(--warning); }
+    .pill-gray   { background: var(--gray-100); color: var(--gray-500); }
+
+    /* PROXIMOS PASOS */
+    .steps-list { display: flex; flex-direction: column; gap: 8px; }
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: var(--gray-100);
+    }
+    .step-item.done { background: rgba(22,163,74,.06); }
+    .step-check { font-size: 14px; flex-shrink: 0; }
+    .step-text { font-size: 12.5px; color: var(--gray-700); }
+    .step-item.done .step-text { color: var(--success); text-decoration: line-through; opacity: .7; }
+
+    /* LOADING */
+    .loading { text-align: center; padding: 60px; color: var(--gray-500); font-size: 14px; }
+
+    /* NOT FOUND */
+    .not-found {
+      text-align: center;
+      padding: 80px 24px;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    .not-found h2 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .not-found p { font-size: 13px; color: var(--gray-500); }
+
+    @media (max-width: 768px) {
+      .kpi-row { grid-template-columns: repeat(2, 1fr); }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .welcome-bar { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="logo">STEP<span>Flow</span></div>
+    <div class="header-right">
+      <span class="header-empresa" id="headerEmpresa">—</span>
+      <a class="wa-btn" href="https://wa.me/5491158393352" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Soporte
+      </a>
+    </div>
+  </header>
+
+  <main class="main" id="mainContent">
+    <div class="loading">Cargando tu portal...</div>
+  </main>
+
+<script>
+const SB_URL = 'https://frurqigartxzikptdrpx.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydXJxaWdhcnR4emlrcHRkcnB4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwNzE3ODEsImV4cCI6MjA4OTY0Nzc4MX0.5P28Z0tLidnlrVNl3W_Y7KVCq_ZPdMfKmMi4JtbkbBM';
+
+async function sbGet(table, query) {
+  const r = await fetch(`${SB_URL}/rest/v1/${table}?${query}`, {
+    headers: { 'Authorization': `Bearer ${SB_KEY}`, 'apikey': SB_KEY }
+  });
+  return r.json();
+}
+
+function timeAgo(dateStr) {
+  if (!dateStr) return '—';
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const h = Math.floor(diff / 3600000);
+  if (h < 1) return 'Hace menos de 1h';
+  if (h < 24) return `Hace ${h}h`;
+  const d = Math.floor(h / 24);
+  return `Hace ${d}d`;
+}
+
+function estadoBadge(e) {
+  const map = { nuevo:'estado-nuevo', caliente:'estado-caliente', interesado:'estado-interesado', contactado:'estado-contactado', perdido:'estado-perdido' };
+  return `<span class="estado-badge ${map[e]||'estado-contactado'}">${e||'—'}</span>`;
+}
+
+function getRoadmapStatus(customer) {
+  const dias = Math.floor((Date.now() - new Date(customer.created_at).getTime()) / 86400000);
+  return [
+    { day: 'Día 0', task: 'Alta y pago', desc: 'Acceso confirmado', status: 'done' },
+    { day: 'Día 1', task: 'Doc de bienvenida enviado', desc: 'Roadmap y accesos', status: customer.bienvenida_enviada ? 'done' : dias >= 1 ? 'active' : 'pending' },
+    { day: 'Día 1–2', task: 'Configuración del bot', desc: 'WA + IG conectados a tu negocio', status: dias >= 2 ? 'done' : dias >= 1 ? 'active' : 'pending' },
+    { day: 'Día 2–3', task: 'Primeros mensajes enviados', desc: 'Outreach a prospectos de tu nicho', status: dias >= 3 ? 'done' : dias >= 2 ? 'active' : 'pending' },
+    { day: 'Día 7', task: 'Primer reporte semanal', desc: 'Leads captados, respondidos, calientes', status: dias >= 7 ? 'done' : dias >= 5 ? 'active' : 'pending' },
+    { day: 'Día 14', task: 'Revisión y optimización', desc: 'Ajuste de mensajes y flujos', status: dias >= 14 ? 'done' : 'pending' },
+  ];
+}
+
+function getNextSteps(customer) {
+  const dias = Math.floor((Date.now() - new Date(customer.created_at).getTime()) / 86400000);
+  return [
+    { text: 'Pago confirmado', done: true },
+    { text: 'Doc de bienvenida recibido', done: customer.bienvenida_enviada },
+    { text: 'Strategy Call agendada', done: customer.call_agendada },
+    { text: 'Bot configurado con tu información', done: dias >= 2 },
+    { text: 'Primeros prospectos contactados', done: dias >= 3 },
+    { text: 'Revisión semanal — Día 7', done: dias >= 7 },
+  ];
+}
+
+async function loadPortal() {
+  const params = new URLSearchParams(location.search);
+  const slug = params.get('id') || params.get('slug');
+
+  if (!slug) {
+    document.getElementById('mainContent').innerHTML = `
+      <div class="not-found">
+        <div style="font-size:48px;margin-bottom:16px">🔒</div>
+        <h2>Portal no encontrado</h2>
+        <p>Necesitás un link de acceso válido. Contactá a tu asesor de STEPFlow por WhatsApp.</p>
+      </div>`;
+    return;
+  }
+
+  // Load customer
+  const customers = await sbGet('customers', `portal_slug=eq.${slug}&limit=1`);
+  if (!customers.length) {
+    document.getElementById('mainContent').innerHTML = `
+      <div class="not-found">
+        <div style="font-size:48px;margin-bottom:16px">🔍</div>
+        <h2>Cliente no encontrado</h2>
+        <p>El link de acceso no es válido o expiró. Contactá soporte.</p>
+      </div>`;
+    return;
+  }
+
+  const c = customers[0];
+  document.title = `${c.empresa} — STEPFlow`;
+  document.getElementById('headerEmpresa').textContent = c.empresa || '';
+
+  // Load leads for this customer (filter by nicho)
+  const leads = c.nicho
+    ? await sbGet('leads', `nicho=eq.${c.nicho}&order=fecha_ultima_respuesta.desc.nullslast&limit=10`)
+    : [];
+
+  // Count by estado
+  const totalLeads = leads.length;
+  const calientes = leads.filter(l => l.estado === 'caliente').length;
+  const respondieron = leads.filter(l => l.estado !== 'nuevo').length;
+  const porcentaje = totalLeads ? Math.round((respondieron / totalLeads) * 100) : 0;
+
+  const roadmap = getRoadmapStatus(c);
+  const steps = getNextSteps(c);
+  const diasActivo = Math.floor((Date.now() - new Date(c.created_at).getTime()) / 86400000);
+
+  document.getElementById('mainContent').innerHTML = `
+
+    <!-- WELCOME -->
+    <div class="welcome-bar">
+      <div class="welcome-text">
+        <h1>Bienvenido, ${c.empresa} 👋</h1>
+        <p>Tu sistema STEPFlow lleva ${diasActivo === 0 ? 'menos de 1 día' : diasActivo + (diasActivo === 1 ? ' día' : ' días')} activo · Plan ${c.plan || 'Pro'}</p>
+      </div>
+      <div class="welcome-badge">🟢 Sistema activo</div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi-label">Leads captados</div>
+        <div class="kpi-value">${totalLeads}</div>
+        <div class="kpi-sub"><span class="kpi-dot dot-blue"></span>Total acumulado</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Respondieron</div>
+        <div class="kpi-value">${respondieron}</div>
+        <div class="kpi-sub"><span class="kpi-dot dot-green"></span>${porcentaje}% tasa de respuesta</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Leads calientes</div>
+        <div class="kpi-value">${calientes}</div>
+        <div class="kpi-sub"><span class="kpi-dot dot-yellow"></span>Listos para cerrar</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Días activo</div>
+        <div class="kpi-value">${diasActivo}</div>
+        <div class="kpi-sub"><span class="kpi-dot dot-blue"></span>Desde el alta</div>
+      </div>
+    </div>
+
+    <!-- LEADS + ESTADO -->
+    <div class="grid-3">
+      <!-- Leads recientes -->
+      <div class="card">
+        <div class="card-title">Últimas conversaciones</div>
+        ${leads.length === 0 ? '<p style="font-size:13px;color:var(--gray-500);text-align:center;padding:20px 0">Los leads aparecerán aquí cuando empiecen a llegar.</p>' : `
+        <table class="leads-table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Canal</th>
+              <th>Estado</th>
+              <th>Última act.</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${leads.slice(0,8).map(l => `
+              <tr>
+                <td>${l.nombre || l.empresa || '—'}</td>
+                <td>${l.canal === 'whatsapp' ? '📱 WA' : l.canal === 'instagram' ? '📸 IG' : l.canal || '—'}</td>
+                <td>${estadoBadge(l.estado)}</td>
+                <td>${timeAgo(l.fecha_ultima_respuesta || l.created_at)}</td>
+              </tr>`).join('')}
+          </tbody>
+        </table>`}
+      </div>
+
+      <!-- Estado sistema -->
+      <div class="card">
+        <div class="card-title">Estado del sistema</div>
+        <div class="status-list">
+          <div class="status-item">
+            <span class="status-name">Bot WhatsApp</span>
+            <span class="status-pill pill-green">🟢 Activo</span>
+          </div>
+          <div class="status-item">
+            <span class="status-name">Bot Instagram</span>
+            <span class="status-pill pill-green">🟢 Activo</span>
+          </div>
+          <div class="status-item">
+            <span class="status-name">Outreach automático</span>
+            <span class="status-pill pill-green">🟢 Activo</span>
+          </div>
+          <div class="status-item">
+            <span class="status-name">CRM (Supabase)</span>
+            <span class="status-pill pill-green">🟢 Activo</span>
+          </div>
+          <div class="status-item">
+            <span class="status-name">Notificaciones</span>
+            <span class="status-pill pill-green">🟢 Activo</span>
+          </div>
+          <div class="status-item">
+            <span class="status-name">Plan</span>
+            <span class="status-pill pill-green">${c.plan || 'Pro'}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROADMAP + PRÓXIMOS PASOS -->
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Roadmap — Primeros 14 días</div>
+        <div class="roadmap">
+          ${roadmap.map(r => `
+            <div class="roadmap-item">
+              <div class="roadmap-dot ${r.status}">${r.status === 'done' ? '✓' : r.status === 'active' ? '▶' : '·'}</div>
+              <div class="roadmap-content">
+                <div class="roadmap-day">${r.day}</div>
+                <div class="roadmap-task">${r.task}</div>
+                <div class="roadmap-desc">${r.desc}</div>
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Próximos pasos</div>
+        <div class="steps-list">
+          ${steps.map(s => `
+            <div class="step-item ${s.done ? 'done' : ''}">
+              <span class="step-check">${s.done ? '✅' : '⬜'}</span>
+              <span class="step-text">${s.text}</span>
+            </div>`).join('')}
+        </div>
+        <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--gray-100)">
+          <p style="font-size:12px;color:var(--gray-500);margin-bottom:10px">¿Dudas? Tu asesor responde en menos de 2hs.</p>
+          <a href="https://wa.me/5491158393352?text=${encodeURIComponent('Hola! Tengo una consulta sobre mi portal STEPFlow (' + (c.empresa||'') + ')')}"
+             target="_blank"
+             style="display:flex;align-items:center;gap:8px;background:#25d366;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:700;width:100%">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Hablar con soporte
+          </a>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+loadPortal();
+</script>
+</body>
+</html>
