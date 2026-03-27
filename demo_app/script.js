@@ -13,6 +13,7 @@ const NICHO_MAP = {
   ecommerce:'ecommerce', tienda:'ecommerce',
   gym:'gym', gimnasio:'gym', fitness:'gym',
   inmobiliaria:'inmobiliaria',
+  automotriz:'concesionaria', concesionaria:'concesionaria', autos:'concesionaria', vehiculos:'concesionaria',
 };
 const _key = NICHO_MAP[_nicho] || 'inmobiliaria';
 
@@ -567,19 +568,115 @@ const ALL_MOCK = {
       { titulo:"Tips para compradores",    red:"facebook",  fecha:"Lun · 09:00",     estado:"reprogramado"},
     ],
   },
+
+  // ── CONCESIONARIA ───────────────────────────────────────────────────────────
+  concesionaria: {
+    empresa: 'AutoMax Buenos Aires', sector: 'Concesionaria · Buenos Aires',
+    metricas: { consultas_recibidas:74, contactadas_automaticamente:68, respondieron_con_interes:29, reuniones_confirmadas:11, operaciones_en_proceso:5 },
+    pipeline: {
+      "Consulta nueva":   [{ nombre:"Rodrigo Méndez", tier:"A" }, { nombre:"Valeria Sosa", tier:"B" }],
+      "Contactado":       [{ nombre:"Javier Herrera", tier:"A" }, { nombre:"Lucía Campos", tier:"B" }, { nombre:"Matías Ruiz", tier:"C" }],
+      "Test drive":       [{ nombre:"Carolina Vidal", tier:"A" }, { nombre:"Gustavo Peralta", tier:"A" }],
+      "Negociando":       [{ nombre:"Florencia Paz", tier:"A" }, { nombre:"Ignacio Torres", tier:"B" }],
+      "Turno confirmado": [{ nombre:"Silvana Gómez", tier:"A" }],
+      "Cerrado":          [{ nombre:"Marcos Ibáñez", tier:"A" }],
+    },
+    leads: [
+      { nombre:"Rodrigo Méndez",   canal:"WhatsApp",  interes:"Interesado en Volkswagen Vento 2024", ciudad:"Buenos Aires", temperatura:"caliente", estado:"Consulta nueva",       siguiente_accion:"Enviar ficha técnica y precio" },
+      { nombre:"Valeria Sosa",     canal:"Instagram", interes:"Quiere cotización Toyota Corolla",    ciudad:"Palermo",      temperatura:"caliente", estado:"Turno confirmado",     siguiente_accion:"Test drive — viernes 11:00 hs" },
+      { nombre:"Javier Herrera",   canal:"WhatsApp",  interes:"Busca SUV familiar hasta $30M",       ciudad:"San Isidro",   temperatura:"caliente", estado:"Negociando",           siguiente_accion:"Llamar para cerrar financiación" },
+      { nombre:"Lucía Campos",     canal:"Instagram", interes:"Primera compra, busca 0km económico", ciudad:"Caballito",    temperatura:"tibio",    estado:"Contactada",           siguiente_accion:"Follow-up en 48 hs" },
+      { nombre:"Matías Ruiz",      canal:"Facebook",  interes:"Interesado en usados garantizados",   ciudad:"Lanús",        temperatura:"tibio",    estado:"En seguimiento",       siguiente_accion:"Segundo mensaje programado" },
+      { nombre:"Pablo Acosta",     canal:"WhatsApp",  interes:"Consultó precio pero no respondió",   ciudad:"Quilmes",      temperatura:"frio",     estado:"Sin respuesta",        siguiente_accion:"Reintento automático mañana" },
+    ],
+    actividad: [
+      { tipo:"mensaje_enviado",       texto:"StepFlow respondió a Rodrigo Méndez en 90 segundos — cotización Vento enviada",  tiempo:"Hace 8 min" },
+      { tipo:"respuesta_recibida",    texto:"Valeria Sosa confirmó test drive: 'El viernes a las 11 perfecto'",               tiempo:"Hace 25 min" },
+      { tipo:"reunion_agendada",      texto:"Turno agendado con Silvana Gómez — lunes 10:00 hs",                              tiempo:"Hace 1 hora" },
+      { tipo:"seguimiento_pendiente", texto:"Seguimiento programado para Lucía Campos en 48 hs",                              tiempo:"Hace 2 horas" },
+      { tipo:"cierre",                texto:"Marcos Ibáñez firmó contrato — Chevrolet Tracker 0km cerrado",                   tiempo:"Hace 5 horas" },
+      { tipo:"mensaje_enviado",       texto:"Segundo seguimiento enviado a Pablo Acosta — sin respuesta previa",              tiempo:"Hace 7 horas" },
+    ],
+    pasos: [
+      { icon:"💬", titulo:"Responde al instante", desc:"Cada consulta por WhatsApp o Instagram recibe respuesta en menos de 2 minutos, 24/7." },
+      { icon:"🚗", titulo:"Califica al comprador", desc:"El sistema detecta qué modelo busca, el presupuesto y urgencia antes de que hables vos." },
+      { icon:"📅", titulo:"Agenda el test drive", desc:"StepFlow propone turnos disponibles y coordina la visita sin intervención del equipo." },
+      { icon:"🤝", titulo:"Vos cerrás la venta",  desc:"Llegás a la reunión con el cliente ya calificado. Solo falta firmar." },
+    ],
+    chatChips: ["¿Tienen Volkswagen Vento?", "¿Qué SUVs tienen disponibles?", "Quiero financiar un 0km", "¿Hacen tasación de usados?"],
+    guion: [
+      { from:"user", text:"Hola, vi que tienen el Toyota Corolla, ¿me pueden dar un precio?" },
+      { from:"bot",  text:"Hola! Sí, tenemos el Corolla 2024 disponible. ¿Lo buscás 0km o estás abierto a usados garantizados también?" },
+      { from:"user", text:"0km preferentemente. ¿Tienen financiación?" },
+      { from:"bot",  text:"Sí, tenemos planes propios y financiación bancaria. ¿Querés que te arme una simulación de cuotas?" },
+      { from:"user", text:"Sí, me interesa" },
+      { from:"bot",  text:"Perfecto, ya te la preparo. ¿Te animás a pasar a verlo esta semana? Podemos coordinar un test drive sin compromiso." },
+    ],
+    responses: {
+      "vento":       "El Vento 2024 está disponible en versiones Comfortline y Highline. ¿Buscás automático o manual?",
+      "corolla":     "Tenemos el Corolla 2024 0km. ¿Querés que te arme una simulación de cuotas?",
+      "suv":         "Contamos con Volkswagen T-Cross, Toyota RAV4 y Chevrolet Tracker. ¿Cuál es tu presupuesto aproximado?",
+      "financiar":   "Tenemos planes propios desde 30% de anticipo y financiación bancaria. ¿Querés una simulación?",
+      "usado":       "Nuestros usados pasan por 100 puntos de revisión y tienen garantía de 6 meses. ¿Qué modelo te interesa?",
+      "precio":      "Depende del modelo y versión. ¿Cuál te interesa? Te paso el precio actualizado.",
+      "tasacion":    "Hacemos tasaciones sin turno. Traés el auto y en 30 min tenés el valor. ¿Querés coordinar?",
+      "turno":       "Podemos coordinar un test drive esta semana. ¿Cuándo te queda mejor?",
+      "default":     "Claro, con gusto te ayudo. ¿Qué modelo o consulta tenés?",
+    },
+    crm: [
+      { titulo:"¿Por qué cambiar tu auto ahora?", tipo:"instagram", estado:"publicado",    alcance:"4.200",  interacciones:"312" },
+      { titulo:"Test drive sin turno este sábado", tipo:"facebook",  estado:"publicado",    alcance:"5.800",  interacciones:"490" },
+      { titulo:"Financiación en 60 cuotas fijas",  tipo:"instagram", estado:"programado",   alcance:"—",      interacciones:"—"   },
+      { titulo:"Corolla 2024 disponible",           tipo:"instagram", estado:"borrador",     alcance:"—",      interacciones:"—"   },
+      { titulo:"Tips para comprar tu primer 0km",   tipo:"facebook",  estado:"programado",   alcance:"—",      interacciones:"—"   },
+    ],
+    chartSemanal: {
+      labels:["Lun","Mar","Mié","Jue","Vie","Sáb","Dom"],
+      instagram:[12,18,14,22,19,28,16],
+      facebook: [8,11,9,15,13,20,11],
+    },
+    calendario: [
+      { dia:"Lun 18", posts:[{ titulo:"Tips primer 0km", tipo:"instagram", estado:"publicado" }] },
+      { dia:"Mar 19", posts:[{ titulo:"Financiación 60 cuotas", tipo:"facebook", estado:"publicado" }] },
+      { dia:"Mié 20", posts:[] },
+      { dia:"Jue 21", posts:[{ titulo:"Corolla 2024", tipo:"instagram", estado:"programado" }] },
+      { dia:"Vie 22", posts:[{ titulo:"Test drive sábado", tipo:"facebook", estado:"publicado" }] },
+      { dia:"Sáb 23", posts:[{ titulo:"Oferta fin de semana", tipo:"instagram", estado:"pendiente" }] },
+      { dia:"Dom 24", posts:[] },
+    ],
+    upcoming: [
+      { titulo:"Financiación 60 cuotas fijas", red:"instagram", fecha:"Mañana · 10:00", estado:"pendiente"    },
+      { titulo:"Test drive este sábado",        red:"facebook",  fecha:"Vie · 09:00",    estado:"programado"   },
+      { titulo:"Corolla 2024 disponible",       red:"instagram", fecha:"Jue · 12:00",    estado:"borrador"     },
+    ],
+  },
 };
 
 // ── SELECCIÓN DE MOCK ──────────────────────────────────────────────────────────
 const MOCK_FULL = ALL_MOCK[_key] || ALL_MOCK.inmobiliaria;
 const MOCK = MOCK_FULL;
 
-// Actualizar header con datos del nicho
+// Actualizar todos los textos dinámicamente con datos del nicho
 document.addEventListener('DOMContentLoaded', () => {
+  const e = MOCK_FULL.empresa;
+  const s = MOCK_FULL.sector;
   const nameEl = document.querySelector('.header-company-name');
   const metaEl = document.querySelector('.header-company-meta');
-  if (nameEl) nameEl.textContent = MOCK_FULL.empresa;
-  if (metaEl) metaEl.textContent = MOCK_FULL.sector;
-  document.title = 'STEPFlow — ' + MOCK_FULL.empresa;
+  if (nameEl) nameEl.textContent = e;
+  if (metaEl) metaEl.textContent = s;
+  document.title = 'STEPFlow — ' + e;
+  const tagline  = document.getElementById('tagline');
+  const chatName = document.getElementById('chatName');
+  const howTitle = document.getElementById('howTitle');
+  const ctaBtn   = document.getElementById('ctaBtn');
+  const mktSub   = document.getElementById('mktPageSub');
+  const client   = document.getElementById('clientName');
+  if (tagline)  tagline.textContent  = 'Así operaría ' + e + ' con StepFlow activo';
+  if (chatName) chatName.textContent = 'Asistente de ' + e;
+  if (howTitle) howTitle.textContent = 'Cómo trabajaría StepFlow en ' + e;
+  if (ctaBtn)   ctaBtn.textContent   = 'Activar StepFlow en ' + e;
+  if (mktSub)   mktSub.textContent   = e + ' · Marzo 2026';
+  if (client)   client.textContent   = e.split(' ').slice(0,2).join(' ');
 });
 
 // ── NAVEGACIÓN ─────────────────────────────────────────────────────────────────
