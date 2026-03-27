@@ -55,6 +55,65 @@ function doLogout() {
   window.location.href = "login.html";
 }
 
+// ── SUPABASE ───────────────────────────────────────────────────────────────
+
+const SB_URL = 'https://frurqigartxzikptdrpx.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydXJxaWdhcnR4emlrcHRkcnB4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NDA3MTc4MSwiZXhwIjoyMDg5NjQ3NzgxfQ.fPJ0pRc2u0f-oeynRF_fTP2XCxoldg6gzTPUofVVdMQ';
+const SB_H   = { 'Authorization': 'Bearer ' + SB_KEY, 'apikey': SB_KEY, 'Content-Type': 'application/json' };
+
+async function sbGet(table, query = '') {
+  try {
+    const r = await fetch(`${SB_URL}/rest/v1/${table}?${query}`, { headers: SB_H });
+    return r.ok ? r.json() : null;
+  } catch { return null; }
+}
+
+async function sbPatch(table, filter, body) {
+  try {
+    const r = await fetch(`${SB_URL}/rest/v1/${table}?${filter}`, {
+      method: 'PATCH', headers: { ...SB_H, 'Prefer': 'return=minimal' },
+      body: JSON.stringify(body)
+    });
+    return r.ok;
+  } catch { return false; }
+}
+
+// ── WHATSAPP ───────────────────────────────────────────────────────────────
+
+const WA_TOKEN   = 'EAAbyQR9SK3kBRDZBxPwrXImUoueJLuOZCagy1ZCjK8F1kxmH3qnsVcDlNAq5IzHCo4w2s4ZBECTs0J9pS6PNPTmOpehJgBEWQzSynwUnr5U1XL5URYeUlUJrYhRylYkZCl1Y3WQaC6cwjf1eDYV8Wv5dxfgNlC46I6vWWxpnFgYDe9PufsU1jvZBtcdK0t';
+const WA_PHONE_ID = '1042324568966845';
+
+async function waSend(to, text) {
+  const tel = to.replace(/\D/g, '');
+  if (!tel || tel.length < 10) return { ok: false, error: 'Teléfono inválido' };
+  try {
+    const r = await fetch(`https://graph.facebook.com/v21.0/${WA_PHONE_ID}/messages`, {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + WA_TOKEN, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messaging_product: 'whatsapp', to: tel, type: 'text', text: { body: text } })
+    });
+    const data = await r.json();
+    return { ok: r.ok, data };
+  } catch(e) { return { ok: false, error: e.message }; }
+}
+
+async function waTemplate(to) {
+  const tel = to.replace(/\D/g, '');
+  if (!tel || tel.length < 10) return { ok: false, error: 'Teléfono inválido' };
+  try {
+    const r = await fetch(`https://graph.facebook.com/v21.0/${WA_PHONE_ID}/messages`, {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + WA_TOKEN, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        messaging_product: 'whatsapp', to: tel, type: 'template',
+        template: { name: 'stepflow_outreach_v2', language: { code: 'es_MX' } }
+      })
+    });
+    const data = await r.json();
+    return { ok: r.ok, data };
+  } catch(e) { return { ok: false, error: e.message }; }
+}
+
 // ── DATA LOADING ───────────────────────────────────────────────────────────
 
 async function loadJSON(path) {

@@ -6,6 +6,49 @@
   <title>StepFlow · Leads</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <style>
+    .temp-dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; }
+    .temp-caliente { background:#ef4444; }
+    .temp-tibio    { background:#f59e0b; }
+    .temp-frio     { background:#6b7280; }
+    .action-btn { padding:4px 10px; border-radius:6px; border:none; cursor:pointer; font-size:12px; font-weight:600; transition:.15s; }
+    .btn-demo { background:#2563eb; color:#fff; }
+    .btn-demo:hover { background:#1d4ed8; }
+    .btn-wa   { background:#16a34a; color:#fff; }
+    .btn-wa:hover { background:#15803d; }
+    .btn-msg  { background:#7c3aed; color:#fff; }
+    .btn-msg:hover { background:#6d28d9; }
+    /* Modal */
+    .sf-modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:1000; align-items:center; justify-content:center; }
+    .sf-modal-overlay.open { display:flex; }
+    .sf-modal { background:#1a1a2e; border:1px solid rgba(255,255,255,.1); border-radius:14px; padding:28px; width:480px; max-width:95vw; }
+    .sf-modal h3 { margin:0 0 20px; font-size:16px; color:#fff; }
+    .sf-modal label { display:block; font-size:12px; color:var(--muted); margin-bottom:4px; margin-top:14px; }
+    .sf-modal input, .sf-modal select, .sf-modal textarea {
+      width:100%; padding:8px 12px; border-radius:8px; border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.06); color:#fff; font-size:13px; box-sizing:border-box;
+    }
+    .sf-modal textarea { height:60px; resize:none; }
+    .sf-url-preview { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08);
+      border-radius:8px; padding:10px 12px; font-size:11px; color:#94a3b8; word-break:break-all;
+      margin-top:14px; display:flex; align-items:center; gap:8px; }
+    .sf-url-preview span { flex:1; }
+    .copy-btn { background:rgba(255,255,255,.1); border:none; color:#fff; border-radius:6px;
+      padding:4px 10px; font-size:11px; cursor:pointer; white-space:nowrap; }
+    .copy-btn:hover { background:rgba(255,255,255,.18); }
+    .modal-actions { display:flex; gap:10px; margin-top:20px; }
+    .modal-actions button { flex:1; padding:10px; border-radius:8px; border:none; cursor:pointer; font-weight:600; font-size:13px; }
+    .btn-cancel { background:rgba(255,255,255,.08); color:#fff; }
+    .btn-send-wa { background:#16a34a; color:#fff; }
+    .btn-send-wa:hover { background:#15803d; }
+    .btn-send-wa:disabled { background:#374151; cursor:not-allowed; }
+    .toast { position:fixed; bottom:24px; right:24px; background:#1e293b; border:1px solid rgba(255,255,255,.12);
+      color:#fff; padding:12px 20px; border-radius:10px; font-size:13px; z-index:9999;
+      transform:translateY(80px); opacity:0; transition:.3s; }
+    .toast.show { transform:translateY(0); opacity:1; }
+    .toast.success { border-color:#16a34a; }
+    .toast.error   { border-color:#ef4444; }
+  </style>
 </head>
 <body>
 <div class="sf-admin">
@@ -20,44 +63,40 @@
 
     <div class="sf-content">
 
-      <!-- KPIs rápidos -->
-      <div class="sf-kpi-grid" id="leadsKpis" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr))">
-        <div class="sf-kpi-card">
-          <div class="sf-kpi-label">Total</div>
-          <div class="sf-kpi-value" id="kpi-total">—</div>
-        </div>
-        <div class="sf-kpi-card accent">
-          <div class="sf-kpi-label">Con email</div>
-          <div class="sf-kpi-value" id="kpi-con-email">—</div>
-        </div>
-        <div class="sf-kpi-card warning">
-          <div class="sf-kpi-label">Sin email</div>
-          <div class="sf-kpi-value" id="kpi-sin-email">—</div>
-        </div>
-        <div class="sf-kpi-card success">
-          <div class="sf-kpi-label">Google Places</div>
-          <div class="sf-kpi-value" id="kpi-places">—</div>
-        </div>
+      <!-- KPIs -->
+      <div class="sf-kpi-grid" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr))">
+        <div class="sf-kpi-card"><div class="sf-kpi-label">Total</div><div class="sf-kpi-value" id="kpi-total">—</div></div>
+        <div class="sf-kpi-card accent"><div class="sf-kpi-label">Nuevos</div><div class="sf-kpi-value" id="kpi-nuevo">—</div></div>
+        <div class="sf-kpi-card warning"><div class="sf-kpi-label">Contactados</div><div class="sf-kpi-value" id="kpi-contactado">—</div></div>
+        <div class="sf-kpi-card success"><div class="sf-kpi-label">Calientes</div><div class="sf-kpi-value" id="kpi-caliente">—</div></div>
+        <div class="sf-kpi-card success"><div class="sf-kpi-label">Interesados</div><div class="sf-kpi-value" id="kpi-interesado">—</div></div>
+        <div class="sf-kpi-card danger"><div class="sf-kpi-label">Perdidos</div><div class="sf-kpi-value" id="kpi-perdido">—</div></div>
       </div>
 
       <!-- Filtros -->
       <div class="sf-filters">
-        <input
-          class="sf-filter-input"
-          id="searchInput"
-          placeholder="Buscar empresa, email, ciudad..."
-          oninput="filterTable('searchInput','leadsTable')"
-          style="min-width:260px"
-        />
-        <select class="sf-filter-input" id="fuenteFilter" onchange="applyFilters()">
-          <option value="">Todas las fuentes</option>
-          <option value="google_places">Google Places</option>
-          <option value="manual">Manual</option>
+        <input class="sf-filter-input" id="searchInput" placeholder="Buscar empresa, teléfono, ciudad..." style="min-width:240px" />
+        <select class="sf-filter-input" id="nichoFilter">
+          <option value="">Todos los nichos</option>
+          <option value="automotriz">Automotriz</option>
+          <option value="inmobiliaria">Inmobiliaria</option>
+          <option value="gastronomia">Gastronomía</option>
+          <option value="salud">Salud</option>
+          <option value="servicios_locales">Servicios</option>
         </select>
-        <select class="sf-filter-input" id="emailFilter" onchange="applyFilters()">
-          <option value="">Todos</option>
-          <option value="con">Con email</option>
-          <option value="sin">Sin email</option>
+        <select class="sf-filter-input" id="estadoFilter">
+          <option value="">Todos los estados</option>
+          <option value="nuevo">Nuevo</option>
+          <option value="contactado">Contactado</option>
+          <option value="caliente">Caliente</option>
+          <option value="en_seguimiento">En seguimiento</option>
+          <option value="perdido">Perdido</option>
+        </select>
+        <select class="sf-filter-input" id="canalFilter">
+          <option value="">Todos los canales</option>
+          <option value="whatsapp_cloud">WhatsApp</option>
+          <option value="instagram">Instagram</option>
+          <option value="email">Email</option>
         </select>
         <span style="margin-left:auto;font-size:12px;color:var(--muted)" id="leadCount"></span>
       </div>
@@ -69,17 +108,18 @@
             <thead>
               <tr>
                 <th>#</th>
-                <th>Empresa</th>
-                <th>Email</th>
-                <th>Ciudad</th>
+                <th>Empresa / Nombre</th>
+                <th>Teléfono</th>
                 <th>Nicho</th>
-                <th>Web</th>
-                <th>Fuente</th>
-                <th>Fecha</th>
+                <th>Ciudad</th>
+                <th>Estado</th>
+                <th>Canal</th>
+                <th>Última actividad</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody id="leadsBody">
-              <tr><td colspan="8" style="text-align:center;color:var(--muted);padding:32px">Cargando leads...</td></tr>
+              <tr><td colspan="9" style="text-align:center;color:var(--muted);padding:32px">Cargando leads...</td></tr>
             </tbody>
           </table>
         </div>
@@ -88,6 +128,42 @@
     </div>
   </div>
 </div>
+
+<!-- Modal Crear Demo -->
+<div class="sf-modal-overlay" id="demoModal">
+  <div class="sf-modal">
+    <h3>Crear demo personalizada</h3>
+    <input type="hidden" id="modal-telefono" />
+    <label>Empresa</label>
+    <input type="text" id="modal-empresa" placeholder="Ej: Martinez Autos" />
+    <label>Ciudad</label>
+    <input type="text" id="modal-ciudad" placeholder="Ej: Córdoba" />
+    <label>Nicho</label>
+    <select id="modal-nicho">
+      <option value="automotriz">Automotriz / Concesionaria</option>
+      <option value="inmobiliaria">Inmobiliaria</option>
+      <option value="restaurante">Restaurante / Gastronomía</option>
+      <option value="salon">Salón / Belleza</option>
+      <option value="clinica">Clínica / Salud</option>
+      <option value="ecommerce">E-commerce / Tienda</option>
+      <option value="gym">Gym / Fitness</option>
+      <option value="marketing">Agencia de Marketing</option>
+    </select>
+    <label>Mensaje personalizado (opcional)</label>
+    <textarea id="modal-msg" placeholder="Ej: Hola! Te preparé una demo personalizada para tu concesionaria..."></textarea>
+    <div class="sf-url-preview">
+      <span id="demoUrlPreview">—</span>
+      <button class="copy-btn" onclick="copyDemoUrl()">Copiar</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="btn-send-wa" id="btnSendDemo" onclick="sendDemoWA()">Enviar por WhatsApp</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
 
 <script src="auth.js"></script>
 <script src="app.js"></script>
@@ -98,87 +174,196 @@
 
   let allLeads = [];
 
+  const ESTADO_BADGE = {
+    nuevo:          ['badge-muted',    'Nuevo'],
+    contactado:     ['badge-accent',   'Contactado'],
+    caliente:       ['badge-warning',  'Caliente 🔥'],
+    en_seguimiento: ['badge-blue',     'Seguimiento'],
+    reunion_solicitada: ['badge-warning','Reunión'],
+    perdido:        ['badge-danger',   'Perdido'],
+  };
+
+  const CANAL_BADGE = {
+    whatsapp_cloud: ['badge-success', 'WhatsApp'],
+    instagram:      ['badge-blue',    'Instagram'],
+    email:          ['badge-accent',  'Email'],
+  };
+
+  function badgeEstado(e) {
+    const [cls, lbl] = ESTADO_BADGE[e] || ['badge-muted', e || '—'];
+    return `<span class="badge ${cls}">${lbl}</span>`;
+  }
+  function badgeCanal(c) {
+    const [cls, lbl] = CANAL_BADGE[c] || ['badge-muted', c || '—'];
+    return `<span class="badge ${cls}">${lbl}</span>`;
+  }
+
   function renderLeads(leads) {
     const tbody = document.getElementById("leadsBody");
     if (!leads || leads.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="8"><div class="sf-empty"><div class="sf-empty-icon">◌</div><div class="sf-empty-text">No hay leads</div></div></td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="9"><div class="sf-empty"><div class="sf-empty-icon">◌</div><div class="sf-empty-text">No hay leads</div></div></td></tr>`;
       return;
     }
-
-    tbody.innerHTML = leads.map((l, i) => {
-      const email   = l.email || "";
-      const web     = l.web   || "";
-      const fuente  = l.fuente || "manual";
-      return `
-        <tr
-          data-fuente="${fuente}"
-          data-email="${email ? 'con' : 'sin'}"
-        >
-          <td style="color:var(--muted)">${i + 1}</td>
-          <td>
-            <strong>${l.empresa || "—"}</strong>
-            ${l.nombre ? `<br><span style="font-size:11px;color:var(--muted)">${l.nombre}</span>` : ""}
-          </td>
-          <td>${email ? `<a href="mailto:${email}" style="color:var(--accent2)">${email}</a>` : `<span style="color:var(--muted)">—</span>`}</td>
-          <td>${l.ciudad || "—"}</td>
-          <td><span class="badge badge-muted">${l.industria_declarada || "—"}</span></td>
-          <td>${web ? `<a href="${web}" target="_blank" style="color:var(--accent2);font-size:12px">↗ ver</a>` : "—"}</td>
-          <td><span class="badge badge-accent">${fuente}</span></td>
-          <td style="color:var(--muted)">${l.fecha_captura || "—"}</td>
-        </tr>
-      `;
-    }).join("");
-
+    tbody.innerHTML = leads.map((l, i) => `
+      <tr data-nicho="${l.nicho||''}" data-estado="${l.estado||''}" data-canal="${l.canal||''}">
+        <td style="color:var(--muted)">${i+1}</td>
+        <td>
+          <strong>${l.empresa || l.nombre || '—'}</strong>
+          ${l.nombre && l.empresa ? `<br><span style="font-size:11px;color:var(--muted)">${l.nombre}</span>` : ''}
+        </td>
+        <td style="font-family:monospace;font-size:12px">${l.telefono || l.subscriber_id || '—'}</td>
+        <td><span class="badge badge-muted">${l.nicho || '—'}</span></td>
+        <td>${l.ciudad || '—'}</td>
+        <td>${badgeEstado(l.estado)}</td>
+        <td>${badgeCanal(l.canal)}</td>
+        <td style="color:var(--muted);font-size:11px">${fmtDateTime(l.fecha_ultima_respuesta || l.created_at)}</td>
+        <td>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="action-btn btn-demo" onclick='openDemoModal(${JSON.stringify({empresa:l.empresa||l.nombre||"", ciudad:l.ciudad||"", nicho:l.nicho||"automotriz", tel:l.telefono||l.subscriber_id||""})})'>
+              Demo
+            </button>
+            ${l.telefono ? `<button class="action-btn btn-wa" onclick="sendTemplate('${l.telefono}')">WA</button>` : ''}
+          </div>
+        </td>
+      </tr>
+    `).join("");
     document.getElementById("leadCount").textContent = `${leads.length} leads`;
   }
 
   function applyFilters() {
-    const q        = document.getElementById("searchInput").value.toLowerCase();
-    const fuente   = document.getElementById("fuenteFilter").value;
-    const emailF   = document.getElementById("emailFilter").value;
-
-    const rows = document.querySelectorAll("#leadsTable tbody tr");
-    let visible = 0;
-
+    const q      = document.getElementById("searchInput").value.toLowerCase();
+    const nicho  = document.getElementById("nichoFilter").value;
+    const estado = document.getElementById("estadoFilter").value;
+    const canal  = document.getElementById("canalFilter").value;
+    const rows   = document.querySelectorAll("#leadsTable tbody tr");
+    let visible  = 0;
     rows.forEach(row => {
-      const text = row.textContent.toLowerCase();
-      const rowFuente = row.dataset.fuente || "";
-      const rowEmail  = row.dataset.email  || "";
-
-      const matchQ      = !q      || text.includes(q);
-      const matchFuente = !fuente || rowFuente === fuente;
-      const matchEmail  = !emailF || rowEmail  === emailF;
-
-      const show = matchQ && matchFuente && matchEmail;
-      row.style.display = show ? "" : "none";
-      if (show) visible++;
+      const ok = (!q      || row.textContent.toLowerCase().includes(q))
+              && (!nicho  || row.dataset.nicho  === nicho)
+              && (!estado || row.dataset.estado === estado)
+              && (!canal  || row.dataset.canal  === canal);
+      row.style.display = ok ? "" : "none";
+      if (ok) visible++;
     });
-
     document.getElementById("leadCount").textContent = `${visible} leads`;
   }
 
-  // Sobreescribir filterTable para coordinar con applyFilters
-  document.getElementById("searchInput").addEventListener("input", applyFilters);
+  ["searchInput","nichoFilter","estadoFilter","canalFilter"].forEach(id =>
+    document.getElementById(id).addEventListener("input", applyFilters)
+  );
 
   async function loadLeads() {
-    const leads = await loadJSON("../data/input/leads.json");
+    const leads = await sbGet("leads", "select=id,empresa,nombre,telefono,subscriber_id,nicho,ciudad,estado,canal,intencion_detectada,fecha_ultima_respuesta,created_at&order=created_at.desc&limit=200");
     if (!leads) {
       document.getElementById("leadsBody").innerHTML =
-        `<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:32px">No se pudo cargar leads.json</td></tr>`;
+        `<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:32px">Error cargando Supabase</td></tr>`;
       return;
     }
-
     allLeads = leads;
-
-    const conEmail = leads.filter(l => l.email).length;
-    document.getElementById("kpi-total").textContent     = leads.length;
-    document.getElementById("kpi-con-email").textContent = conEmail;
-    document.getElementById("kpi-sin-email").textContent = leads.length - conEmail;
-    document.getElementById("kpi-places").textContent    = leads.filter(l => l.fuente === "google_places").length;
-
+    document.getElementById("kpi-total").textContent       = leads.length;
+    document.getElementById("kpi-nuevo").textContent       = leads.filter(l => l.estado === 'nuevo').length;
+    document.getElementById("kpi-contactado").textContent  = leads.filter(l => l.estado === 'contactado').length;
+    document.getElementById("kpi-caliente").textContent    = leads.filter(l => l.estado === 'caliente').length;
+    document.getElementById("kpi-interesado").textContent  = leads.filter(l => l.intencion_detectada === 'interesado').length;
+    document.getElementById("kpi-perdido").textContent     = leads.filter(l => l.estado === 'perdido').length;
     renderLeads(leads);
     applyFilters();
   }
+
+  // ── MODAL DEMO ─────────────────────────────────────────────────────────────
+
+  function buildDemoUrl(empresa, ciudad, nicho) {
+    const base = 'https://agenciaiasm.online/demo_app/';
+    const p = new URLSearchParams();
+    if (nicho)   p.set('nicho',   nicho);
+    if (empresa) p.set('empresa', empresa);
+    if (ciudad)  p.set('ciudad',  ciudad);
+    return base + '?' + p.toString();
+  }
+
+  function updateUrlPreview() {
+    const empresa = document.getElementById('modal-empresa').value;
+    const ciudad  = document.getElementById('modal-ciudad').value;
+    const nicho   = document.getElementById('modal-nicho').value;
+    document.getElementById('demoUrlPreview').textContent = buildDemoUrl(empresa, ciudad, nicho);
+  }
+
+  function openDemoModal(data) {
+    document.getElementById('modal-empresa').value  = data.empresa || '';
+    document.getElementById('modal-ciudad').value   = data.ciudad  || '';
+    document.getElementById('modal-telefono').value = data.tel     || '';
+    const nichoMap = {
+      automotriz:'automotriz', concesionaria:'automotriz', autos:'automotriz',
+      inmobiliaria:'inmobiliaria',
+      gastronomia:'restaurante', restaurante:'restaurante',
+      salud:'clinica', clinica:'clinica',
+      servicios_locales:'marketing',
+    };
+    const sel = document.getElementById('modal-nicho');
+    sel.value = nichoMap[data.nicho] || data.nicho || 'automotriz';
+    const defMsg = `Hola! Te preparé una demo personalizada de StepFlow para ${data.empresa || 'tu negocio'}. Dale un vistazo:`;
+    document.getElementById('modal-msg').value = defMsg;
+    updateUrlPreview();
+    document.getElementById('demoModal').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('demoModal').classList.remove('open');
+  }
+
+  function copyDemoUrl() {
+    const url = document.getElementById('demoUrlPreview').textContent;
+    navigator.clipboard.writeText(url).then(() => showToast('URL copiada', 'success'));
+  }
+
+  async function sendDemoWA() {
+    const tel     = document.getElementById('modal-telefono').value;
+    const empresa = document.getElementById('modal-empresa').value;
+    const ciudad  = document.getElementById('modal-ciudad').value;
+    const nicho   = document.getElementById('modal-nicho').value;
+    const msg     = document.getElementById('modal-msg').value.trim();
+    const url     = buildDemoUrl(empresa, ciudad, nicho);
+    const texto   = (msg ? msg + '\n' : '') + url;
+
+    if (!tel) { showToast('Sin teléfono para enviar', 'error'); return; }
+
+    const btn = document.getElementById('btnSendDemo');
+    btn.disabled = true; btn.textContent = 'Enviando...';
+    const res = await waSend(tel, texto);
+    btn.disabled = false; btn.textContent = 'Enviar por WhatsApp';
+
+    if (res.ok) {
+      showToast('Demo enviada a ' + empresa, 'success');
+      closeModal();
+    } else {
+      showToast('Error: ' + (res.error || 'fallo WA'), 'error');
+    }
+  }
+
+  async function sendTemplate(tel) {
+    if (!confirm('Enviar mensaje de outreach a ' + tel + '?')) return;
+    const res = await waTemplate(tel);
+    showToast(res.ok ? 'Mensaje enviado' : 'Error: ' + (res.error || ''), res.ok ? 'success' : 'error');
+  }
+
+  // ── URL PREVIEW LIVE ───────────────────────────────────────────────────────
+  ['modal-empresa','modal-ciudad','modal-nicho'].forEach(id =>
+    document.getElementById(id).addEventListener('input', updateUrlPreview)
+  );
+
+  // ── TOAST ─────────────────────────────────────────────────────────────────
+
+  function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = `toast ${type} show`;
+    setTimeout(() => t.className = 'toast', 3000);
+  }
+
+  // Cerrar modal al click fuera
+  document.getElementById('demoModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
 
   startPolling(loadLeads, 30000);
 </script>
