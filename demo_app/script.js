@@ -1,6 +1,33 @@
 // STEPFlow Demo — script.js V3
 // 100% mock data. Sin conexiones reales.
 
+// ── NICHO PERSONALIZADO ────────────────────────────────────────────────────────
+const _params = new URLSearchParams(window.location.search);
+const _nicho  = (_params.get('nicho') || 'inmobiliaria').toLowerCase();
+const NICHO_CONFIG = {
+  marketing:    { empresa: 'Agencia Digital Impulso',  sector: 'Marketing · Buenos Aires' },
+  agencia:      { empresa: 'Agencia Digital Impulso',  sector: 'Marketing · Buenos Aires' },
+  restaurante:  { empresa: 'Restaurante La Esquina',   sector: 'Gastronomía · Palermo'    },
+  gastronomia:  { empresa: 'Restaurante La Esquina',   sector: 'Gastronomía · Palermo'    },
+  salon:        { empresa: 'Salón Estilo & Co.',        sector: 'Belleza · Caballito'      },
+  belleza:      { empresa: 'Salón Estilo & Co.',        sector: 'Belleza · Caballito'      },
+  clinica:      { empresa: 'Centro Médico Norte',       sector: 'Salud · Belgrano'         },
+  salud:        { empresa: 'Centro Médico Norte',       sector: 'Salud · Belgrano'         },
+  ecommerce:    { empresa: 'Tienda Moda AR',            sector: 'E-commerce · Online'      },
+  tienda:       { empresa: 'Tienda Moda AR',            sector: 'E-commerce · Online'      },
+  gym:          { empresa: 'Gimnasio FitPro',           sector: 'Fitness · Flores'         },
+  gimnasio:     { empresa: 'Gimnasio FitPro',           sector: 'Fitness · Flores'         },
+  inmobiliaria: { empresa: 'Inmobiliaria Del Sur',      sector: 'Inmobiliaria · Bs As'     },
+};
+const _cfg = NICHO_CONFIG[_nicho] || { empresa: 'Tu Negocio', sector: _nicho + ' · Argentina' };
+document.addEventListener('DOMContentLoaded', () => {
+  const nameEl = document.querySelector('.header-company-name');
+  const metaEl = document.querySelector('.header-company-meta');
+  if (nameEl) nameEl.textContent = _cfg.empresa;
+  if (metaEl) metaEl.textContent = _cfg.sector;
+  document.title = 'STEPFlow — ' + _cfg.empresa;
+});
+
 // ── MOCK DATA ──────────────────────────────────────────────────────────────────
 
 const MOCK = {
