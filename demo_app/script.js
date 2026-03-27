@@ -656,10 +656,17 @@ const ALL_MOCK = {
 const MOCK_FULL = ALL_MOCK[_key] || ALL_MOCK.inmobiliaria;
 const MOCK = MOCK_FULL;
 
+// Parámetros opcionales para personalizar por prospecto
+const _empresa = _params.get('empresa') ? decodeURIComponent(_params.get('empresa')) : null;
+const _ciudad  = _params.get('ciudad')  ? decodeURIComponent(_params.get('ciudad'))  : null;
+const _sector  = _params.get('sector')  ? decodeURIComponent(_params.get('sector'))  : null;
+
 // Actualizar todos los textos dinámicamente con datos del nicho
 document.addEventListener('DOMContentLoaded', () => {
-  const e = MOCK_FULL.empresa;
-  const s = MOCK_FULL.sector;
+  const e = _empresa || MOCK_FULL.empresa;
+  const s = _ciudad  ? ((_sector || MOCK_FULL.sector.split('·')[0].trim()) + ' · ' + _ciudad)
+                     : (_sector ? _sector + ' · ' + MOCK_FULL.sector.split('·')[1]?.trim()
+                                : MOCK_FULL.sector);
   const nameEl = document.querySelector('.header-company-name');
   const metaEl = document.querySelector('.header-company-meta');
   if (nameEl) nameEl.textContent = e;
