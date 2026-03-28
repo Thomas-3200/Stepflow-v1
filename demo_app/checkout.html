@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>STEPFlow — Elegí tu plan</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
@@ -29,7 +30,6 @@
       min-height: 100vh;
     }
 
-    /* HEADER */
     .header {
       background: var(--dark);
       padding: 0 32px;
@@ -41,13 +41,11 @@
       top: 0;
       z-index: 100;
     }
-
     .header-logo { font-size:15px; font-weight:800; color:#fff; letter-spacing:-.2px; }
     .header-logo span { color:var(--brand); }
     .header-back { font-size:12px; color:rgba(255,255,255,.5); cursor:pointer; transition:color .15s; text-decoration:none; }
     .header-back:hover { color:#fff; }
 
-    /* MAIN */
     .main {
       max-width: 1080px;
       margin: 0 auto;
@@ -63,7 +61,6 @@
       color: var(--brand);
       margin-bottom: 14px;
     }
-
     .page-title {
       text-align: center;
       font-size: 34px;
@@ -72,7 +69,6 @@
       line-height: 1.2;
       margin-bottom: 12px;
     }
-
     .page-sub {
       text-align: center;
       font-size: 15px;
@@ -83,7 +79,6 @@
       margin-right: auto;
     }
 
-    /* PLANES */
     .plans-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -100,20 +95,15 @@
       transition: transform .2s, box-shadow .2s;
       position: relative;
     }
-
     .plan-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 4px 12px rgba(0,0,0,.08), 0 16px 40px rgba(0,0,0,.1);
     }
-
     .plan-card.popular {
       border-color: var(--brand);
       transform: scale(1.03);
     }
-
-    .plan-card.popular:hover {
-      transform: scale(1.03) translateY(-4px);
-    }
+    .plan-card.popular:hover { transform: scale(1.03) translateY(-4px); }
 
     .plan-badge-popular {
       position: absolute;
@@ -138,7 +128,6 @@
       color: var(--gray-500);
       margin-bottom: 6px;
     }
-
     .plan-price {
       font-size: 40px;
       font-weight: 800;
@@ -149,253 +138,138 @@
       gap: 4px;
       margin-bottom: 6px;
     }
+    .plan-price-currency { font-size: 18px; font-weight: 700; color: var(--gray-500); margin-top: 6px; }
+    .plan-price-period { font-size: 13px; color: var(--gray-500); font-weight: 400; align-self: flex-end; padding-bottom: 4px; }
+    .plan-desc { font-size: 13px; color: var(--gray-500); line-height: 1.5; margin-bottom: 22px; min-height: 40px; }
+    .plan-divider { height: 1px; background: var(--gray-100); margin-bottom: 20px; }
 
-    .plan-price-currency {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--gray-500);
-      margin-top: 6px;
-    }
-
-    .plan-price-period {
-      font-size: 13px;
-      color: var(--gray-500);
-      font-weight: 400;
-      align-self: flex-end;
-      padding-bottom: 4px;
-    }
-
-    .plan-desc {
-      font-size: 13px;
-      color: var(--gray-500);
-      line-height: 1.5;
-      margin-bottom: 22px;
-      min-height: 40px;
-    }
-
-    .plan-divider {
-      height: 1px;
-      background: var(--gray-100);
-      margin-bottom: 20px;
-    }
-
-    .plan-modules {
-      margin-bottom: 20px;
-    }
-
-    .plan-modules-title {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .8px;
-      color: var(--gray-500);
-      margin-bottom: 10px;
-    }
-
+    .plan-modules { margin-bottom: 20px; }
+    .plan-modules-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--gray-500); margin-bottom: 10px; }
     .plan-module {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 9px 10px;
-      border-radius: 8px;
-      margin-bottom: 6px;
-      font-size: 13px;
-      font-weight: 500;
+      display: flex; align-items: center; gap: 8px;
+      padding: 9px 10px; border-radius: 8px; margin-bottom: 6px;
+      font-size: 13px; font-weight: 500;
     }
-
-    .plan-module.included {
-      background: rgba(22,163,74,.07);
-      color: var(--gray-900);
-    }
-
-    .plan-module.locked {
-      background: var(--gray-100);
-      color: var(--gray-300);
-    }
-
+    .plan-module.included { background: rgba(22,163,74,.07); color: var(--gray-900); }
+    .plan-module.locked { background: var(--gray-100); color: var(--gray-300); }
     .plan-module-icon { font-size: 15px; flex-shrink:0; }
-
-    .plan-module-check {
-      margin-left: auto;
-      font-size: 13px;
-      font-weight: 800;
-    }
-
+    .plan-module-check { margin-left: auto; font-size: 13px; font-weight: 800; }
     .plan-module.included .plan-module-check { color: var(--success); }
     .plan-module.locked   .plan-module-check { color: var(--gray-300); }
 
-    .plan-features {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-bottom: 24px;
-    }
-
-    .plan-feature {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-      font-size: 12.5px;
-      color: var(--gray-700);
-      line-height: 1.4;
-    }
-
-    .plan-feature-check {
-      color: var(--success);
-      font-size: 13px;
-      font-weight: 800;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
+    .plan-features { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+    .plan-feature { display: flex; align-items: flex-start; gap: 8px; font-size: 12.5px; color: var(--gray-700); line-height: 1.4; }
+    .plan-feature-check { color: var(--success); font-size: 13px; font-weight: 800; flex-shrink: 0; margin-top: 1px; }
 
     .plan-cta {
-      width: 100%;
-      padding: 13px;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      border: none;
-      font-family: var(--font);
+      width: 100%; padding: 13px; border-radius: 10px; font-size: 14px;
+      font-weight: 700; cursor: pointer; border: none; font-family: var(--font);
       transition: opacity .15s, transform .1s;
     }
-
     .plan-cta:hover { opacity:.88; transform:translateY(-1px); }
     .plan-cta:active { transform:translateY(0); }
+    .plan-cta.outline { background: transparent; border: 2px solid var(--brand); color: var(--brand); }
+    .plan-cta.solid { background: var(--brand); color: #fff; }
+    .plan-cta.dark { background: var(--dark); color: #fff; }
 
-    .plan-cta.outline {
-      background: transparent;
-      border: 2px solid var(--brand);
-      color: var(--brand);
-    }
-
-    .plan-cta.solid {
-      background: var(--brand);
-      color: #fff;
-    }
-
-    .plan-cta.dark {
-      background: var(--dark);
-      color: #fff;
-    }
-
-    /* GARANTÍA */
     .guarantee {
-      text-align: center;
-      margin-top: 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
+      text-align: center; margin-top: 40px;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
     }
-
     .guarantee-icon { font-size: 28px; }
     .guarantee-title { font-size: 14px; font-weight: 700; color: var(--gray-900); }
     .guarantee-sub { font-size: 12px; color: var(--gray-500); max-width: 380px; text-align:center; line-height:1.5; }
 
-    /* FAQ */
-    .faq {
-      max-width: 640px;
-      margin: 56px auto 0;
-    }
-
-    .faq-title {
-      text-align: center;
-      font-size: 22px;
-      font-weight: 800;
-      margin-bottom: 28px;
-    }
-
-    .faq-item {
-      background: var(--white);
-      border-radius: 10px;
-      padding: 16px 20px;
-      margin-bottom: 10px;
-      box-shadow: 0 1px 3px rgba(0,0,0,.05);
-    }
-
+    .faq { max-width: 640px; margin: 56px auto 0; }
+    .faq-title { text-align: center; font-size: 22px; font-weight: 800; margin-bottom: 28px; }
+    .faq-item { background: var(--white); border-radius: 10px; padding: 16px 20px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
     .faq-q { font-size: 13.5px; font-weight: 600; color: var(--gray-900); margin-bottom: 6px; }
     .faq-a { font-size: 13px; color: var(--gray-500); line-height: 1.6; }
 
-    /* MODAL CONFIRMACIÓN */
+    /* MODAL */
     .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .2s;
+      position: fixed; inset: 0; background: rgba(0,0,0,.5);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 999; opacity: 0; pointer-events: none; transition: opacity .2s;
+      padding: 16px;
     }
-
-    .modal-overlay.open {
-      opacity: 1;
-      pointer-events: all;
-    }
-
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
     .modal {
-      background: var(--white);
-      border-radius: 16px;
-      padding: 36px 32px;
-      max-width: 440px;
-      width: 90%;
-      text-align: center;
-      transform: translateY(16px);
-      transition: transform .25s;
+      background: var(--white); border-radius: 16px; padding: 32px 28px;
+      max-width: 460px; width: 100%; text-align: center;
+      transform: translateY(16px); transition: transform .25s;
       box-shadow: 0 20px 60px rgba(0,0,0,.2);
+      max-height: 90vh; overflow-y: auto;
     }
-
     .modal-overlay.open .modal { transform: translateY(0); }
 
-    .modal-icon { font-size: 42px; margin-bottom: 14px; }
-    .modal-title { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
-    .modal-sub { font-size: 13px; color: var(--gray-500); line-height: 1.6; margin-bottom: 24px; }
+    .modal-icon { font-size: 36px; margin-bottom: 10px; }
+    .modal-title { font-size: 20px; font-weight: 800; margin-bottom: 6px; }
+    .modal-sub { font-size: 13px; color: var(--gray-500); line-height: 1.6; margin-bottom: 20px; }
+
     .modal-plan-box {
-      background: var(--gray-100);
-      border-radius: 10px;
-      padding: 14px 18px;
-      margin-bottom: 22px;
-      text-align: left;
+      background: var(--gray-100); border-radius: 10px;
+      padding: 12px 16px; margin-bottom: 20px; text-align: left;
     }
-    .modal-plan-name { font-size: 14px; font-weight: 700; color: var(--dark); }
+    .modal-plan-name { font-size: 13px; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing:.5px; }
     .modal-plan-price { font-size: 22px; font-weight: 800; color: var(--brand); margin-top: 2px; }
 
-    .modal-wa-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      padding: 14px;
-      background: #25d366;
-      color: #fff;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      border: none;
-      font-family: var(--font);
-      text-decoration: none;
-      transition: opacity .15s;
-      margin-bottom: 10px;
+    /* FORM */
+    .modal-form { text-align: left; margin-bottom: 20px; }
+    .form-row { margin-bottom: 12px; }
+    .form-row label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--gray-500); margin-bottom: 5px; }
+    .form-row input, .form-row select {
+      width: 100%; padding: 10px 12px; border: 1.5px solid var(--gray-300);
+      border-radius: 8px; font-size: 13.5px; font-family: var(--font);
+      color: var(--gray-900); background: var(--white);
+      transition: border-color .15s;
     }
+    .form-row input:focus, .form-row select:focus {
+      outline: none; border-color: var(--brand);
+    }
+    .form-row input::placeholder { color: var(--gray-300); }
 
+    .modal-wa-btn {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 14px; background: #25d366; color: #fff;
+      border-radius: 10px; font-size: 14px; font-weight: 700;
+      cursor: pointer; border: none; font-family: var(--font);
+      transition: opacity .15s; margin-bottom: 10px;
+    }
     .modal-wa-btn:hover { opacity:.9; }
+    .modal-wa-btn:disabled { opacity:.5; cursor: not-allowed; }
 
     .modal-close {
-      font-size: 12px;
-      color: var(--gray-500);
-      cursor: pointer;
-      background: none;
-      border: none;
-      font-family: var(--font);
-      transition: color .15s;
+      font-size: 12px; color: var(--gray-500); cursor: pointer;
+      background: none; border: none; font-family: var(--font); transition: color .15s;
     }
-
     .modal-close:hover { color: var(--gray-900); }
+
+    /* SUCCESS STATE */
+    .modal-success { display: none; }
+    .modal-success.show { display: block; }
+    .modal-form-area.hide { display: none; }
+
+    .success-icon { font-size: 48px; margin-bottom: 12px; }
+    .success-title { font-size: 20px; font-weight: 800; margin-bottom: 8px; color: var(--success); }
+    .success-sub { font-size: 13px; color: var(--gray-500); line-height: 1.6; margin-bottom: 20px; }
+    .portal-link-box {
+      background: var(--gray-100); border-radius: 10px; padding: 14px 16px;
+      margin-bottom: 20px; text-align: left;
+    }
+    .portal-link-label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--gray-500); margin-bottom: 6px; letter-spacing:.5px; }
+    .portal-link-url {
+      font-size: 13px; color: var(--brand); word-break: break-all;
+      font-weight: 600; text-decoration: none;
+    }
+    .portal-link-url:hover { text-decoration: underline; }
+    .btn-portal {
+      display: block; width: 100%; padding: 13px; background: var(--brand);
+      color: #fff; border-radius: 10px; font-size: 14px; font-weight: 700;
+      text-align: center; text-decoration: none; cursor: pointer;
+      border: none; font-family: var(--font); transition: opacity .15s;
+    }
+    .btn-portal:hover { opacity:.88; }
 
     @media (max-width:768px) {
       .plans-grid { grid-template-columns: 1fr; }
@@ -406,20 +280,17 @@
 </head>
 <body>
 
-  <!-- HEADER -->
   <header class="header">
     <div class="header-logo">STEP<span>Flow</span></div>
     <a href="index.html" class="header-back">← Volver a la demo</a>
   </header>
 
-  <!-- MAIN -->
   <main class="main">
 
     <div class="page-eyebrow">Planes y precios</div>
     <h1 class="page-title">Elegí el plan para tu negocio</h1>
     <p class="page-sub">Todos los planes incluyen configuración inicial, soporte y 14 días de prueba sin compromiso.</p>
 
-    <!-- PLANES -->
     <div class="plans-grid">
 
       <!-- STARTER -->
@@ -432,35 +303,20 @@
         </div>
         <div class="plan-desc">Para negocios que quieren automatizar la atención y el seguimiento de leads.</div>
         <div class="plan-divider"></div>
-
         <div class="plan-modules">
           <div class="plan-modules-title">Módulos incluidos</div>
-          <div class="plan-module included">
-            <span class="plan-module-icon">◎</span>
-            Conversaciones
-            <span class="plan-module-check">✓</span>
-          </div>
-          <div class="plan-module locked">
-            <span class="plan-module-icon">▦</span>
-            Marketing
-            <span class="plan-module-check">—</span>
-          </div>
-          <div class="plan-module locked">
-            <span class="plan-module-icon">🔒</span>
-            Creador de contenido
-            <span class="plan-module-check">—</span>
-          </div>
+          <div class="plan-module included"><span class="plan-module-icon">◎</span>Conversaciones<span class="plan-module-check">✓</span></div>
+          <div class="plan-module locked"><span class="plan-module-icon">▦</span>Marketing<span class="plan-module-check">—</span></div>
+          <div class="plan-module locked"><span class="plan-module-icon">🔒</span>Creador de contenido<span class="plan-module-check">—</span></div>
         </div>
-
         <div class="plan-features">
           <div class="plan-feature"><span class="plan-feature-check">✓</span> Respuesta automática en WhatsApp e Instagram</div>
           <div class="plan-feature"><span class="plan-feature-check">✓</span> Seguimiento y reactivación de leads</div>
-          <div class="plan-feature"><span class="plan-feature-check">✓</span> CRM en Google Sheets</div>
+          <div class="plan-feature"><span class="plan-feature-check">✓</span> CRM en tiempo real</div>
           <div class="plan-feature"><span class="plan-feature-check">✓</span> Hasta 20 mensajes diarios</div>
           <div class="plan-feature"><span class="plan-feature-check">✓</span> Anti-ban engine incluido</div>
           <div class="plan-feature"><span class="plan-feature-check">✓</span> Soporte por WhatsApp</div>
         </div>
-
         <button class="plan-cta outline" onclick="openModal('Starter','USD 297/mes')">Empezar con Starter</button>
       </div>
 
@@ -475,26 +331,12 @@
         </div>
         <div class="plan-desc">Para negocios que también quieren gestionar y medir su presencia en redes sociales.</div>
         <div class="plan-divider"></div>
-
         <div class="plan-modules">
           <div class="plan-modules-title">Módulos incluidos</div>
-          <div class="plan-module included">
-            <span class="plan-module-icon">◎</span>
-            Conversaciones
-            <span class="plan-module-check">✓</span>
-          </div>
-          <div class="plan-module included">
-            <span class="plan-module-icon">▦</span>
-            Marketing
-            <span class="plan-module-check">✓</span>
-          </div>
-          <div class="plan-module locked">
-            <span class="plan-module-icon">🔒</span>
-            Creador de contenido
-            <span class="plan-module-check">—</span>
-          </div>
+          <div class="plan-module included"><span class="plan-module-icon">◎</span>Conversaciones<span class="plan-module-check">✓</span></div>
+          <div class="plan-module included"><span class="plan-module-icon">▦</span>Marketing<span class="plan-module-check">✓</span></div>
+          <div class="plan-module locked"><span class="plan-module-icon">🔒</span>Creador de contenido<span class="plan-module-check">—</span></div>
         </div>
-
         <div class="plan-features">
           <div class="plan-feature"><span class="plan-feature-check">✓</span> Todo lo del plan Starter</div>
           <div class="plan-feature"><span class="plan-feature-check">✓</span> Panel de marketing con métricas</div>
@@ -503,7 +345,6 @@
           <div class="plan-feature"><span class="plan-feature-check">✓</span> Reportes semanales automáticos</div>
           <div class="plan-feature"><span class="plan-feature-check">✓</span> Soporte prioritario</div>
         </div>
-
         <button class="plan-cta solid" onclick="openModal('Pro','USD 597/mes')">Empezar con Pro</button>
       </div>
 
@@ -517,26 +358,12 @@
         </div>
         <div class="plan-desc">Para agencias y negocios que quieren delegar la producción de contenido también.</div>
         <div class="plan-divider"></div>
-
         <div class="plan-modules">
           <div class="plan-modules-title">Módulos incluidos</div>
-          <div class="plan-module included">
-            <span class="plan-module-icon">◎</span>
-            Conversaciones
-            <span class="plan-module-check">✓</span>
-          </div>
-          <div class="plan-module included">
-            <span class="plan-module-icon">▦</span>
-            Marketing
-            <span class="plan-module-check">✓</span>
-          </div>
-          <div class="plan-module included">
-            <span class="plan-module-icon">✦</span>
-            Creador de contenido
-            <span class="plan-module-check">✓</span>
-          </div>
+          <div class="plan-module included"><span class="plan-module-icon">◎</span>Conversaciones<span class="plan-module-check">✓</span></div>
+          <div class="plan-module included"><span class="plan-module-icon">▦</span>Marketing<span class="plan-module-check">✓</span></div>
+          <div class="plan-module included"><span class="plan-module-icon">✦</span>Creador de contenido<span class="plan-module-check">✓</span></div>
         </div>
-
         <div class="plan-features">
           <div class="plan-feature"><span class="plan-feature-check">✓</span> Todo lo del plan Pro</div>
           <div class="plan-feature"><span class="plan-feature-check">✓</span> Generación de captions con IA</div>
@@ -545,41 +372,34 @@
           <div class="plan-feature"><span class="plan-feature-check">✓</span> Onboarding personalizado</div>
           <div class="plan-feature"><span class="plan-feature-check">✓</span> Account manager dedicado</div>
         </div>
-
         <button class="plan-cta dark" onclick="openModal('Agencia','USD 997/mes')">Empezar con Agencia</button>
       </div>
 
     </div>
 
-    <!-- GARANTÍA -->
     <div class="guarantee">
       <div class="guarantee-icon">🛡️</div>
       <div class="guarantee-title">14 días de prueba sin compromiso</div>
       <div class="guarantee-sub">Si en los primeros 14 días no ves resultados, te devolvemos el dinero sin preguntas. Sin letra chica.</div>
     </div>
 
-    <!-- FAQ -->
     <div class="faq">
       <div class="faq-title">Preguntas frecuentes</div>
-
       <div class="faq-item">
         <div class="faq-q">¿Necesito conocimientos técnicos para usar StepFlow?</div>
         <div class="faq-a">No. Nosotros nos encargamos de toda la configuración inicial. Vos solo usás la plataforma.</div>
       </div>
-
       <div class="faq-item">
         <div class="faq-q">¿Cuánto tarda en estar operativo?</div>
         <div class="faq-a">En la mayoría de los casos, el sistema está funcionando en menos de 48 horas después del pago.</div>
       </div>
-
       <div class="faq-item">
         <div class="faq-q">¿Puedo cambiar de plan después?</div>
         <div class="faq-a">Sí, podés subir o bajar de plan en cualquier momento. El cambio se aplica desde el próximo ciclo de facturación.</div>
       </div>
-
       <div class="faq-item">
         <div class="faq-q">¿Funciona para cualquier rubro?</div>
-        <div class="faq-a">StepFlow está adaptado para inmobiliarias, clínicas, academias, restaurantes, tiendas y cualquier negocio que reciba consultas por WhatsApp o Instagram.</div>
+        <div class="faq-a">StepFlow está adaptado para inmobiliarias, clínicas, academias, restaurantes, concesionarias y cualquier negocio que reciba consultas por WhatsApp o Instagram.</div>
       </div>
     </div>
 
@@ -589,109 +409,167 @@
   <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
     <div class="modal">
       <div class="modal-icon">🚀</div>
-      <div class="modal-title">¡Excelente elección!</div>
-      <div class="modal-sub">Completá tus datos y te contactamos por WhatsApp para configurar todo.</div>
+      <div class="modal-title">Activá STEPFlow</div>
+
       <div class="modal-plan-box">
         <div class="modal-plan-name" id="modalPlanName">—</div>
         <div class="modal-plan-price" id="modalPlanPrice">—</div>
       </div>
-      <style>
-        .modal-input { width:100%; padding:10px 14px; border:1.5px solid #e2e8f0; border-radius:8px; font-size:13px; font-family:var(--font); margin-bottom:10px; outline:none; transition:border-color .15s; }
-        .modal-input:focus { border-color:var(--brand); }
-        .modal-input-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-      </style>
-      <div class="modal-input-row">
-        <input class="modal-input" id="inputNombre"  type="text"  placeholder="Tu nombre *" />
-        <input class="modal-input" id="inputEmpresa" type="text"  placeholder="Tu empresa *" />
+
+      <!-- FORM AREA -->
+      <div class="modal-form-area" id="modalFormArea">
+        <div class="modal-sub">Completá tus datos y te contactamos en menos de 2 horas para activar tu sistema.</div>
+        <div class="modal-form">
+          <div class="form-row">
+            <label>Nombre completo *</label>
+            <input type="text" id="fNombre" placeholder="Juan García" required />
+          </div>
+          <div class="form-row">
+            <label>Empresa *</label>
+            <input type="text" id="fEmpresa" placeholder="Mi Empresa SRL" required />
+          </div>
+          <div class="form-row">
+            <label>WhatsApp *</label>
+            <input type="tel" id="fTelefono" placeholder="5491112345678" required />
+          </div>
+          <div class="form-row">
+            <label>Email</label>
+            <input type="email" id="fEmail" placeholder="juan@miempresa.com" />
+          </div>
+          <div class="form-row">
+            <label>Rubro *</label>
+            <select id="fNicho">
+              <option value="">Seleccioná tu rubro</option>
+              <option value="inmobiliaria">Inmobiliaria</option>
+              <option value="concesionaria">Concesionaria / Automotriz</option>
+              <option value="clinica">Clínica / Salud</option>
+              <option value="restaurante">Restaurante / Gastronomía</option>
+              <option value="salon">Salón de belleza / Spa</option>
+              <option value="gym">Gimnasio / Fitness</option>
+              <option value="ecommerce">E-commerce / Tienda online</option>
+              <option value="marketing">Agencia de marketing</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="modal-wa-btn" id="submitBtn" onclick="handleSubmit()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Quiero activar STEPFlow
+        </button>
+        <button class="modal-close" onclick="closeModal()">Cancelar, volver a los planes</button>
       </div>
-      <div class="modal-input-row">
-        <input class="modal-input" id="inputTel"   type="tel"   placeholder="WhatsApp * (ej: 1158393352)" />
-        <input class="modal-input" id="inputEmail" type="email" placeholder="Email (opcional)" />
+
+      <!-- SUCCESS STATE -->
+      <div class="modal-success" id="modalSuccess">
+        <div class="success-icon">✅</div>
+        <div class="success-title">¡Listo! Estás dentro.</div>
+        <div class="success-sub">Te enviamos un mensaje por WhatsApp para activar tu sistema. En menos de 2 horas tenés todo funcionando.</div>
+        <div class="portal-link-box">
+          <div class="portal-link-label">Tu portal de cliente</div>
+          <a class="portal-link-url" id="portalLink" href="#" target="_blank">Cargando enlace...</a>
+        </div>
+        <a class="btn-portal" id="portalBtn" href="#" target="_blank">Ir a mi portal →</a>
       </div>
-      <button class="modal-wa-btn" onclick="activar()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Quiero activar StepFlow
-      </button>
-      <button class="modal-close" onclick="closeModal()">Cancelar, volver a los planes</button>
     </div>
   </div>
 
   <script>
-    const WA_NUMBER  = "5491158393352";
-    const SB_URL     = 'https://frurqigartxzikptdrpx.supabase.co';
-    const SB_KEY     = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydXJxaWdhcnR4emlrcHRkcnB4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NDA3MTc4MSwiZXhwIjoyMDg5NjQ3NzgxfQ.fPJ0pRc2u0f-oeynRF_fTP2XCxoldg6gzTPUofVVdMQ';
-    let _selectedPlan = '', _selectedPrecio = '';
+    const SB_URL = 'https://frurqigartxzikptdrpx.supabase.co';
+    const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZydXJxaWdhcnR4emlrcHRkcnB4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NDA3MTc4MSwiZXhwIjoyMDg5NjQ3NzgxfQ.fPJ0pRc2u0f-oeynRF_fTP2XCxoldg6gzTPUofVVdMQ';
+    const N8N_WEBHOOK = 'https://n8n.agenciaiasm.online/webhook/checkout-onboarding';
+    const WA_OWNER   = '5491158393352';
 
-    function slugify(str) {
-      return (str || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-        .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').substring(0,40)
-        + '-' + Math.random().toString(36).substring(2,7);
-    }
+    let _selectedPlan  = '';
+    let _selectedPrecio = '';
 
     function openModal(plan, precio) {
-      _selectedPlan   = plan;
+      _selectedPlan  = plan;
       _selectedPrecio = precio;
-      document.getElementById("modalPlanName").textContent  = "Plan " + plan;
-      document.getElementById("modalPlanPrice").textContent = precio + " · 14 días gratis";
-      document.getElementById("modalOverlay").classList.add("open");
+      document.getElementById('modalPlanName').textContent  = 'Plan ' + plan;
+      document.getElementById('modalPlanPrice').textContent = precio + ' · 14 días gratis';
+      document.getElementById('modalFormArea').classList.remove('hide');
+      document.getElementById('modalSuccess').classList.remove('show');
+      document.getElementById('modalOverlay').classList.add('open');
     }
 
     function closeModal() {
-      document.getElementById("modalOverlay").classList.remove("open");
+      document.getElementById('modalOverlay').classList.remove('open');
     }
 
     function closeModalOutside(e) {
-      if (e.target === document.getElementById("modalOverlay")) closeModal();
+      if (e.target === document.getElementById('modalOverlay')) closeModal();
     }
 
-    async function activar() {
-      const nombre  = document.getElementById("inputNombre").value.trim();
-      const empresa = document.getElementById("inputEmpresa").value.trim();
-      const tel     = document.getElementById("inputTel").value.trim();
-      const email   = document.getElementById("inputEmail").value.trim();
+    function generateSlug(empresa) {
+      const base = empresa.toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+      const rand = Math.random().toString(36).substring(2, 6);
+      return base + '-' + rand;
+    }
 
-      if (!nombre || !empresa || !tel) {
-        alert("Por favor completá nombre, empresa y teléfono.");
+    async function handleSubmit() {
+      const nombre   = document.getElementById('fNombre').value.trim();
+      const empresa  = document.getElementById('fEmpresa').value.trim();
+      const telefono = document.getElementById('fTelefono').value.trim();
+      const email    = document.getElementById('fEmail').value.trim();
+      const nicho    = document.getElementById('fNicho').value;
+
+      if (!nombre || !empresa || !telefono || !nicho) {
+        alert('Completá los campos obligatorios (*)');
         return;
       }
 
-      const slug = slugify(empresa);
-      const portalUrl = `https://agenciaiasm.online/demo_app/cliente.html?id=${slug}`;
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = 'Registrando...';
 
-      // Guardar en Supabase
+      const slug = generateSlug(empresa);
+      const portalUrl = `https://agenciaiasm.online/demo_app/cliente.html?slug=${slug}`;
+
+      const customer = {
+        nombre, empresa, email, telefono, nicho,
+        plan: _selectedPlan,
+        precio: _selectedPrecio,
+        portal_slug: slug,
+        estado_onboarding: 'pendiente',
+        pago_confirmado: true,
+        bienvenida_enviada: false
+      };
+
       try {
+        // 1. Guardar en Supabase
         await fetch(`${SB_URL}/rest/v1/customers`, {
           method: 'POST',
           headers: {
+            'Content-Type': 'application/json',
             'Authorization': `Bearer ${SB_KEY}`,
             'apikey': SB_KEY,
-            'Content-Type': 'application/json',
             'Prefer': 'return=minimal'
           },
-          body: JSON.stringify({
-            nombre, empresa, email,
-            telefono: tel,
-            plan: _selectedPlan,
-            precio: _selectedPrecio,
-            portal_slug: slug,
-            estado_onboarding: 'pendiente',
-            pago_confirmado: false
-          })
+          body: JSON.stringify(customer)
         });
-      } catch(e) { console.warn('Supabase save error:', e); }
 
-      // Llamar webhook n8n (sin await para no bloquear)
-      fetch('https://n8n.agenciaiasm.online/webhook/checkout-onboarding', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ nombre, empresa, telefono: tel, email, plan: _selectedPlan, precio: _selectedPrecio, portal_slug: slug })
-      }).catch(() => {});
+        // 2. Llamar webhook n8n (dispara WA de bienvenida al cliente + notif al owner)
+        fetch(N8N_WEBHOOK, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...customer, portal_url: portalUrl })
+        }).catch(() => {});
 
-      // Abrir WhatsApp
-      const msg = encodeURIComponent(
-        `Hola! Quiero activar StepFlow con el plan ${_selectedPlan} (${_selectedPrecio}).\n\nNombre: ${nombre}\nEmpresa: ${empresa}\nTeléfono: ${tel}\n\nVi la demo y me interesa. ¿Cómo arrancamos?`
-      );
-      window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`, '_blank');
+        // 3. Mostrar estado de éxito
+        document.getElementById('modalFormArea').classList.add('hide');
+        document.getElementById('modalSuccess').classList.add('show');
+        document.getElementById('portalLink').href = portalUrl;
+        document.getElementById('portalLink').textContent = portalUrl;
+        document.getElementById('portalBtn').href = portalUrl;
+
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = 'Quiero activar STEPFlow';
+        alert('Hubo un error. Intentá de nuevo o escribinos por WhatsApp.');
+      }
     }
   </script>
 
